@@ -420,7 +420,7 @@ if(cmd === `${prefix}rate5`){
 
 //////////////////////////////////////TOKEN//////////////////////////////////////////////////
 
-bot.login("process.env.loginuser");
+bot.login(process.env.BOT_TOKEN);
 
 
 });
