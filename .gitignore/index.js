@@ -55,7 +55,7 @@ bot.on('guildMemberAdd', member => {
   const welcomechannel = member.guild.channels.find('id', '316317809636540417') // ID channel
   var embed = new Discord.RichEmbed()
   .setColor('RANDOM')
-  .setTitle(`**Welcome to the server ${member.guild.name}**`)
+  .setTitle(`**Welcome to ${member.guild.name} server**`)
   .setDescription(`**We are now  ${member.guild.memberCount} Members on this server**<@${member.user.id}>`)
   .setThumbnail(member.user.displayAvatarURL)
   .setFooter(`If you want any help write this [-help]`)
