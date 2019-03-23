@@ -1,9 +1,11 @@
-const botconfig = require("./botconfig.json");
-const Discord = require("discord.js");
-const weather = require('weather-js');
+const botconfig = require("./botconfig.json");                             ///////////////////////////////////
+const Discord = require("discord.js");                                     ////////////// V 1.1  /////////////
+const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
 var prefix = `-`;
+const fs = require("fs");
+const userData = JSON.parse(fs.readFileSync('./userData.json', 'utf8'));
 
 //////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////TEST CONSTANCE////////////////////////////////////
@@ -431,6 +433,105 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   embed.setTimestamp()
   message.channel.sendMessage({embed})
 }
+
+
+
+
+
+if(message.content.startsWith(prefix + "bypass")) {
+  message.delete()
+  const args = message.content.split(" ").slice(1);
+  const thingtoEcho = args.join(" ")
+  const embed = new Discord.RichEmbed();
+  embed.setColor("RANDOM")
+  embed.setDescription(thingtoEcho)
+  embed.setDescription(thingtoEcho)
+  embed.setDescription(thingtoEcho)
+  embed.setDescription(thingtoEcho)
+  embed.setTimestamp()
+  message.channel.sendMessage({embed})
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////BOT STATUS//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+if (message.content.startsWith(prefix + 'setgame')) {
+  message.delete();
+  if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
+  let args = message.content.split(" ").slice(1);
+  let game = args.join(" ");
+  bot.user.setGame(game);
+    const embed = new Discord.RichEmbed()
+    .setColor('RANDOM')
+    .setDescription(`Playing now : **${game}**`)
+    .setTitle("Bot status successfully changed")
+    .setFooter("Requested by " + message.author.tag)
+    .setTimestamp()
+    message.channel.send({embed})
+}
+
+
+
+
+var argresult = args.join(' ');
+
+
+
+if (message.content.startsWith(prefix + 'setwatch')) {
+  message.delete();
+  if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
+  bot.user.setActivity(argresult, {type: 'WATCHING'})
+     console.log('setwatch' + argresult);
+    //message.channel.sendMessage(`Watch Now: **${argresult}**`)
+    const embed = new Discord.RichEmbed()
+    .setColor('RANDOM')
+    .setDescription(`Watching Now : **${argresult}**`)
+    .setTitle("Bot status successfully changed")
+    .setFooter("Requested by " + message.author.tag)
+    .setTimestamp()
+    message.channel.send({embed})
+}
+
+
+
+
+if (message.content.startsWith(prefix + 'setstream')) {
+  message.delete();
+  if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
+  bot.user.setGame(argresult, "https://www.twitch.tv/something");
+     console.log('setstream' + argresult);
+    //message.channel.sendMessage(`Streaming: **${argresult}**`)
+    const embed = new Discord.RichEmbed()
+    .setColor('RANDOM')
+    .setDescription(`Streaming now : **${argresult}**`)
+    .setTitle("Bot status successfully changed")
+    .setFooter("Requested by " + message.author.tag)
+    .setTimestamp()
+    message.channel.send({embed})
+} 
+
+
+if (message.content.startsWith(prefix + 'setlisten')) {
+  message.delete();
+  if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
+  bot.user.setActivity(argresult , {type:'LISTENING'});
+  console.log('setlisten' + argresult);
+  //message.channel.sendMessage(`Watch Now: **${argresult}**`)
+  const embed = new Discord.RichEmbed()
+  .setColor('RANDOM')
+  .setDescription(`Listening now : **${argresult}**`)
+  .setTitle("Bot status successfully changed")
+  .setFooter("Requested by " + message.author.tag)
+  .setTimestamp()
+  message.channel.send({embed})
+}  
+
 
 
 
