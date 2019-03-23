@@ -11,8 +11,7 @@ const userData = JSON.parse(fs.readFileSync('./userData.json', 'utf8'));
 ////////////////////////////////TEST CONSTANCE////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
-const fs = require("fs");
-const userData = JSON.parse(fs.readFileSync('./userData.json', 'utf8'));
+
 
 
 
@@ -39,7 +38,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
   console.log(`${bot.user.username} Bot Ready!`);
 
-bot.user.setActivity("Playing v1.0 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
+bot.user.setActivity("Playing v1.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
 });
 
 
