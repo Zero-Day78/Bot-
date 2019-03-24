@@ -22,7 +22,7 @@ const superagent = require("snekfetch");
 
 
 
-bot.login("NTU4NzM3NzYyMjM3NTQ2NDk2.D3gXJw.FkyS-tKpauZVQ-GlYCy83xo6qCg");
+bot.login(process.env.TOKEN);
 
 
 
