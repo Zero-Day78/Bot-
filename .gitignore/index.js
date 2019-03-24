@@ -38,7 +38,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
   console.log(`${bot.user.username} Bot Ready!`);
 
-bot.user.setActivity("Playing v1.2 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
+bot.user.setActivity("Playing v1.3 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
 });
 
 
@@ -229,7 +229,51 @@ if (message.content.startsWith(prefix + "mute")) {
           message.channel.send(`**${unmuteMember.user.username} **As been unmuted in** #${message.channel.name}**`)
       })
       }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////TESTANCE/////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////SMOKING///////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////      
+
+
+      if (cmd === `${prefix}weed`) {
+        message.delete()
+        return message.channel.send("**Smoking!**").then(async msg => {
+            setTimeout(() => {
+                msg.edit('🚬');
+            }, 600);
+            setTimeout(() => {
+                msg.edit('🚬 ☁ ');
+            }, 800);
+            setTimeout(() => {
+                msg.edit('🚬 ☁☁ ');
+            }, 1000);
+            setTimeout(() => {
+                msg.edit('🚬 ☁☁☁ ');
+            }, 1100);
+            setTimeout(() => {
+                msg.edit('🚬 ☁☁☁');
+            }, 1200);
+            setTimeout(() => {
+                msg.edit('🚬 ☁☁');
+            }, 1300);
+            setTimeout(() => {
+                msg.edit('🚬 ☁');
+            }, 1400);
+            setTimeout(() => {
+                msg.edit(`**Finished smoking!**`);
+            }, 1500);
+            setTimeout(() => {
+                msg.delete(`**Finished Smoking!**`);
+            }, 6000);
+        });
+    }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////  NSFW  /////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -246,7 +290,7 @@ const lewdembed = new Discord.RichEmbed()
 .setAuthor(message.author.username, message.author.avatarURL)
 .setImage(response.body.url)
 .setColor(`RANDOM`)
-.setFooter("Requested by "+ message.author.tag)
+.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
 .setTimestamp();
 message.channel.send(lewdembed);
 })
@@ -277,7 +321,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("Requested by "+ message.author.tag)
+.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -308,7 +352,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("Requested by "+ message.author.tag)
+.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -339,7 +383,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("Requested by "+ message.author.tag)
+.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -368,7 +412,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("Requested by "+ message.author.tag)
+.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -395,7 +439,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("Requested by "+ message.author.tag)
+.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -571,7 +615,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .setColor("RANDOM")
   .setDescription(`Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands:`)
   .addField(`Tickets`, `[${prefix}new]() > Opens up a new ticket and tags the Support Team\n[${prefix}close]() > Closes a ticket that has been resolved or been opened by accident\n[${prefix}report]() > Report a member | **-report [user] [reason]**`)
-  .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}rank]() > Shows your rank\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
+  .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}rank]() > Shows your rank\n[${prefix}smoke]() > Smoke a cigarette\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
   .addField(`Misc`, `[${prefix}rate]() > To rate an service in rating channel\n[${prefix}help]() > Shows you this help menu \n[${prefix}shop]() > To see the shop\n[${prefix}invite]() > Create invitation link\n[${prefix}google]() > Get search results from Google | **-google [search string]**\n[${prefix}youtube]() > Get search results from Youtube | **-youtube [search string]**`)
   .addField(`Nsfw`,`[${prefix}4k]() > Shows you nsfw contents\n[${prefix}gif]() > Shows you nsfw contents\n[${prefix}pussy]() > Shows you nsfw contents\n[${prefix}hentai]() > Shows you nsfw contents\n[${prefix}public]() > Shows you nsfw contents\n[${prefix}cosplay]() > Shows you nsfw contents\n`)
   .addField(`Manager`, `[${prefix}clear]() > Clear all messages\n[${prefix}setlisten]() > Change bot activity\n[${prefix}setgame]() > Change bot activity\n[${prefix}setwatch]() > Change bot activity\n[${prefix}setstream]() > Change bot activity\n`)
@@ -1211,7 +1255,27 @@ console.log('[id] Send By: ' + message.author.username)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+bot.on("channelCreate", async channel => {
+	var logs = channel.guild.channels.find(c => c.name === 'serverlog');
+	if (!logs) return console.log("Can't find logs channel.");
+	const cembed = new Discord.RichEmbed()
+		.setTitle("Channel Created")
+		.setColor("RANDOM")
+    .setDescription(`A **${channel.type} channel**, by the name of **${channel.name}**, was just created!`)
+		.setTimestamp(new Date());
+	logs.send(cembed)
+});
 
+bot.on("channelDelete", async channel => {
+	var logs = channel.guild.channels.find(c => c.name === 'serverlog');
+	if (!logs) return console.log("Can't find logs channel.");
+	const cembed = new Discord.RichEmbed()
+		.setTitle("Channel Deleted")
+		.setColor("RANDOM")
+    .setDescription(`A **${channel.type} channel**, by the name of **${channel.name}**, was just deleted!`)
+		.setTimestamp(new Date())
+	logs.send(cembed)
+});
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
