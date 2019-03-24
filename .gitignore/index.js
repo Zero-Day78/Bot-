@@ -1,5 +1,5 @@
 const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 1.1  /////////////
+const Discord = require("discord.js");                                     ////////////// V 1.2  /////////////
 const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
@@ -11,8 +11,8 @@ const userData = JSON.parse(fs.readFileSync('./userData.json', 'utf8'));
 ////////////////////////////////TEST CONSTANCE////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
-
-
+const randomPuppy = require('random-puppy');
+const superagent = require("snekfetch");
 
 
 
@@ -22,7 +22,7 @@ const userData = JSON.parse(fs.readFileSync('./userData.json', 'utf8'));
 
 
 
-bot.login(process.env.TOKEN);
+bot.login("NTU4NzM3NzYyMjM3NTQ2NDk2.D3gXJw.FkyS-tKpauZVQ-GlYCy83xo6qCg");
 
 
 
@@ -38,7 +38,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
   console.log(`${bot.user.username} Bot Ready!`);
 
-bot.user.setActivity("Playing v1.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
+bot.user.setActivity("Playing v1.2 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
 });
 
 
@@ -230,11 +230,182 @@ if (message.content.startsWith(prefix + "mute")) {
       })
       }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////  NSFW  /////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+if (message.content.startsWith(`${prefix}hentai`)) {
+message.delete()
+if (!message.channel.nsfw) 
+return message.channel.send("You can use this command only on `nsfw` channels");
+superagent.get('https://nekos.life/api/v2/img/Random_hentai_gif')
+.end((err, response) => {
+const lewdembed = new Discord.RichEmbed()
+.setAuthor(message.author.username, message.author.avatarURL)
+.setImage(response.body.url)
+.setColor(`RANDOM`)
+.setFooter("Requested by "+ message.author.tag)
+.setTimestamp();
+message.channel.send(lewdembed);
+})
+}
 
 
 
 
 
+
+
+if (cmd === `${prefix}4k`) {
+message.delete()
+if (!message.channel.nsfw) 
+return message.channel.send("You can use this command only on `nsfw` channels");
+      
+var subreddits = [
+'NSFW_Wallpapers',
+'SexyWallpapers',
+'HighResNSFW',
+'nsfw_hd',
+'UHDnsfw'
+]
+var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
+      
+randomPuppy(sub)
+.then(url => {
+const embed = new Discord.RichEmbed()
+.setColor("RANDOM")
+.setAuthor(message.author.username, message.author.avatarURL)
+.setFooter("Requested by "+ message.author.tag)
+.setTimestamp()
+.setImage(url);
+message.channel.send({embed});
+});
+}
+
+
+
+
+
+if (cmd === `${prefix}gif`) {
+message.delete()
+if (!message.channel.nsfw) 
+return message.channel.send("You can use this command only on `nsfw` channels");
+            
+var subreddits = [
+"NSFW_GIF",
+"nsfw_gifs",
+"porninfifteenseconds",
+"porn_gifs",
+"nsfw_Best_Porn_Gif",
+"adultgifs"
+]
+var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
+            
+randomPuppy(sub)
+.then(url => {
+const embed = new Discord.RichEmbed()
+.setColor("RANDOM")
+.setAuthor(message.author.username, message.author.avatarURL)
+.setFooter("Requested by "+ message.author.tag)
+.setTimestamp()
+.setImage(url);
+message.channel.send({embed});
+});
+}
+
+
+
+
+if (cmd === `${prefix}pussy`) {
+message.delete()
+if (!message.channel.nsfw) 
+return message.channel.send("You can use this command only on `nsfw` channels");
+                  
+var subreddits = [
+'pussy',
+'rearpussy',
+'simps',
+'vagina',
+'MoundofVenus',
+'PerfectPussies',
+'spreading'
+]
+var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
+                  
+randomPuppy(sub)
+.then(url => {
+const embed = new Discord.RichEmbed()
+.setColor("RANDOM")
+.setAuthor(message.author.username, message.author.avatarURL)
+.setFooter("Requested by "+ message.author.tag)
+.setTimestamp()
+.setImage(url);
+message.channel.send({embed});
+});
+}
+
+
+
+
+
+if (cmd === `${prefix}public`) {
+message.delete()
+if (!message.channel.nsfw) 
+return message.channel.send("You can use this command only on `nsfw` channels");
+                        
+var subreddits = [
+'naughtyinpublic',
+'gwpublic',
+'exposedinpublic',
+'beachgirls'
+]
+var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
+                        
+randomPuppy(sub)
+.then(url => {
+const embed = new Discord.RichEmbed()
+.setColor("RANDOM")
+.setAuthor(message.author.username, message.author.avatarURL)
+.setFooter("Requested by "+ message.author.tag)
+.setTimestamp()
+.setImage(url);
+message.channel.send({embed});
+});
+}
+
+
+      
+if (cmd === `${prefix}cosplay`) {
+message.delete()
+if (!message.channel.nsfw) 
+return message.channel.send("You can use this command only on `nsfw` channels");
+
+var subreddits = [
+'nsfwcosplay',
+'cosplayonoff',
+'cosporn',
+'cosplayboobs'
+]
+var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
+                              
+randomPuppy(sub)
+.then(url => {
+const embed = new Discord.RichEmbed()
+.setColor("RANDOM")
+.setAuthor(message.author.username, message.author.avatarURL)
+.setFooter("Requested by "+ message.author.tag)
+.setTimestamp()
+.setImage(url);
+message.channel.send({embed});
+});
+}
+
+
+
+
+            
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////GET AVATAR/////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -402,6 +573,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .addField(`Tickets`, `[${prefix}new]() > Opens up a new ticket and tags the Support Team\n[${prefix}close]() > Closes a ticket that has been resolved or been opened by accident\n[${prefix}report]() > Report a member | **-report [user] [reason]**`)
   .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}rank]() > Shows your rank\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
   .addField(`Misc`, `[${prefix}rate]() > To rate an service in rating channel\n[${prefix}help]() > Shows you this help menu \n[${prefix}shop]() > To see the shop\n[${prefix}invite]() > Create invitation link\n[${prefix}google]() > Get search results from Google | **-google [search string]**\n[${prefix}youtube]() > Get search results from Youtube | **-youtube [search string]**`)
+  .addField(`Nsfw`,`[${prefix}4k]() > Shows you nsfw contents\n[${prefix}gif]() > Shows you nsfw contents\n[${prefix}pussy]() > Shows you nsfw contents\n[${prefix}hentai]() > Shows you nsfw contents\n[${prefix}public]() > Shows you nsfw contents\n[${prefix}cosplay]() > Shows you nsfw contents\n`)
   .addField(`Manager`, `[${prefix}clear]() > Clear all messages\n[${prefix}setlisten]() > Change bot activity\n[${prefix}setgame]() > Change bot activity\n[${prefix}setwatch]() > Change bot activity\n[${prefix}setstream]() > Change bot activity\n`)
   .addField(`Moderator`, `[${prefix}ban]() > Ban a member | **-ban [user] [reason]**\n[${prefix}kick]() > Kick a member | **-kick [user] [reason]**\n[${prefix}mute]() > Mute a member | **-mute [user] [reason]**\n[${prefix}unmute]() > Unmute a member | **-unmute [user] [reason]**`)
   .addField(`Information`, `[${prefix}ping]() > Pings the bot to see how long it takes to react\n[${prefix}count]() > Get the server member count\n[${prefix}uptime]() > Get bot uptime\n[${prefix}botinfo]() > Get bot information\n[${prefix}servinfo]() > Get server information\n[${prefix}userinfo]() > Get user information | **-userinfo [user]**\n`)
@@ -1034,6 +1206,14 @@ let embed = new Discord.RichEmbed()
 message.channel.sendEmbed(embed);
 console.log('[id] Send By: ' + message.author.username)
 }
-
-
 });
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
