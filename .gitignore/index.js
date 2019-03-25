@@ -1,19 +1,19 @@
 const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 1.2  /////////////
+const Discord = require("discord.js");                                     ////////////// V 1.4  /////////////
 const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
 var prefix = `-`;
 const fs = require("fs");
 const userData = JSON.parse(fs.readFileSync('./userData.json', 'utf8'));
+const randomPuppy = require('random-puppy');
+const superagent = require("snekfetch");
+const ms = require("ms");
+const config = require ("./botconfig.json");
 
 //////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////TEST CONSTANCE////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
-
-const randomPuppy = require('random-puppy');
-const superagent = require("snekfetch");
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
   console.log(`${bot.user.username} Bot Ready!`);
 
-bot.user.setActivity("Playing v1.3 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
+bot.user.setActivity("Playing v1.4 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
 });
 
 
@@ -51,33 +51,32 @@ bot.user.setActivity("Playing v1.3 -help", {type: "STREAMING", url: "https://www
 
 
 bot.on('guildMemberAdd', member => {
-
-
-  const welcomechannel = member.guild.channels.find('id', '316317809636540417') // ID channel
-  var embed = new Discord.RichEmbed()
+  let logChannel = member.guild.channels.find('name', 'welcome');
+  
+  let logEmbed = new Discord.RichEmbed()
   .setColor('RANDOM')
   .setTitle(`**Welcome to ${member.guild.name} server**`)
   .setDescription(`**We are now  ${member.guild.memberCount} Members on this server**<@${member.user.id}>`)
   .setThumbnail(member.user.displayAvatarURL)
   .setFooter(`If you want any help write this [-help]`)
   .setTimestamp()
-  return welcomechannel.send({embed})
+  logChannel.send(logEmbed);
 });
 
 
+
+  bot.on('guildMemberRemove', member => {
+  let logChannel = member.guild.channels.find('name', 'serverlog');
   
-
-bot.on('guildMemberRemove', member => {
-
-
-const welcomechannel = member.guild.channels.find('id', '557071297113227264') // ID channel
-var embed = new Discord.RichEmbed()
-     .setColor('RANDOM')
-     .setDescription(`<@${member.user.id}> As left the Server`)
-     .setTimestamp()
-return welcomechannel.send({embed})
-});
-
+    let logEmbed = new Discord.RichEmbed()
+    .setColor('RANDOM')
+    .setDescription(`<@${member.user.id}> As left the Server`)
+    .setTimestamp()
+    .setFooter(member.user.id, member.user.displayAvatarURL)
+    
+    
+    logChannel.send(logEmbed);
+  });
 
 
 
@@ -233,6 +232,57 @@ if (message.content.startsWith(prefix + "mute")) {
 /////////////////////////////////////////////TESTANCE/////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  
+
+
+  if (message.content.startsWith(prefix + "lockdown")) {
+    message.delete()
+  if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send("You don't have `MANAGE_MESSAGES` permission.")
+  if (!client.lockit) client.lockit = [];
+  let time  = args.join(" ");
+  let validUnlocks = ["release", "unlock" , "rel" , "ul"];
+  const perms = message.member.hasPermission("MANAGE_MESSAGES");
+ if (!perms) return message.channel.send("Sorry, you must have `MANAGE_MESSAGES` permission.")
+  if (!time) return message.channel.send("You must set a duration for the lockdown in either hours, minutes or seconds.");
+
+    if (message.author.id === config.ownerid) {
+message.channel.overwritePermissions(message.author, {
+  SEND_MESSAGES: true
+})}
+  
+  if (validUnlocks.includes(time)) {
+    message.channel.overwritePermissions(message.guild.id, {
+      SEND_MESSAGES: null
+    }).then(() => {
+      message.channel.send("Channel Unlocked");
+      clearTimeout(client.lockit[message.channel.id]);
+      delete client.lockit[message.channel.id];
+    }).catch(error => {
+      console.log(error);
+    });
+  } else {
+    message.channel.overwritePermissions(message.guild.id, {
+      SEND_MESSAGES: false
+    }).then(() => {
+      message.channel.send(`Channel locked down for ${ms(ms(time), { long:true })}`).then(() => {
+
+        client.lockit[message.channel.id] = setTimeout(() => {
+          message.channel.overwritePermissions(message.guild.id, {
+            SEND_MESSAGES: null
+          }).then(message.channel.send("Channel Unlocked")).catch(console.error);
+          delete client.lockit[message.channel.id];
+        }, ms(time));
+
+      }).catch(error => {
+        console.log(error);
+      });
+    });
+  }
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 
@@ -242,7 +292,7 @@ if (message.content.startsWith(prefix + "mute")) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////      
 
 
-      if (cmd === `${prefix}weed`) {
+      if (cmd === `${prefix}smoke`) {
         message.delete()
         return message.channel.send("**Smoking!**").then(async msg => {
             setTimeout(() => {
@@ -280,6 +330,27 @@ if (message.content.startsWith(prefix + "mute")) {
 
 
 
+
+if (message.content.startsWith(`${prefix}nsfw`)) {
+  message.delete()
+  if (!message.channel.nsfw) 
+  return message.channel.send("You can use this command only on `nsfw` channels");
+  const lewdembed = new Discord.RichEmbed()
+  .setColor(`RANDOM`)
+  .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
+  .setThumbnail("https://i.goopics.net/vEdyb.jpg")
+  .addField(`NSFW Commands:`,`[${prefix}4k]() > Shows you nsfw contents\n[${prefix}gif]() > Shows you nsfw contents\n[${prefix}pussy]() > Shows you nsfw contents\n[${prefix}hentai]() > Shows you nsfw contents\n[${prefix}public]() > Shows you nsfw contents\n[${prefix}cosplay]() > Shows you nsfw contents\n`)
+  .setFooter("Requested by " + message.author.tag)
+  .setTimestamp();
+  message.channel.send(lewdembed);
+  }
+
+
+
+
+
+
+
 if (message.content.startsWith(`${prefix}hentai`)) {
 message.delete()
 if (!message.channel.nsfw) 
@@ -290,7 +361,8 @@ const lewdembed = new Discord.RichEmbed()
 .setAuthor(message.author.username, message.author.avatarURL)
 .setImage(response.body.url)
 .setColor(`RANDOM`)
-.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
+.setFooter("Requested by " + message.author.tag)
 .setTimestamp();
 message.channel.send(lewdembed);
 })
@@ -321,7 +393,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -352,7 +424,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -383,7 +455,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -412,7 +484,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -439,7 +511,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("To see all NSFW command use [-help]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -467,7 +539,7 @@ const embed = new Discord.RichEmbed()
 .setFooter("Requested by "+ message.author.tag)
 .setTimestamp()
 message.channel.send({embed});
-  }}
+  }};
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -490,7 +562,7 @@ message.channel.send({embed});
               }
           fs.writeFile("./userData.json",JSON.stringify(userData), function(err){
             if (err) console.log(err);
-          })
+          });
           var CulLevel = Math.floor(0.35 * Math.sqrt(userData[message.author.id].Xp +1));
           if (CulLevel > userData[message.author.id].Level) {userData[message.author.id].Level +=CulLevel}
           let pEmbed = new Discord.RichEmbed()
@@ -533,7 +605,7 @@ if(cmd === `${prefix}finsheur`){
 .setFooter("Requested by " + message.author.tag)
 .setTimestamp()
  message.channel.send({embed});
-}}
+}};
 /////////////////////////////////////////////////////////////////////////////////
 if(cmd === `${prefix}nekho`){
   message.delete()
@@ -546,7 +618,7 @@ if(cmd === `${prefix}nekho`){
 .setFooter("Requested by " + message.author.tag)
 .setTimestamp()
  message.channel.send({embed});
-}}
+}};
 //////////////////////////////////////////////////////////////////////////////////
 if(cmd === `${prefix}globe`){
   message.delete()
@@ -559,7 +631,7 @@ if(cmd === `${prefix}globe`){
 .setFooter("Requested by " + message.author.tag)
 .setTimestamp()
  message.channel.send({embed});
-}}
+}};
 //////////////////////////////////////////////////////////////////////////////////
 if(cmd === `${prefix}zeroday`){
   message.delete()
@@ -572,7 +644,7 @@ if(cmd === `${prefix}zeroday`){
 .setFooter("Requested by " + message.author.tag)
 .setTimestamp()
  message.channel.send({embed});
-}}
+}};
 /////////////////////////////////////////////////////////////////////////////////////
 if(cmd === `${prefix}sweaz`){
   message.delete()
@@ -585,7 +657,7 @@ if(cmd === `${prefix}sweaz`){
 .setFooter("Requested by " + message.author.tag)
 .setTimestamp()
   message.channel.send({embed});
-}}
+}};
 ////////////////////////////////////////////////////////////////////////////////////////
 if(cmd === `${prefix}sopra`){
   message.delete()
@@ -598,7 +670,7 @@ if(cmd === `${prefix}sopra`){
 .setFooter("Requested by " + message.author.tag)
 .setTimestamp()
   message.channel.send({embed});
-}}
+}};
 
 
 
@@ -615,11 +687,10 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .setColor("RANDOM")
   .setDescription(`Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands:`)
   .addField(`Tickets`, `[${prefix}new]() > Opens up a new ticket and tags the Support Team\n[${prefix}close]() > Closes a ticket that has been resolved or been opened by accident\n[${prefix}report]() > Report a member | **-report [user] [reason]**`)
-  .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}rank]() > Shows your rank\n[${prefix}smoke]() > Smoke a cigarette\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
+  .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}rank]() > Shows your rank\n[${prefix}nsfw]() > Shows you all nsfw commands\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}smoke]() > Smoke a cigarette\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
   .addField(`Misc`, `[${prefix}rate]() > To rate an service in rating channel\n[${prefix}help]() > Shows you this help menu \n[${prefix}shop]() > To see the shop\n[${prefix}invite]() > Create invitation link\n[${prefix}google]() > Get search results from Google | **-google [search string]**\n[${prefix}youtube]() > Get search results from Youtube | **-youtube [search string]**`)
-  .addField(`Nsfw`,`[${prefix}4k]() > Shows you nsfw contents\n[${prefix}gif]() > Shows you nsfw contents\n[${prefix}pussy]() > Shows you nsfw contents\n[${prefix}hentai]() > Shows you nsfw contents\n[${prefix}public]() > Shows you nsfw contents\n[${prefix}cosplay]() > Shows you nsfw contents\n`)
   .addField(`Manager`, `[${prefix}clear]() > Clear all messages\n[${prefix}setlisten]() > Change bot activity\n[${prefix}setgame]() > Change bot activity\n[${prefix}setwatch]() > Change bot activity\n[${prefix}setstream]() > Change bot activity\n`)
-  .addField(`Moderator`, `[${prefix}ban]() > Ban a member | **-ban [user] [reason]**\n[${prefix}kick]() > Kick a member | **-kick [user] [reason]**\n[${prefix}mute]() > Mute a member | **-mute [user] [reason]**\n[${prefix}unmute]() > Unmute a member | **-unmute [user] [reason]**`)
+  .addField(`Moderator`, `[${prefix}ban]() > Ban a member | **-ban [user] [reason]**\n[${prefix}kick]() > Kick a member | **-kick [user] [reason]**\n[${prefix}mute]() > Mute a member | **-mute [user] [reason]**\n[${prefix}unmute]() > Unmute a member | **-unmute [user] [reason]**\n[${prefix}lockdown]() > Lock a channel with optional timer | **-lockdown [time]**`)
   .addField(`Information`, `[${prefix}ping]() > Pings the bot to see how long it takes to react\n[${prefix}count]() > Get the server member count\n[${prefix}uptime]() > Get bot uptime\n[${prefix}botinfo]() > Get bot information\n[${prefix}servinfo]() > Get server information\n[${prefix}userinfo]() > Get user information | **-userinfo [user]**\n`)
   .setFooter('Developed by Zero-Day#0001')
   message.channel.send({ embed: embed });
@@ -760,6 +831,7 @@ if (message.content.startsWith(prefix + 'setlisten')) {
 
 
 if (message.content.toLowerCase().startsWith(prefix + `new`)) {
+  message.delete()
   const reason = message.content.split(" ").slice(1).join(" ");
   if (!message.guild.roles.exists("name", "Supports")) return message.channel.send(`This server doesn't have a \`Supports\` role, so the ticket won't be opened.\nIf you are an administrator, make one with that name exactly and give it to users that should be able to see tickets.`);
   if (message.guild.channels.exists("name", "ticket-" + message.author.id)) return message.channel.send(`You already have a ticket open.`);
@@ -797,6 +869,7 @@ if (message.content.toLowerCase().startsWith(prefix + `new`)) {
 
 
 if (message.content.toLowerCase().startsWith(prefix + `close`)) {
+  message.delete()
   if (!message.channel.name.startsWith(`ticket-`)) return message.channel.send(`You can't use the \`close\` command outside of a \`ticket channel\`.`);
 
   message.channel.send(`Are you sure? Once confirmed, you cannot reverse this action!\nTo confirm, type \`-confirm\`  This will time out in 10 seconds and be cancelled.`)
@@ -1246,7 +1319,6 @@ let embed = new Discord.RichEmbed()
 .setFooter("Requested by " + message.author.tag)
 .setTimestamp()
    
-   
 message.channel.sendEmbed(embed);
 console.log('[id] Send By: ' + message.author.username)
 }
@@ -1257,7 +1329,7 @@ console.log('[id] Send By: ' + message.author.username)
 
 bot.on("channelCreate", async channel => {
 	var logs = channel.guild.channels.find(c => c.name === 'serverlog');
-	if (!logs) return console.log("Can't find logs channel.");
+	if (!logs) return console.log("Can't find serverlog channel.");
 	const cembed = new Discord.RichEmbed()
 		.setTitle("Channel Created")
 		.setColor("RANDOM")
@@ -1268,7 +1340,7 @@ bot.on("channelCreate", async channel => {
 
 bot.on("channelDelete", async channel => {
 	var logs = channel.guild.channels.find(c => c.name === 'serverlog');
-	if (!logs) return console.log("Can't find logs channel.");
+	if (!logs) return console.log("Can't find serverlog channel.");
 	const cembed = new Discord.RichEmbed()
 		.setTitle("Channel Deleted")
 		.setColor("RANDOM")
