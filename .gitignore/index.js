@@ -1,5 +1,5 @@
 const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 1.4  /////////////
+const Discord = require("discord.js");                                     ////////////// V 1.5  /////////////
 const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
@@ -11,9 +11,11 @@ const superagent = require("snekfetch");
 const ms = require("ms");
 const config = require ("./botconfig.json");
 
+
 //////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////TEST CONSTANCE////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +40,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
   console.log(`${bot.user.username} Bot Ready!`);
 
-bot.user.setActivity("Playing v1.4 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
+bot.user.setActivity("Playing v1.5 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
 });
 
 
@@ -58,7 +60,7 @@ bot.on('guildMemberAdd', member => {
   .setTitle(`**Welcome to ${member.guild.name} server**`)
   .setDescription(`**We are now  ${member.guild.memberCount} Members on this server**<@${member.user.id}>`)
   .setThumbnail(member.user.displayAvatarURL)
-  .setFooter(`If you want any help write this [-help]`)
+  .setFooter(`If you want any help type [-help]`)
   .setTimestamp()
   logChannel.send(logEmbed);
 });
@@ -79,6 +81,10 @@ bot.on('guildMemberAdd', member => {
   });
 
 
+  bot.on("guildMemberAdd", function(member) {
+    let role = member.guild.roles.find("name", "Members");
+    member.addRole(role).catch(console.error);
+  });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////INDISPENSABLE POUR LE CODE CI DESSOUS////////////////////////////////////////////////
@@ -174,6 +180,7 @@ if (message.content.startsWith(prefix + 'uptime')) {
     m.edit(`Wew, Made it over the Waves ! \nMessage edit time is ` + (m.createdTimestamp - message.createdTimestamp) + `ms, Discord API is ` + Math.round(bot.ping) + `ms.`);
     });
 }
+
 
 
 
@@ -280,11 +287,6 @@ message.channel.overwritePermissions(message.author, {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -324,6 +326,39 @@ message.channel.overwritePermissions(message.author, {
             }, 6000);
         });
     }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////SLOT MACHINE///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+
+    if (message.content.startsWith(prefix + "slot")) {
+      message.delete()
+    
+  
+      let slots = ["🍎", "🍌", "🍒", "🍓", "🍈","🍇","🍑","🍐"];
+      let result1 = Math.floor((Math.random() * slots.length));
+      let result2 = Math.floor((Math.random() * slots.length));
+      let result3 = Math.floor((Math.random() * slots.length));
+      let name = message.author.displayName;
+      let aicon = message.author.displayAvatarURL;
+  
+      if (slots[result1] === slots[result2] && slots[result3]) {
+          let wEmbed = new Discord.RichEmbed()
+              .setFooter(message.author.tag,aicon)
+              .addField('You Won ! ', slots[result1] + slots[result2] + slots[result3], true)
+              .setColor("RANDOM");
+          message.channel.send(wEmbed);
+      } else {
+          let embed = new Discord.RichEmbed()
+              .setFooter(message.author.tag,aicon)
+              .addField('You Lost !', slots[result1] + slots[result2] + slots[result3], true)
+              .setColor("RANDOM");
+          message.channel.send(embed);
+      }
+  
+  }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////  NSFW  /////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -361,7 +396,7 @@ const lewdembed = new Discord.RichEmbed()
 .setAuthor(message.author.username, message.author.avatarURL)
 .setImage(response.body.url)
 .setColor(`RANDOM`)
-.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command type [-nsfw]")//("text"+ message.author.tag)
 .setFooter("Requested by " + message.author.tag)
 .setTimestamp();
 message.channel.send(lewdembed);
@@ -393,7 +428,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command type [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -424,7 +459,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command type [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -455,7 +490,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command type [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -484,7 +519,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command type [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -511,7 +546,7 @@ randomPuppy(sub)
 const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(message.author.username, message.author.avatarURL)
-.setFooter("To see all NSFW command use [-nsfw]")//("text"+ message.author.tag)
+.setFooter("To see all NSFW command type [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
 .setImage(url);
 message.channel.send({embed});
@@ -542,7 +577,9 @@ message.channel.send({embed});
   }};
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////RANK SYSTEM NEED REWORK/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
       
@@ -563,7 +600,7 @@ message.channel.send({embed});
           fs.writeFile("./userData.json",JSON.stringify(userData), function(err){
             if (err) console.log(err);
           });
-          var CulLevel = Math.floor(0.35 * Math.sqrt(userData[message.author.id].Xp +1));
+          var CulLevel = Math.floor(0.80 * Math.sqrt(userData[message.author.id].Xp +1));
           if (CulLevel > userData[message.author.id].Level) {userData[message.author.id].Level +=CulLevel}
           let pEmbed = new Discord.RichEmbed()
           .setColor("RANDOM")
@@ -581,8 +618,8 @@ message.channel.send({embed});
           fs.writeFile("./userData.json",JSON.stringify(userData), function(err){
             if (err) console.log(err);
           })
-        userData[message.author.id].Xp+= 0.35;
-        userData[message.author.id].Money+= 0.35;
+        userData[message.author.id].Xp+= 0.80;
+        userData[message.author.id].Money+= 0.80;
         
       
 
@@ -687,7 +724,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .setColor("RANDOM")
   .setDescription(`Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands:`)
   .addField(`Tickets`, `[${prefix}new]() > Opens up a new ticket and tags the Support Team\n[${prefix}close]() > Closes a ticket that has been resolved or been opened by accident\n[${prefix}report]() > Report a member | **-report [user] [reason]**`)
-  .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}rank]() > Shows your rank\n[${prefix}nsfw]() > Shows you all nsfw commands\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}smoke]() > Smoke a cigarette\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
+  .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}slot]() > Fruits slot machine\n[${prefix}rank]() > Shows your rank\n[${prefix}nsfw]() > Shows you all nsfw commands\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}smoke]() > Smoke a cigarette\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
   .addField(`Misc`, `[${prefix}rate]() > To rate an service in rating channel\n[${prefix}help]() > Shows you this help menu \n[${prefix}shop]() > To see the shop\n[${prefix}invite]() > Create invitation link\n[${prefix}google]() > Get search results from Google | **-google [search string]**\n[${prefix}youtube]() > Get search results from Youtube | **-youtube [search string]**`)
   .addField(`Manager`, `[${prefix}clear]() > Clear all messages\n[${prefix}setlisten]() > Change bot activity\n[${prefix}setgame]() > Change bot activity\n[${prefix}setwatch]() > Change bot activity\n[${prefix}setstream]() > Change bot activity\n`)
   .addField(`Moderator`, `[${prefix}ban]() > Ban a member | **-ban [user] [reason]**\n[${prefix}kick]() > Kick a member | **-kick [user] [reason]**\n[${prefix}mute]() > Mute a member | **-mute [user] [reason]**\n[${prefix}unmute]() > Unmute a member | **-unmute [user] [reason]**\n[${prefix}lockdown]() > Lock a channel with optional timer | **-lockdown [time]**`)
@@ -727,6 +764,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
 
 if(message.content.startsWith(prefix + "bypass")) {
   message.delete()
+  if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send("You don't have `MANAGE_MESSAGES` permission.")
   const args = message.content.split(" ").slice(1);
   const thingtoEcho = args.join(" ")
   const embed = new Discord.RichEmbed();
@@ -740,6 +778,21 @@ if(message.content.startsWith(prefix + "bypass")) {
 }
 
 
+
+
+if(message.content.startsWith(prefix + "devsay")) {
+  message.delete()
+  if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send("You don't have `MANAGE_MESSAGES` permission.")
+  const args = message.content.split(" ").slice(1);
+  const thingtoEcho = args.join(" ")
+  const embed = new Discord.RichEmbed();
+  embed.setColor("RANDOM")
+  embed.setDescription(thingtoEcho)
+  embed.setDescription(thingtoEcho)
+  embed.setDescription(thingtoEcho)
+  embed.setDescription(thingtoEcho)
+  message.channel.sendMessage({embed})
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////BOT STATUS//////////////////////////////////////////////////////////////////////
@@ -1324,7 +1377,7 @@ console.log('[id] Send By: ' + message.author.username)
 }
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////DELETE CREATE CHANNEL LOGS//////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bot.on("channelCreate", async channel => {
@@ -1346,8 +1399,9 @@ bot.on("channelDelete", async channel => {
 		.setColor("RANDOM")
     .setDescription(`A **${channel.type} channel**, by the name of **${channel.name}**, was just deleted!`)
 		.setTimestamp(new Date())
-	logs.send(cembed)
+  logs.send(cembed)
 });
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
