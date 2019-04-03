@@ -1,5 +1,5 @@
 const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 1.5  /////////////
+const Discord = require("discord.js");                                     ////////////// V 1.6  /////////////
 const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
@@ -16,8 +16,9 @@ const config = require ("./botconfig.json");
 ////////////////////////////////TEST CONSTANCE////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
-
-
+//nsfw random
+//nsfw milf
+//cmd help
 ////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////TOKEN/////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +41,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
   console.log(`${bot.user.username} Bot Ready!`);
 
-bot.user.setActivity("Playing v1.5 -help", {type: "STREAMING", url: "https://www.twitch.tv/Finsheur" });
+bot.user.setActivity("Playing v1.6 -help", {type: "STREAMING", url: "https://www.twitch.tv/nigger" });
 });
 
 
@@ -364,6 +365,9 @@ message.channel.overwritePermissions(message.author, {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+  
+
+
 
 
 if (message.content.startsWith(`${prefix}nsfw`)) {
@@ -374,7 +378,7 @@ if (message.content.startsWith(`${prefix}nsfw`)) {
   .setColor(`RANDOM`)
   .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
   .setThumbnail("https://i.goopics.net/vEdyb.jpg")
-  .addField(`NSFW Commands:`,`[${prefix}4k]() > Shows you nsfw contents\n[${prefix}gif]() > Shows you nsfw contents\n[${prefix}pussy]() > Shows you nsfw contents\n[${prefix}hentai]() > Shows you nsfw contents\n[${prefix}public]() > Shows you nsfw contents\n[${prefix}cosplay]() > Shows you nsfw contents\n`)
+  .addField(`NSFW Commands:`,`[${prefix}4k]() > Shows you nsfw contents\n[${prefix}gif]() > Shows you nsfw contents\n[${prefix}milf]() > Shows you nsfw contents\n[${prefix}pussy]() > Shows you nsfw contents\n[${prefix}hentai]() > Shows you nsfw contents\n[${prefix}public]() > Shows you nsfw contents\n[${prefix}cosplay]() > Shows you nsfw contents\n[${prefix}random]() > Shows you nsfw contents\n`)
   .setFooter("Requested by " + message.author.tag)
   .setTimestamp();
   message.channel.send(lewdembed);
@@ -415,11 +419,7 @@ if (!message.channel.nsfw)
 return message.channel.send("You can use this command only on `nsfw` channels");
       
 var subreddits = [
-'NSFW_Wallpapers',
-'SexyWallpapers',
-'HighResNSFW',
-'nsfw_hd',
-'UHDnsfw'
+'NSFW_Wallpapers','SexyWallpapers','HighResNSFW','nsfw_hd','UHDnsfw'
 ]
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
       
@@ -445,12 +445,7 @@ if (!message.channel.nsfw)
 return message.channel.send("You can use this command only on `nsfw` channels");
             
 var subreddits = [
-"NSFW_GIF",
-"nsfw_gifs",
-"porninfifteenseconds",
-"porn_gifs",
-"nsfw_Best_Porn_Gif",
-"adultgifs"
+"NSFW_GIF","nsfw_gifs","porninfifteenseconds","porn_gifs","nsfw_Best_Porn_Gif","adultgifs"
 ]
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
             
@@ -475,13 +470,7 @@ if (!message.channel.nsfw)
 return message.channel.send("You can use this command only on `nsfw` channels");
                   
 var subreddits = [
-'pussy',
-'rearpussy',
-'simps',
-'vagina',
-'MoundofVenus',
-'PerfectPussies',
-'spreading'
+'pussy','rearpussy','simps','vagina','MoundofVenus','PerfectPussies','spreading'
 ]
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
                   
@@ -507,10 +496,7 @@ if (!message.channel.nsfw)
 return message.channel.send("You can use this command only on `nsfw` channels");
                         
 var subreddits = [
-'naughtyinpublic',
-'gwpublic',
-'exposedinpublic',
-'beachgirls'
+'naughtyinpublic','gwpublic','exposedinpublic','beachgirls'
 ]
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
                         
@@ -534,10 +520,7 @@ if (!message.channel.nsfw)
 return message.channel.send("You can use this command only on `nsfw` channels");
 
 var subreddits = [
-'nsfwcosplay',
-'cosplayonoff',
-'cosporn',
-'cosplayboobs'
+'nsfwcosplay','cosplayonoff','cosporn','cosplayboobs'
 ]
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
                               
@@ -555,8 +538,70 @@ message.channel.send({embed});
 
 
 
+if (cmd === `${prefix}milf`) {
+  message.delete()
+  if (!message.channel.nsfw) 
+  return message.channel.send("You can use this command only on `nsfw` channels");
+  
+  var subreddits = [
+  'milf','amateur_milfs','NotTeenNotMilf'
+]
+  var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
+                                
+  randomPuppy(sub)
+  .then(url => {
+  const embed = new Discord.RichEmbed()
+  .setColor("RANDOM")
+  .setAuthor(message.author.username, message.author.avatarURL)
+  .setFooter("To see all NSFW command type [-nsfw]")//("text"+ message.author.tag)
+  .setTimestamp()
+  .setImage(url);
+  message.channel.send({embed});
+  });
+  }
 
-            
+
+
+  
+
+
+
+
+  if (cmd === `${prefix}random`) {
+    message.delete()
+    if (!message.channel.nsfw) 
+    return message.channel.send("You can use this command only on `nsfw` channels");
+    
+    var subreddits = [
+  '60fpsporn','AmateurArchives','AsianHotties','AsianNSFW','AsiansGoneWild','BDSM','BDSMcommunity','BigBoobsGW','Bondage','Bottomless_Vixens','BustyPetite',
+  'Camwhores','ChangingRooms','CollegeAmateurs','CuteModeSlutMode','FestivalSluts','FlashingGirls','GWCouples','GWNerdy','GirlsFinishingTheJob','GirlsHumpingThings',
+  'GirlswithNeonHair','GoneWild','GoneWildTube','GoneWildplus','HappyEmbarrassedGirls','Hotchickswithtattoos','IndianBabes','NSFWFunny','NSFW_GIF','NSFW_HTML5',
+  'NSFW_Japan','NSFW_Snapchat','O_faces','Ohlympics','OnOff','PetiteGoneWild','SheLikesItRough','StraightGirlsPlaying','Tgirls','TipOfMyPenis','TittyDrop',
+  'WatchItForThePlot','WouldYouFuckMyWife','WtSSTaDaMiT','adorableporn','altgonewild','amateur','amateurcumsluts','anal','analgw','ass','asshole','assinthong',
+  'asstastic','bigasses','bimbofetish','blowjobs','boltedontits','bonermaterial','boobbounce','boobies','boobs','burstingout','buttplug','candidfashionpolice',
+  'celebnsfw','christiangirls','collegesluts','creampies','cuckold','cumcoveredfucking','cumfetish','cumsluts','curvy','datgap','deepthroat','dirtygaming','dirtypenpals',
+  'dirtysmall','distension','downblouse','exxxtras','facedownassup','fitgirls','freeuse','funsized','gettingherselfoff','gifsgonewild','ginger','girlsinyogapants',
+  'girlskissing','girlswithglasses','gonemild','gonewildaudio','gonewildcolor','gonewildcouples','gonewildcurvy','gonewildsmiles','gonewildstories','gore','grool',
+  'gwcumsluts','hentai','highresNSFW','holdthemoan','homegrowntits','homemadexxx','hotwife','hugeboobs','hugedicktinychick','iWantToFuckHer','innie','jilling','juicyasians',
+  'ladybonersgw','latinas','legalteens','lesbians','lingerie','lipsthatgrip','milf','nsfw','nsfw2','nsfw411','nsfw_gifs','nsfw_videos','nsfwcelebarchive','nsfwcosplay',
+  'nsfwhardcore','nsfwoutfits','onherknees','palegirls','passionx','pawg','pokies','popping','porn','porn_gifs','porninfifteenseconds','pornvids','publicflashing','pussy',
+  'quiver','randomactsofblowjob','randomsexiness','realasians','realgirls','rearpussy','redheads','rule34','rule34_comics','sexyfrex','simps','squirting','stacked','stockings',
+  'strugglefucking','suctiondildos','suicidegirls','thick','tightdresses','tinytits','trashyboners','treesgonewild','twingirls','unashamed','upskirt','volleyballgirls','voluptuous',
+  'watchpeopledie','wifesharing','workgonewild','xsmallgirls','yogapants'
+  ]
+    var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
+                                  
+    randomPuppy(sub)
+    .then(url => {
+    const embed = new Discord.RichEmbed()
+    .setColor("RANDOM")
+    .setAuthor(message.author.username, message.author.avatarURL)
+    .setFooter("To see all NSFW command type [-nsfw]")//("text"+ message.author.tag)
+    .setTimestamp()
+    .setImage(url);
+    message.channel.send({embed});
+    });
+    }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////GET AVATAR/////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -733,6 +778,28 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   message.channel.send({ embed: embed });
 }
 
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////GTA V COMMANDS/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+if (message.content.toLowerCase().startsWith(prefix + `commands`)) {
+  message.delete()
+  const embed = new Discord.RichEmbed()
+  .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
+  .setColor("RANDOM")
+  .setDescription(`Hello! I'm **${bot.user.username}** The Discord bot for super cool stuff and more! Here are my commands for GTA V Online:`)
+  .addField(`General Commands`, `!weapons\n!money <on/off>\n!spawn vehicle <hash/model/name>\n!spawn ped <hash/model/name>\n!spawn object <hash/model/name>\n!spawn bodyguard <count>\n!explodesession`)
+  .addField(`Vehicle Commands (Close-by)`, `!vehicle repair\n!vehicle boost\n!vehicle jump\n!vehicle upgrade\n`)
+  .addField(`Give Global Commands`, `!copsturnblind <on/off>\n!offtheradar <on/off>`)
+  .addField(`Weather/Time Commands`, `!weather day\n!weather night\n!weather clear\n!weather snow\n!weather halloween`)
+  .setFooter('Developed by Zero-Day#0001')
+  message.channel.send({ embed: embed });
+}
 
 
 
@@ -1400,6 +1467,8 @@ bot.on("channelDelete", async channel => {
     .setDescription(`A **${channel.type} channel**, by the name of **${channel.name}**, was just deleted!`)
 		.setTimestamp(new Date())
   logs.send(cembed)
+
+
 });
 
 
