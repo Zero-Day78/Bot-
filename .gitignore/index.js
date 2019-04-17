@@ -1,5 +1,5 @@
 const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 2.0  /////////////
+const Discord = require("discord.js");                                     ////////////// V 2.1  /////////////
 const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
@@ -17,11 +17,12 @@ const { RichEmbed } = require('discord.js');
 //////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////TEST CONSTANCE////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
-
+const{ get } = require('node-superfetch');
 //-added role info
-//-added remind commands (need work)
+//-added remind command (need realtime timer)
 //-added strawpoll (need work)
 //-added bad word (need work)
+//-added meme command
 //-added new invit link
 //-rework botinfo / servinfo / userinfo
 //-rework mute / unmute commands
@@ -49,9 +50,9 @@ bot.login(process.env.TOKEN);
 
 
 bot.on("ready", async () => {
-  console.log(`${bot.user.username} Bot Ready!`);
+console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v2.0 -help", {type: "STREAMING", url: "https://www.twitch.tv/nigger" });
+bot.user.setActivity("v2.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/nigger" });
 });
 
 
@@ -124,6 +125,65 @@ bot.on("message", async message => {
   let messageArray = message.content.split(" ");
   let cmd = messageArray[0];
   let args = messageArray.slice(1);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+if (message.content.startsWith(prefix + "verif")) {
+    message.delete();
+    let role = message.guild.roles.find(role => role.name === 'Verified');
+    if (message.channel.name !== 'verification') return message.reply('You must go to the channel #verification');
+    message.member.addRole(role);
+    if (message.member.roles.has(role.id)) {
+        let verifyEmbed = new Discord.RichEmbed()
+            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+            .setColor('#36393f')
+            .setDescription('Your account has already been verified!')
+        return message.channel.send((verifyEmbed));
+    } else {
+        let verifyEmbed = new Discord.RichEmbed()
+            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+            .setColor('#36393f')
+            .setDescription('Your account has been successfully verified.')
+        return message.channel.send((verifyEmbed));
+    }
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////// MEME COMMANDS ///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+if (message.content.startsWith(prefix + "meme")) {
+  message.delete()
+let m = new RichEmbed()
+
+.setColor("RANDOM") 
+  .setTitle('**Please Wait...**')
+  .setTimestamp()
+  message.channel.send(m).then(m => { m.delete(1000);});
+//(`*Please Wait...*`);
+  try {
+  const { body } = await get('https://api-to.get-a.life/meme')
+
+  let memeEmbed = new RichEmbed() 
+  .setColor("RANDOM") 
+  .setTitle(body.text)
+  .setImage(body.url)
+  .setTimestamp()
+  .setFooter(`Requested by ${message.author.tag}`);
+  
+  message.channel.send(memeEmbed)
+  } catch (e) {
+    message.channel.send(`Oh no an error occurred :( \`${e.message}\` try again later!`);
+  } 
+}
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////BAD WORDS///////////////////////////////////////////////////////////
@@ -220,7 +280,7 @@ if (message.content.startsWith(prefix + 'uptime')) {
 
 if (message.content.toLowerCase().startsWith(prefix + `roleinfo`)) {
   message.delete()
-  
+let sicon = message.guild.iconURL;
 let role = message.mentions.roles.first() || message.guild.roles.get(args[0]) || message.guild.roles.find(role => role.name === args[0]);
 
     // If we can't find any role, then just default to the author's highest role
@@ -230,6 +290,7 @@ let role = message.mentions.roles.first() || message.guild.roles.get(args[0]) ||
     // Define our embed
     const embed = new RichEmbed()
         .setColor(role.hexColor)
+        .setThumbnail(sicon)
         .setDescription(`Role: ${role}`)
         .addField('Members', role.members.size, true)
         .addField('Hex Color', role.hexColor, true)
@@ -366,9 +427,7 @@ if (!muteChannel) return message.channel.send('**Please create a channel with th
  
   
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////   GIVEAWAY  /////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
@@ -387,7 +446,7 @@ if (!muteChannel) return message.channel.send('**Please create a channel with th
 
 
 if (message.content.startsWith(prefix + "remind")) {
-
+  message.delete()
 
   let reminderTime = args[0];
   if (!reminderTime) return message.channel.send(`Specify a time for me to remind you. Usage: ${prefix}remind 15min any text or code`);
@@ -397,8 +456,9 @@ if (message.content.startsWith(prefix + "remind")) {
   let remindEmbed = new Discord.RichEmbed()
       .setColor('RANDOM')
       .setAuthor(`${message.author.username}`, message.author.displayAvatarURL)
-      .addField("Reminder", `\`\`\`${reminder}\`\`\``)
-      .addField("Time", `\`\`\`${reminderTime}\`\`\``)
+      .setTitle(`**Time: ${reminderTime}**`)
+      .setDescription(`**Reminder: ${reminder}**`)
+      .setFooter(`Developed by Zero-Day#0001 `, message.guild.avatarURL)
       .setTimestamp();
 
   message.channel.send(remindEmbed);
@@ -408,7 +468,8 @@ if (message.content.startsWith(prefix + "remind")) {
       let remindEmbed = new Discord.RichEmbed()
           .setColor('RANDOM')
           .setAuthor(`${message.author.username}`, message.author.displayAvatarURL)
-          .addField("Reminder", `\`\`\`${reminder}\`\`\``)
+          .setFooter(`Developed by Zero-Day#0001 `)
+          .setDescription(`**Reminder: ${reminder}**`)
           .setTimestamp()
 
       message.channel.send(remindEmbed);
@@ -1003,9 +1064,9 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .setColor("RANDOM")
   .setDescription(`Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands:`)
   .addField(`Tickets`, `[${prefix}new]() > Opens up a new ticket and tags the Support Team\n[${prefix}close]() > Closes a ticket that has been resolved or been opened by accident\n[${prefix}report]() > Report a member | **-report [user] [reason]**`)
-  .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}slot]() > Fruits slot machine\n[${prefix}rank]() > Shows your rank\n[${prefix}nsfw]() > Shows you all nsfw commands\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}smoke]() > Smoke a cigarette\n[${prefix}remind]() > That allows you to set reminders\n[${prefix}gtacmd]() > Shows you all GTA V in game commands\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
+  .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}slot]() > Fruits slot machine\n[${prefix}rank]() > Shows your rank\n[${prefix}nsfw]() > Shows you all nsfw commands\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}smoke]() > Smoke a cigarette\n[${prefix}meme]() > Get random meme\n[${prefix}remind]() > That allows you to set reminders\n[${prefix}gtacmd]() > Shows you all GTA V in game commands\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
   .addField(`Misc`, `[${prefix}poll]() > To create a reaction poll\n[${prefix}rate]() > To rate an service in rating channel\n[${prefix}help]() > Shows you this help menu \n[${prefix}shop]() > To see the shop\n[${prefix}invite]() > Create invitation link\n[${prefix}google]() > Get search results from Google | **-google [search string]**\n[${prefix}youtube]() > Get search results from Youtube | **-youtube [search string]**`)
-  .addField(`Manager`, `[${prefix}clear]() > Clear all messages\n[${prefix}setlisten]() > Change bot activity\n[${prefix}setgame]() > Change bot activity\n[${prefix}setwatch]() > Change bot activity\n[${prefix}setstream]() > Change bot activity\n`)
+  .addField(`Manager`, `[${prefix}verif]() > To get verified role\n[${prefix}clear]() > Clear all messages\n[${prefix}adminsay]() > Send embed as administrator\n[${prefix}setstream]() > Change bot activity\n`)
   .addField(`Moderator`, `[${prefix}ban]() > Ban a member | **-ban [user] [reason]**\n[${prefix}kick]() > Kick a member | **-kick [user] [reason]**\n[${prefix}mute]() > Mute a member | **-mute [user] [reason]**\n[${prefix}unmute]() > Unmute a member | **-unmute [user] [reason]**\n[${prefix}lockdown]() > Lock a channel with optional timer | **-lockdown [time]**`)
   .addField(`Information`, `[${prefix}ping]() > Pings the bot to see how long it takes to react\n[${prefix}count]() > Get the server member count\n[${prefix}uptime]() > Get bot uptime\n[${prefix}botinfo]() > Get bot information\n[${prefix}servinfo]() > Get server information\n[${prefix}roleinfo]() > Get role information | **-roleinfo [role]**\n[${prefix}userinfo]() > Get user information | **-userinfo [user]**\n`)
   .setFooter(`Developed by Zero-Day#0001 For ${message.guild.name} Server`)
@@ -1014,7 +1075,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
 
 
 //-added role info //
-//-added remind commands (need work) //
+//-added remind commands (need realtime timer) //
 //-added strawpoll (need work) //
 //-added bad word (need work) //
 //-added new invit link //
@@ -1069,25 +1130,7 @@ if (message.content.toLowerCase().startsWith(prefix + `gtacmd`)) {
 
 
 
-if(message.content.startsWith(prefix + "bypass")) {
-  message.delete()
-  if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send("You don't have `MANAGE_MESSAGES` permission.")
-  const args = message.content.split(" ").slice(1);
-  const thingtoEcho = args.join(" ")
-  const embed = new Discord.RichEmbed();
-  embed.setColor("RANDOM")
-  embed.setDescription(thingtoEcho)
-  embed.setDescription(thingtoEcho)
-  embed.setDescription(thingtoEcho)
-  embed.setDescription(thingtoEcho)
-  embed.setTimestamp()
-  message.channel.sendMessage({embed})
-}
-
-
-
-
-if(message.content.startsWith(prefix + "devsay")) {
+if(message.content.startsWith(prefix + "adminsay")) {
   message.delete()
   if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send("You don't have `MANAGE_MESSAGES` permission.")
   const args = message.content.split(" ").slice(1);
@@ -1263,7 +1306,7 @@ if(cmd === `${prefix}shop`){
 {   
   
   const embed = new Discord.RichEmbed()
-  .setColor('#0D7EFF')
+  .setColor('#0D7EEF')
   .addField('Stealth Drop 10M/sec (Social Club Account Required).',"[5€ = 250 Millions 10M/sec Max Stats + Unlock all + Rank 120:globe_with_meridians:](https://www.paypal.me/ZeroDay78/5)\r\r[10€ = 500 Millions 10M/sec Max Stats + Unlock all + Rank 250:globe_with_meridians:](https://www.paypal.me/ZeroDay78/10)\r\r[15€ = 20 Billions 10M/sec Max Stats + Unlock all + Rank 420:globe_with_meridians:](https://www.paypal.me/ZeroDay78/15)\r\rDonation Click [**__Here__**](https://www.paypal.me/ZeroDay78/)")
   .setThumbnail("https://hacktuces.net/wp-content/uploads/2017/06/dollars-gta-V-300x300.png")
   .setTitle("Contact only admin meet in-game to buy")
@@ -1476,7 +1519,7 @@ if(cmd === `${prefix}rate5`){
         color: 0x06DF00,
         description: `${message.author}All messages have been Deleted`,
         footer: {
-          text: `Author ID: ${message.author.id}`
+        text: `Author ID: ${message.author.id}`
         }
       }}).then(msg => {msg.delete(30000)});
 
