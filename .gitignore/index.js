@@ -1,5 +1,5 @@
 const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 2.1  /////////////
+const Discord = require("discord.js");                                     ////////////// V 2.2///////////////
 const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
@@ -12,20 +12,17 @@ const ms = require("ms");
 const moment = require('moment');
 const config = require ("./botconfig.json");
 const { RichEmbed } = require('discord.js');
+const{ get } = require('node-superfetch');
+const base64 = require("js-base64").Base64;
 
 
 //////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////TEST CONSTANCE////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
-const{ get } = require('node-superfetch');
-//-added role info
-//-added remind command (need realtime timer)
-//-added strawpoll (need work)
-//-added bad word (need work)
+//-added verication 
+//-added decrypt/encrypt message
 //-added meme command
-//-added new invit link
-//-rework botinfo / servinfo / userinfo
-//-rework mute / unmute commands
+
 
 
 
@@ -52,7 +49,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v2.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/nigger" });
+bot.user.setActivity("v2.2 -help", {type: "STREAMING", url: "https://www.twitch.tv/nigger" });
 });
 
 
@@ -126,17 +123,63 @@ bot.on("message", async message => {
   let cmd = messageArray[0];
   let args = messageArray.slice(1);
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if (message.content.startsWith(prefix + "decrypt")) {
+      message.delete();
+      let m = new RichEmbed()
+
+      .setColor("#36393f") 
+      .setTitle('**Decryption in progress...**')
+      .setTimestamp()
+       message.channel.send(m).then(m => { m.delete(1500);});
+      const b64Decoded = base64.decode(args.join(" "));
+      const embed = new Discord.RichEmbed()
+     .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+     .setColor('RANDOM')
+     .setDescription(`***Decrypted Message***: ${b64Decoded}`)
+     .setTimestamp()
+      message.channel.send({embed})
+}
+
+if (message.content.startsWith(prefix + "encrypt")) {
+      message.delete();
+      let m = new RichEmbed()
+
+      .setColor("#36393f") 
+      .setTitle('**Encryption in progress...**')
+      .setTimestamp()
+       message.channel.send(m).then(m => { m.delete(1500);});
+      const b64Encoded = base64.encode(args.join(" "));
+      const embed = new Discord.RichEmbed()
+     .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+     .setColor('RANDOM')
+     .setDescription(`***Encrypted Message***: ${b64Encoded}`)
+     .setTimestamp()
+      message.channel.send({embed})
+
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////  VERIFICATION COMMAND  /////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 if (message.content.startsWith(prefix + "verif")) {
     message.delete();
-let m = new RichEmbed()
+    let m = new RichEmbed()
+
   .setColor("#36393f") 
   .setTitle('**Verification...**')
   .setTimestamp()
-   message.channel.send(m).then(m => { m.delete(1500);});
-   let role = message.guild.roles.find(role => role.name === 'Verified');
+  message.channel.send(m).then(m => { m.delete(1500);});
+    let role = message.guild.roles.find(role => role.name === 'Verified');
     if (message.channel.name !== 'verification') return message.reply('You must go to the channel #verification');
     message.member.addRole(role);
     if (message.member.roles.has(role.id)) {
@@ -153,6 +196,8 @@ let m = new RichEmbed()
         return message.channel.send((verifyEmbed));
     }
 }
+
+
 
 
 
@@ -176,7 +221,7 @@ let m = new RichEmbed()
 
   let memeEmbed = new RichEmbed() 
   .setColor("RANDOM") 
-  .setTitle(body.text)
+  //.setTitle(body.text)
   .setImage(body.url)
   .setTimestamp()
   .setFooter(`Requested by ${message.author.tag}`);
@@ -1071,14 +1116,14 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .addField(`Tickets`, `[${prefix}new]() > Opens up a new ticket and tags the Support Team\n[${prefix}close]() > Closes a ticket that has been resolved or been opened by accident\n[${prefix}report]() > Report a member | **-report [user] [reason]**`)
   .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}slot]() > Fruits slot machine\n[${prefix}rank]() > Shows your rank\n[${prefix}nsfw]() > Shows you all nsfw commands\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}smoke]() > Smoke a cigarette\n[${prefix}meme]() > Get random meme\n[${prefix}remind]() > That allows you to set reminders\n[${prefix}gtacmd]() > Shows you all GTA V in game commands\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
   .addField(`Misc`, `[${prefix}poll]() > To create a reaction poll\n[${prefix}rate]() > To rate an service in rating channel\n[${prefix}help]() > Shows you this help menu \n[${prefix}shop]() > To see the shop\n[${prefix}invite]() > Create invitation link\n[${prefix}google]() > Get search results from Google | **-google [search string]**\n[${prefix}youtube]() > Get search results from Youtube | **-youtube [search string]**`)
-  .addField(`Manager`, `[${prefix}verif]() > To get verified role\n[${prefix}clear]() > Clear all messages\n[${prefix}adminsay]() > Send embed as administrator\n[${prefix}setstream]() > Change bot activity\n`)
+  .addField(`Manager`, `[${prefix}verif]() > To get verified role\n[${prefix}clear]() > Clear all messages\n[${prefix}encrypt]() > Encrypt a message\n[${prefix}decrypt]() > Decrypt a message\n[${prefix}adminsay]() > Send embed as administrator\n[${prefix}setstream]() > Change bot activity\n`)
   .addField(`Moderator`, `[${prefix}ban]() > Ban a member | **-ban [user] [reason]**\n[${prefix}kick]() > Kick a member | **-kick [user] [reason]**\n[${prefix}mute]() > Mute a member | **-mute [user] [reason]**\n[${prefix}unmute]() > Unmute a member | **-unmute [user] [reason]**\n[${prefix}lockdown]() > Lock a channel with optional timer | **-lockdown [time]**`)
   .addField(`Information`, `[${prefix}ping]() > Pings the bot to see how long it takes to react\n[${prefix}count]() > Get the server member count\n[${prefix}uptime]() > Get bot uptime\n[${prefix}botinfo]() > Get bot information\n[${prefix}servinfo]() > Get server information\n[${prefix}roleinfo]() > Get role information | **-roleinfo [role]**\n[${prefix}userinfo]() > Get user information | **-userinfo [user]**\n`)
   .setFooter(`Developed by Zero-Day#0001 For ${message.guild.name} Server`)
   message.channel.send({ embed: embed });
 }
 
-
+//Encrypt a message.
 //-added role info //
 //-added remind commands (need realtime timer) //
 //-added strawpoll (need work) //
@@ -1240,6 +1285,7 @@ if (message.content.startsWith(prefix + 'setlisten')) {
 
 if (message.content.toLowerCase().startsWith(prefix + `new`)) {
   message.delete()
+  if (message.channel.name !== 'bot-cmd') return message.reply('You must go to the channel #bot-cmd');
   const reason = message.content.split(" ").slice(1).join(" ");
   if (!message.guild.roles.exists("name", "Supports")) return message.channel.send(`This server doesn't have a \`Supports\` role, so the ticket won't be opened.\nIf you are an administrator, make one with that name exactly and give it to users that should be able to see tickets.`);
   if (message.guild.channels.exists("name", "ticket-" + message.author.id)) return message.channel.send(`You already have a ticket open.`);
@@ -1258,7 +1304,7 @@ if (message.content.toLowerCase().startsWith(prefix + `new`)) {
           SEND_MESSAGES: true,
           READ_MESSAGES: true
       });
-      message.channel.send(`:white_check_mark: Your ticket has been created, #${c.name}.`);
+      message.channel.send(`Your ticket has been created, #${c.name}.`);
       const embed = new Discord.RichEmbed()
       .setColor("RANDOM")
       .addField(`Hey ${message.author.username}!`, `Please try explain why you opened this ticket with as much detail as possible. Our **Support Team** will be here soon to help.`)
@@ -1266,6 +1312,7 @@ if (message.content.toLowerCase().startsWith(prefix + `new`)) {
       c.send({ embed: embed });
   }).catch(console.error);
 }
+
 
 
 
