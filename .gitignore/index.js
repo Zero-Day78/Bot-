@@ -131,7 +131,12 @@ bot.on("message", async message => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (message.content.startsWith(prefix + "verif")) {
     message.delete();
-    let role = message.guild.roles.find(role => role.name === 'Verified');
+let m = new RichEmbed()
+  .setColor("#36393f") 
+  .setTitle('**Verification...**')
+  .setTimestamp()
+   message.channel.send(m).then(m => { m.delete(1500);});
+   let role = message.guild.roles.find(role => role.name === 'Verified');
     if (message.channel.name !== 'verification') return message.reply('You must go to the channel #verification');
     message.member.addRole(role);
     if (message.member.roles.has(role.id)) {
