@@ -1,9 +1,8 @@
 const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 2.2///////////////
+const Discord = require("discord.js");                                     ////////////// V 2.3///////////////
 const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
-var prefix = `-`;
 const fs = require("fs");
 const userData = JSON.parse(fs.readFileSync('./userData.json', 'utf8'));
 const randomPuppy = require('random-puppy');
@@ -14,15 +13,28 @@ const config = require ("./botconfig.json");
 const { RichEmbed } = require('discord.js');
 const{ get } = require('node-superfetch');
 const base64 = require("js-base64").Base64;
+const malScraper = require('mal-scraper');
+const request = require('request');
+var steam = require('steam-provider')
+//const gifSearch = require("gif-search");//
 
 
-//////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////TEST CONSTANCE////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+////////////////////////////V2.2///////////////////////////
+///////////////////////////////////////////////////////////
 //-added verication 
 //-added decrypt/encrypt message
 //-added meme command
-
+///////////////////////////////////////////////////////////
+//////////////////////////V2.3/////////////////////////////
+///////////////////////////////////////////////////////////
+//-added anime research 
+//-added VDM commands
+//-added steam research command
+//-added yes or no command
+///////////////////////////////////////////////////////////
+/////////////////////////V2.4//////////////////////////////
+///////////////////////////////////////////////////////////
 
 
 
@@ -31,13 +43,7 @@ const base64 = require("js-base64").Base64;
 //////////////////////////////////////TOKEN/////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 bot.login(process.env.TOKEN);
-
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////BOT ACTIVITY//////////////////////////////////////////////////////
@@ -49,7 +55,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v2.2 -help", {type: "STREAMING", url: "https://www.twitch.tv/nigger" });
+bot.user.setActivity("v2.3 -help", {type: "STREAMING", url: "https://www.twitch.tv/nigger" });
 });
 
 
@@ -99,34 +105,250 @@ bot.on('guildMemberAdd', member => {
 ////////////////////////////////////INDISPENSABLE POUR LE CODE CI DESSOUS////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 bot.on("message", function(message) { var input = message.content.toUpperCase();
 
 });
-
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////INDISPENSABLE POUR LE CODE CI DESSOUS////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 bot.on("message", async message => {
   if(message.author.bot) return;
   if(message.channel.type === "dm") return;
-
   let prefix = botconfig.prefix;
   let messageArray = message.content.split(" ");
   let cmd = messageArray[0];
   let args = messageArray.slice(1);
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if (message.content.startsWith(prefix + "yesorno")) {
+  message.delete();
+  let color = 'RANDOM'
+  const { body } = await superagent
+.get('https://yesno.wtf/api/');
+if(body.answer === 'yes') color = 'RANDOM';
+if(body.answer === 'no') color = 'RANDOM';
+const embed = new Discord.RichEmbed()
+.setColor(color)
+.setImage(`${body.image}`)
+.setAuthor(`The Magic Bot says: ${body.answer}`, message.author.displayAvatarURL)
+.setFooter(`Requested by ${message.author.tag}`)
+.setTimestamp()
+ message.channel.send(embed)
+
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+var provider = new steam.SteamProvider();
+
+if (message.content.startsWith(prefix + "steam")) {
+  message.delete();
+  let m = new RichEmbed()
+
+  .setColor("#36393f") 
+  .setTitle('**Please Wait...**')
+  .setTimestamp()
+   message.channel.send(m).then(m => { m.delete(1200);});
+
+    let game = args[0]
+    let steampng = "https://cdn.discordapp.com/attachments/458004691402489856/470344660364034049/steam.png"
+    if (!game) return message.reply(`**Provide a name. Example: \`${prefix}steam portal\`**`)
+    provider.search(game).then(result => {
+    provider.detail(result[0].id, "France", "fr").then(results => {
+    const embed = new Discord.RichEmbed()
+    .setAuthor('Steam Store', steampng)
+    .setTitle(result[0].name)
+    .addField(`Game ID`, result[0].id)
+    .setImage(results.otherData.imageUrl)
+    .addField('Type', results.genres, true)
+    .addField('Publishers', results.otherData.publisher, true)
+    .addField('Platform', results.otherData.platforms, true)
+    .addField('Metacritic Score', results.otherData.metacriticScore, true)
+    .addField('Labels', results.otherData.features, true)
+    .addField('Developers', results.otherData.developer, true)
+    .addField('Price', `Normal Price **${results.priceData.initialPrice}** Reduced price **${results.priceData.finalPrice}** €`, true)
+    .setFooter(`Requested by ${message.author.tag}`)
+    .setColor("RANDOM")
+    .setTimestamp()
+    message.channel.send(embed).catch(e => {
+        console.log(e)
+        message.channel.send('sorry`' + game + '`not found')
+    })
+})
+})
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////                   ///////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const cooldown = new Set()
+
+if (message.content.startsWith(prefix + "undefinedcommand")) {
+if (cooldown.has(message.author.id)) {
+    let cooldownemb = new Discord.RichEmbed()
+    .setAuthor(`${message.author.username} Cooldown..`, message.author.displayAvatarURL)
+    .setDescription(`You need to wait 5 seconds!`)
+    .setColor(`RED`)
+    .setFooter(`This message will be deleted in 5 seconds..`)
+    return message.channel.send(cooldownemb).then(message => {
+     message.delete(5000) 
+    })
+    }
+    cooldown.add(message.author.id);
+    setTimeout(() => {cooldown.delete(message.author.id);}, 10000);
+    let m421 = args.join(" ");
+if (!m421) return message.channel.send('Please define a name.')
+if (m421.length > 30) return message.channel.send(`I can't rate your waifu! It's over 30 text!`)
+    let result = Math.floor((Math.random() * 100) + 0);
+  
+    const happyrate = new Discord.RichEmbed()
+  .setDescription(`I would rate **${m421}** ${result}/100 ❤`)
+  .setColor(`GREEN`)
+    
+      const sadembed = new Discord.RichEmbed()
+  .setDescription(`I would rate **${m421}** ${result}/100 😭`)
+  .setColor(`GREEN`)
+      
+        const idkembed = new Discord.RichEmbed()
+  .setDescription(`I would rate **${m421}** ${result}/100 🤔`)
+  .setColor(`GREEN`)
+        
+      const shrugembed = new Discord.RichEmbed()
+  .setDescription(`I would rate **${m421}** ${result}/100 🤷`)
+  .setColor(`GREEN`)
+                
+          const okembed = new Discord.RichEmbed()
+  .setDescription(`I would rate **${m421}** ${result}/100 👌`)
+  .setColor(`GREEN`)
+                        
+const thumbupembed = new Discord.RichEmbed()
+  .setDescription(`I would rate **${m421}** ${result}/100 👍`)
+  .setColor(`GREEN`)
+
+const eyesembed = new Discord.RichEmbed()
+  .setDescription(`I would rate **${m421}** ${result}/100 👀`)
+  .setColor(`GREEN`)
+  
+  if (result > 90) return message.channel.send(happyrate)
+  if (result < 30) return message.channel.send(sadembed)
+  if (result > 40) return message.channel.send(idkembed)
+  if (result > 50) return message.channel.send(shrugembed)
+  if (result > 60) return message.channel.send(okembed)
+  if (result > 70) return message.channel.send(thumbupembed)
+  if (result > 80) return message.channel.send(eyesembed)
+}
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////  VDM COMMAND  /////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+if (message.content.startsWith(prefix + "vdm")) {
+  message.delete();
+      let m = new RichEmbed()
+
+      .setColor("#36393f") 
+      .setTitle('**Please Wait...**')
+      .setTimestamp()
+       message.channel.send(m).then(m => { m.delete(1200);});
+
+const regex = /<p class=\"block hidden-xs\">\n<a href=\".*\">\n(.*) VDM/
+request('https://www.viedemerde.fr/aleatoire', (error, response, body) => {
+    if (error) {
+        return console.error(error);
+    }
+    let vdm = regex.exec(body);
+    const embed = new RichEmbed()
+
+      .setColor("RANDOM") 
+      .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+      .setDescription(vdm[1])
+      .setTimestamp()
+      message.channel.send({embed})
+    
+})};
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////ANIME RESEARCH/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+if (message.content.startsWith(prefix + "anime")) {
+
+  message.delete();
+      let m = new RichEmbed()
+
+      .setColor("#36393f") 
+      .setTitle('**Please Wait...**')
+      .setTimestamp()
+       message.channel.send(m).then(m => { m.delete(1500);});
+const search = `${args}`;
+
+  malScraper.getInfoFromName(search)
+    .then((data) => {
+    const malEmbed = new Discord.RichEmbed()
+      .setAuthor(`My Anime List search result for ${args}`.split(',').join(' '))
+      .setThumbnail(data.picture)
+      .setColor('RANDOM')
+      .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+      .addField('English Title', data.englishTitle, true)
+      .addField('Japanese Title', data.japaneseTitle, true)
+      .addField('Type', data.type, true)
+      .addField('Episodes', data.episodes, true)
+      .addField('Rating', data.rating, true)
+      .addField('Aired', data.aired, true)
+      .addField('Score', data.score, true)
+      .addField('Score Stats', data.scoreStats, true)
+      .addField('Link', data.url);
+
+      message.channel.send(malEmbed);
+
+    
+    })
+    .catch((err) => console.log(err));
+}
+
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////ENCRYPTED MESSAGE/////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 if (message.content.startsWith(prefix + "decrypt")) {
       message.delete();
@@ -144,6 +366,8 @@ if (message.content.startsWith(prefix + "decrypt")) {
      .setTimestamp()
       message.channel.send({embed})
 }
+
+
 
 if (message.content.startsWith(prefix + "encrypt")) {
       message.delete();
@@ -215,20 +439,17 @@ let m = new RichEmbed()
   .setTitle('**Please Wait...**')
   .setTimestamp()
   message.channel.send(m).then(m => { m.delete(1000);});
-//(`*Please Wait...*`);
-  try {
-  const { body } = await get('https://api-to.get-a.life/meme')
+  try {const { body } = await get('https://api-to.get-a.life/meme')
 
   let memeEmbed = new RichEmbed() 
   .setColor("RANDOM") 
-  //.setTitle(body.text)
   .setImage(body.url)
   .setTimestamp()
   .setFooter(`Requested by ${message.author.tag}`);
   
   message.channel.send(memeEmbed)
   } catch (e) {
-    message.channel.send(`Oh no an error occurred :( \`${e.message}\` try again later!`);
+  message.channel.send(`Oh no an error occurred :( \`${e.message}\` try again later!`);
   } 
 }
 
@@ -312,12 +533,32 @@ if (message.content.startsWith(prefix + 'uptime')) {
 
 
 
-  if (message.content.toLowerCase().startsWith(prefix + `ping`)) {
-    message.delete()
-    message.channel.send(`Checking Ping...`).then(m => {
-    m.edit(`Wew, Made it over the Waves ! \nMessage edit time is ` + (m.createdTimestamp - message.createdTimestamp) + `ms, Discord API is ` + Math.round(bot.ping) + `ms.`);
-    });
-}
+if (message.content.startsWith(prefix + "ping")) {
+  message.delete()
+
+  let botembed = new Discord.RichEmbed()
+      .setColor("#36393f")
+      .setDescription(`Loading...`)
+      .setTimestamp()
+      message.channel.send(botembed).then(botembed => { botembed.delete(1500);});
+      botembed.setAuthor(message.member.displayName, message.author.displayAvatarURL)
+      botembed.setColor("#36393f")
+      botembed.setDescription(`Wew, Made it over the Waves ! Discord API is `+ Math.round(bot.ping) + `ms.`)
+      botembed.setTimestamp()
+      message.channel.send(botembed)
+  }
+
+
+
+
+
+
+// if (message.content.toLowerCase().startsWith(prefix + `ping`)) {
+//    message.delete()
+//    message.channel.send(`Checking Ping...`).then(m => {
+//    m.edit(`Wew, Made it over the Waves ! \nMessage edit time is ` + (m.createdTimestamp - message.createdTimestamp) + `ms, Discord API is ` + Math.round(bot.ping) + `ms.`);
+//    });
+//}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -967,6 +1208,12 @@ message.channel.send({embed});
   }};
 
 
+
+
+
+
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////RANK SYSTEM NEED REWORK/////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1114,8 +1361,8 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .setColor("RANDOM")
   .setDescription(`Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands:`)
   .addField(`Tickets`, `[${prefix}new]() > Opens up a new ticket and tags the Support Team\n[${prefix}close]() > Closes a ticket that has been resolved or been opened by accident\n[${prefix}report]() > Report a member | **-report [user] [reason]**`)
-  .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}slot]() > Fruits slot machine\n[${prefix}rank]() > Shows your rank\n[${prefix}nsfw]() > Shows you all nsfw commands\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}smoke]() > Smoke a cigarette\n[${prefix}meme]() > Get random meme\n[${prefix}remind]() > That allows you to set reminders\n[${prefix}gtacmd]() > Shows you all GTA V in game commands\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
-  .addField(`Misc`, `[${prefix}poll]() > To create a reaction poll\n[${prefix}rate]() > To rate an service in rating channel\n[${prefix}help]() > Shows you this help menu \n[${prefix}shop]() > To see the shop\n[${prefix}invite]() > Create invitation link\n[${prefix}google]() > Get search results from Google | **-google [search string]**\n[${prefix}youtube]() > Get search results from Youtube | **-youtube [search string]**`)
+  .addField(`Fun`, `[${prefix}say]() > Send embed message\n[${prefix}slot]() > Fruits slot machine\n[${prefix}rank]() > Shows your rank\n[${prefix}nsfw]() > Shows you all nsfw commands\n[${prefix}avatar]() > Shows your profil picture\n[${prefix}smoke]() > Smoke a cigarette\n[${prefix}meme]() > Get random meme\n[${prefix}anime]() > Get anime information | **-anime [title]**\n[${prefix}remind]() > That allows you to set reminders\n[${prefix}gtacmd]() > Shows you all GTA V in game commands\n[${prefix}yesorno]() > Yes or no command using superagent\n[${prefix}weather]() > Get weather information | **-weather [London] or [citycode]**\n`)
+  .addField(`Misc`, `[${prefix}poll]() > To create a reaction poll\n[${prefix}rate]() > To rate an service in rating channel\n[${prefix}help]() > Shows you this help menu \n[${prefix}shop]() > To see the shop\n[${prefix}invite]() > Create invitation link\n[${prefix}steam]() > Get search results from Steam | **-steam [game title]**\n[${prefix}google]() > Get search results from Google | **-google [search string]**\n[${prefix}youtube]() > Get search results from Youtube | **-youtube [search string]**`)
   .addField(`Manager`, `[${prefix}verif]() > To get verified role\n[${prefix}clear]() > Clear all messages\n[${prefix}encrypt]() > Encrypt a message\n[${prefix}decrypt]() > Decrypt a message\n[${prefix}adminsay]() > Send embed as administrator\n[${prefix}setstream]() > Change bot activity\n`)
   .addField(`Moderator`, `[${prefix}ban]() > Ban a member | **-ban [user] [reason]**\n[${prefix}kick]() > Kick a member | **-kick [user] [reason]**\n[${prefix}mute]() > Mute a member | **-mute [user] [reason]**\n[${prefix}unmute]() > Unmute a member | **-unmute [user] [reason]**\n[${prefix}lockdown]() > Lock a channel with optional timer | **-lockdown [time]**`)
   .addField(`Information`, `[${prefix}ping]() > Pings the bot to see how long it takes to react\n[${prefix}count]() > Get the server member count\n[${prefix}uptime]() > Get bot uptime\n[${prefix}botinfo]() > Get bot information\n[${prefix}servinfo]() > Get server information\n[${prefix}roleinfo]() > Get role information | **-roleinfo [role]**\n[${prefix}userinfo]() > Get user information | **-userinfo [user]**\n`)
@@ -1123,14 +1370,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   message.channel.send({ embed: embed });
 }
 
-//Encrypt a message.
-//-added role info //
-//-added remind commands (need realtime timer) //
-//-added strawpoll (need work) //
-//-added bad word (need work) //
-//-added new invit link //
-//-rework botinfo / servinfo / userinfo //
-//-rework mute / unmute commands //
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////GTA V COMMANDS/////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1242,11 +1482,10 @@ if (message.content.startsWith(prefix + 'setwatch')) {
 
 
 if (message.content.startsWith(prefix + 'setstream')) {
-  message.delete();
-  if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
-  bot.user.setGame(argresult, "https://www.twitch.tv/something");
-     console.log('setstream' + argresult);
-    //message.channel.sendMessage(`Streaming: **${argresult}**`)
+   message.delete();
+if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
+  bot.user.setGame(argresult, "https://www.twitch.tv/nigger");
+    console.log('setstream' + argresult);
     const embed = new Discord.RichEmbed()
     .setColor('RANDOM')
     .setDescription(`Streaming now : **${argresult}**`)
