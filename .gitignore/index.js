@@ -1,5 +1,5 @@
 const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 2.3///////////////
+const Discord = require("discord.js");                                     ////////////// V 2.4.1/////////////
 const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
@@ -35,7 +35,13 @@ var steam = require('steam-provider')
 ///////////////////////////////////////////////////////////
 /////////////////////////V2.4//////////////////////////////
 ///////////////////////////////////////////////////////////
-
+//-added Anti-Link Protection
+//-added Bad-Word Protection  (need work)
+///////////////////////////////////////////////////////////
+/////////////////////////V2.4.1////////////////////////////
+///////////////////////////////////////////////////////////
+//-improved Anti-Link Protection
+//-added auto role 
 
 
 
@@ -55,7 +61,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v2.3 -help", {type: "STREAMING", url: "https://www.twitch.tv/nigger" });
+bot.user.setActivity("v2.4.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two-Interactive" });
 });
 
 
@@ -124,7 +130,28 @@ bot.on("message", async message => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+if (message.channel.type == "dm") return;
+	//if (message.member.hasPermission('MANAGE_MESSAGE')) return;
+    const Link = ["http",".com","fuck",".gg","dick","cock","ban","nigger","https://","www."];
+   if (Link.some(Link => message.content.toLowerCase().includes(Link))) {
+       message.delete();
+       let m = new RichEmbed()
+        .setColor("RANDOM") 
+        .setDescription(`${message.author} **Anti-Link and Bad-Word Protection Enable**`)
+        .setTimestamp()
+        message.channel.send(m).then(m => { m.delete(10000);});
 
+        log = new Discord.RichEmbed()
+        log.setAuthor(name=`${message.author.tag}`, icon=message.author.avatarURL)
+        log.setDescription('**Offensive word or link found in** '+ message.channel)
+        log.setColor('RANDOM') 
+        log.setTitle(`Message:  ${value=message.content}`)
+        log.setFooter(name=`ID: ${message.author.id}`)
+        log.setTimestamp()
+        channel = message.guild.channels.find(channel => channel.name === 'serverlog');
+        
+       channel.send(log)
+     }
 
 
 
@@ -574,11 +601,10 @@ if (message.content.toLowerCase().startsWith(prefix + `roleinfo`)) {
 let sicon = message.guild.iconURL;
 let role = message.mentions.roles.first() || message.guild.roles.get(args[0]) || message.guild.roles.find(role => role.name === args[0]);
 
-    // If we can't find any role, then just default to the author's highest role
     if (!role) role = message.member.highestRole;
 
 
-    // Define our embed
+    
     const embed = new RichEmbed()
         .setColor(role.hexColor)
         .setThumbnail(sicon)
@@ -1441,42 +1467,42 @@ if(message.content.startsWith(prefix + "adminsay")) {
 
 
 
-if (message.content.startsWith(prefix + 'setgame')) {
-  message.delete();
-  if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
-  let args = message.content.split(" ").slice(1);
-  let game = args.join(" ");
-  bot.user.setGame(game);
-    const embed = new Discord.RichEmbed()
-    .setColor('RANDOM')
-    .setDescription(`Playing now : **${game}**`)
-    .setTitle("Bot status successfully changed")
-    .setFooter("Requested by " + message.author.tag)
-    .setTimestamp()
-    message.channel.send({embed})
-}
+//if (message.content.startsWith(prefix + 'setgame')) {
+  //message.delete();
+  //if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
+  //let args = message.content.split(" ").slice(1);
+  //let game = args.join(" ");
+  //bot.user.setGame(game);
+  //  const embed = new Discord.RichEmbed()
+   // .setColor('RANDOM')
+   // .setDescription(`Playing now : **${game}**`)
+  //  .setTitle("Bot status successfully changed")
+ //   .setFooter("Requested by " + message.author.tag)
+ //   .setTimestamp()
+ //   message.channel.send({embed})
+//}
 
 
 
 
-var argresult = args.join(' ');
+/var argresult = args.join(' ');
 
 
 
-if (message.content.startsWith(prefix + 'setwatch')) {
-  message.delete();
-  if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
-  bot.user.setActivity(argresult, {type: 'WATCHING'})
-     console.log('setwatch' + argresult);
+//if (message.content.startsWith(prefix + 'setwatch')) {
+//  message.delete();
+ // if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
+ // bot.user.setActivity(argresult, {type: 'WATCHING'})
+ //    console.log('setwatch' + argresult);
     //message.channel.sendMessage(`Watch Now: **${argresult}**`)
-    const embed = new Discord.RichEmbed()
-    .setColor('RANDOM')
-    .setDescription(`Watching Now : **${argresult}**`)
-    .setTitle("Bot status successfully changed")
-    .setFooter("Requested by " + message.author.tag)
-    .setTimestamp()
-    message.channel.send({embed})
-}
+ //   const embed = new Discord.RichEmbed()
+  //  .setColor('RANDOM')
+  //  .setDescription(`Watching Now : **${argresult}**`)
+  //  .setTitle("Bot status successfully changed")
+  //  .setFooter("Requested by " + message.author.tag)
+  //  .setTimestamp()
+ //   message.channel.send({embed})
+//}
 
 
 
@@ -1496,20 +1522,20 @@ if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return m
 } 
 
 
-if (message.content.startsWith(prefix + 'setlisten')) {
-  message.delete();
-  if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
-  bot.user.setActivity(argresult , {type:'LISTENING'});
-  console.log('setlisten' + argresult);
+//if (message.content.startsWith(prefix + 'setlisten')) {
+//  message.delete();
+ // if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
+ // bot.user.setActivity(argresult , {type:'LISTENING'});
+//  console.log('setlisten' + argresult);
   //message.channel.sendMessage(`Watch Now: **${argresult}**`)
-  const embed = new Discord.RichEmbed()
-  .setColor('RANDOM')
-  .setDescription(`Listening now : **${argresult}**`)
-  .setTitle("Bot status successfully changed")
-  .setFooter("Requested by " + message.author.tag)
-  .setTimestamp()
-  message.channel.send({embed})
-}  
+//  const embed = new Discord.RichEmbed()
+ // .setColor('RANDOM')
+//  .setDescription(`Listening now : **${argresult}**`)
+//  .setTitle("Bot status successfully changed")
+//  .setFooter("Requested by " + message.author.tag)
+ // .setTimestamp()
+//  message.channel.send({embed})
+//}  
 
 
 
