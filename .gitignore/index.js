@@ -61,7 +61,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v2.4.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two-Interactive" });
+bot.user.setActivity("v2.4.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
 });
 
 
@@ -130,6 +130,7 @@ bot.on("message", async message => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 if (message.channel.type == "dm") return;
 	//if (message.member.hasPermission('MANAGE_MESSAGE')) return;
     const Link = ["http",".com","fuck",".gg","dick","cock","ban","nigger","https://","www."];
@@ -1485,7 +1486,7 @@ if(message.content.startsWith(prefix + "adminsay")) {
 
 
 
-/var argresult = args.join(' ');
+//var argresult = args.join(' ');
 
 
 
