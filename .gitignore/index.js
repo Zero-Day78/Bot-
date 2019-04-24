@@ -133,7 +133,7 @@ bot.on("message", async message => {
 	
 if (message.channel.type == "dm") return;
 	//if (message.member.hasPermission('MANAGE_MESSAGE')) return;
-    const Link = ["http",".com","fuck",".gg","dick","cock","ban","nigger","https://","www."];
+    const Link = ["fuck",".gg","dick","cock","ban","nigger"];
    if (Link.some(Link => message.content.toLowerCase().includes(Link))) {
        message.delete();
        let m = new RichEmbed()
