@@ -42,7 +42,10 @@ var steam = require('steam-provider')
 ///////////////////////////////////////////////////////////
 //-improved Anti-Link Protection
 //-added auto role 
-
+///////////////////////////////////////////////////////////
+/////////////////////////V2.4.2////////////////////////////
+///////////////////////////////////////////////////////////
+//-improved Bad-Word List
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +64,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v2.4.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
+bot.user.setActivity("v2.4.2 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
 });
 
 
@@ -133,7 +136,7 @@ bot.on("message", async message => {
 	
 if (message.channel.type == "dm") return;
 	//if (message.member.hasPermission('MANAGE_MESSAGE')) return;
-    const Link = ["fuck",".gg","dick","cock","ban","nigger"];
+    const Link = ["fuck",".gg","dick","cock","cunt","nigga","nigger","shit","biatch","bitch","feck","homo","bastard","f u c k e r","f u c k","ejacu","d1ck","anus"];
    if (Link.some(Link => message.content.toLowerCase().includes(Link))) {
        message.delete();
        let m = new RichEmbed()
