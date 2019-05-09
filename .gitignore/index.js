@@ -1,5 +1,5 @@
 const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 2.4.1/////////////
+const Discord = require("discord.js");                                     ////////////// V 2.4.3/////////////
 const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
@@ -46,6 +46,10 @@ var steam = require('steam-provider')
 /////////////////////////V2.4.2////////////////////////////
 ///////////////////////////////////////////////////////////
 //-improved Bad-Word List
+///////////////////////////////////////////////////////////
+/////////////////////////V2.4.3////////////////////////////
+///////////////////////////////////////////////////////////
+//-updated shop
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +68,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v2.4.2 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
+bot.user.setActivity("v2.4.3 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
 });
 
 
@@ -1608,8 +1612,8 @@ if(cmd === `${prefix}shop`){
 {   
   
   const embed = new Discord.RichEmbed()
-  .setColor('#0D7EEF')
-  .addField('Stealth Drop 10M/sec (Social Club Account Required).',"[5€ = 250 Millions 10M/sec Max Stats + Unlock all + Rank 120:globe_with_meridians:](https://www.paypal.me/ZeroDay78/5)\r\r[10€ = 500 Millions 10M/sec Max Stats + Unlock all + Rank 250:globe_with_meridians:](https://www.paypal.me/ZeroDay78/10)\r\r[15€ = 20 Billions 10M/sec Max Stats + Unlock all + Rank 420:globe_with_meridians:](https://www.paypal.me/ZeroDay78/15)\r\rDonation Click [**__Here__**](https://www.paypal.me/ZeroDay78/)")
+  .setColor('RANDOM')
+  .addField('Stealth Drop 10M/sec (Social Club Account Required).',"[5€ = 200 Millions 10M/sec Max Stats + Unlock all](https://www.paypal.me/ZeroDay78/5)\r\r[10€ = 400 Millions 10M/sec Max Stats + Unlock all](https://www.paypal.me/ZeroDay78/10)\r\r[15€ = 800 Millions 10M/sec Max Stats + Unlock all](https://www.paypal.me/ZeroDay78/15)\r\r[20€ = 25 Billions 10M/sec Max Stats + Unlock all + Rank 800 :globe_with_meridians:](https://www.paypal.me/ZeroDay78/20)\r\r[25€ = 50 Billions 10M/sec Max Stats + Unlock all + Rank 800 :globe_with_meridians:](https://www.paypal.me/ZeroDay78/25)\r\rDonation Click [**__Here__**](https://www.paypal.me/ZeroDay78/)")
   .setThumbnail("https://hacktuces.net/wp-content/uploads/2017/06/dollars-gta-V-300x300.png")
   .setTitle("Contact only admin meet in-game to buy")
   .setFooter(`Developed by Zero-Day#0001 For ${message.guild.name} Server`)
