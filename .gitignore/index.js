@@ -100,7 +100,7 @@ bot.on('guildMemberAdd', member => {
   
     let logEmbed = new Discord.RichEmbed()
     .setColor('RANDOM')
-    .setDescription(`<@${member.user.id}> As left the Server`)
+    .setDescription(`<@${member.user.id}> Has left the Server`)
     .setTimestamp()
     .setFooter(member.user.id, member.user.displayAvatarURL)
     
