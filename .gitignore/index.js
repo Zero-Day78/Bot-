@@ -84,7 +84,7 @@ bot.user.setActivity("v3.0 -help", {type: "STREAMING", url: "https://www.twitch.
 
 
 
-bot.on('guildMemberAdd', async member => {
+bot.on('guildMemberAdd', member => {
 	const channel = member.guild.channels.find(ch => ch.name === 'welcome');
 	if (!channel) return;
 
@@ -122,7 +122,7 @@ bot.on('guildMemberAdd', async member => {
 
 
 
-bot.on('guildMemberRemove', async member => {
+bot.on('guildMemberRemove', member => {
 	const channel = member.guild.channels.find(ch => ch.name === 'serverlog');
 	if (!channel) return;
 
