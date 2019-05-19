@@ -73,7 +73,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.0 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
+bot.user.setActivity("v3.0.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
 });
 
 
@@ -104,7 +104,7 @@ bot.on('guildMemberAdd', async member => {
   
 	//ctx.font = applyText(canvas, `${member.displayName}!`);
 	ctx.fillStyle = '#000000';
-	ctx.fillText(`We are now ${member.guild.memberCount} Members on this Server`, canvas.width / 5, canvas.height / 1.5);
+	ctx.fillText(`This Server Have Now ${member.guild.memberCount} Members`, canvas.width / 5, canvas.height / 1.5);
 
 	ctx.beginPath();
 	ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
