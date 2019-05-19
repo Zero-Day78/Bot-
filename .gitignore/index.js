@@ -104,7 +104,7 @@ bot.on('guildMemberAdd', async member => {
   
 	//ctx.font = applyText(canvas, `${member.displayName}!`);
 	ctx.fillStyle = '#000000';
-	ctx.fillText(`This Server Have Now ${member.guild.memberCount} Members`, canvas.width / 5, canvas.height / 1.5);
+	ctx.fillText(`This Server currently has ${member.guild.memberCount} Members.`, canvas.width / 5, canvas.height / 1.5);
 
 	ctx.beginPath();
 	ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
