@@ -1,5 +1,5 @@
 const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 2.4.3/////////////
+const Discord = require("discord.js");                                     ////////////// V 3.0/////////////
 const weather = require('weather-js');                                     ///////////////////////////////////
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
@@ -51,6 +51,10 @@ var steam = require('steam-provider')
 ///////////////////////////////////////////////////////////
 //-updated shop
 //-fixed some bug
+///////////////////////////////////////////////////////////
+/////////////////////////V3.0////////////////////////////
+///////////////////////////////////////////////////////////
+//-rework welcome message
 
 ////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////TOKEN/////////////////////////////////////////////
@@ -68,7 +72,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v2.4.3 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
+bot.user.setActivity("v3.0 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
 });
 
 
@@ -80,39 +84,119 @@ bot.user.setActivity("v2.4.3 -help", {type: "STREAMING", url: "https://www.twitc
 
 
 
-bot.on('guildMemberAdd', member => {
-  let logChannel = member.guild.channels.find('name', 'welcome');
+bot.on('guildMemberAdd', async member => {
+	const channel = member.guild.channels.find(ch => ch.name === 'welcome');
+	if (!channel) return;
+
+	const canvas = Canvas.createCanvas(1200, 250);
+	const ctx = canvas.getContext('2d');
+
+	const background = await Canvas.loadImage('./Header.jpg');
+	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+	ctx.strokeStyle = '#74037b';
+	ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+	ctx.font = '48px Comic Sans MS';
+	ctx.fillStyle = '#000000';
+  ctx.fillText(`Welcome to the Server,${member.displayName}`, canvas.width / 5, canvas.height / 2.2);
   
-  let logEmbed = new Discord.RichEmbed()
-  .setColor('RANDOM')
-  .setTitle(`**Welcome to ${member.guild.name} server**`)
-  .setDescription(`**We are now  ${member.guild.memberCount} Members on this server**<@${member.user.id}>`)
-  .setThumbnail(member.user.displayAvatarURL)
-  .setFooter(`If you want any help type [-help]`)
-  .setTimestamp()
-  logChannel.send(logEmbed);
+	//ctx.font = applyText(canvas, `${member.displayName}!`);
+	ctx.fillStyle = '#000000';
+	ctx.fillText(`We are now ${member.guild.memberCount} Members on this Server`, canvas.width / 5, canvas.height / 1.5);
+
+	ctx.beginPath();
+	ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
+	ctx.closePath();
+	ctx.clip();
+
+	const avatar = await Canvas.loadImage(member.user.displayAvatarURL);
+	ctx.drawImage(avatar, 25, 25, 200, 200);
+
+	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
+
+	channel.send(attachment);
 });
 
 
 
-  bot.on('guildMemberRemove', member => {
-  let logChannel = member.guild.channels.find('name', 'serverlog');
+
+
+bot.on('guildMemberRemove', async member => {
+	const channel = member.guild.channels.find(ch => ch.name === 'serverlog');
+	if (!channel) return;
+
+	const canvas = Canvas.createCanvas(1200, 250);
+	const ctx = canvas.getContext('2d');
+
+	const background = await Canvas.loadImage('./Header.jpg');
+	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+	ctx.strokeStyle = '#74037b';
+	ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+  ctx.font = '48px Comic Sans MS';
+	ctx.fillStyle = '#000000';
+  ctx.fillText(`${member.displayName},Has left the Server`, canvas.width / 5, canvas.height / 1.8);
+
+	ctx.beginPath();
+	ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
+	ctx.closePath();
+	ctx.clip();
+
+	const avatar = await Canvas.loadImage(member.user.displayAvatarURL);
+	ctx.drawImage(avatar, 25, 25, 200, 200);
+
+	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
+
+  channel.send(`${member}`, attachment);
+});
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// OLD GUILD MEMBERS ADD REMOVE ////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//bot.on('guildMemberAdd', member => {
+  //let logChannel = member.guild.channels.find('name', 'welcome');
   
-    let logEmbed = new Discord.RichEmbed()
-    .setColor('RANDOM')
-    .setDescription(`<@${member.user.id}> Has left the Server`)
-    .setTimestamp()
-    .setFooter(member.user.id, member.user.displayAvatarURL)
+  //let logEmbed = new Discord.RichEmbed()
+  //.setColor('RANDOM')
+  //.setTitle(`**Welcome to ${member.guild.name} server**`)
+  //.setDescription(`**We are now  ${member.guild.memberCount} Members on this server**<@${member.user.id}>`)
+  //.setThumbnail(member.user.displayAvatarURL)
+  //.setFooter(`If you want any help type [-help]`)
+  //.setTimestamp()
+  //logChannel.send(logEmbed);
+//});
+
+
+
+  //bot.on('guildMemberRemove', member => {
+  //let logChannel = member.guild.channels.find('name', 'serverlog');
+  
+    //let logEmbed = new Discord.RichEmbed()
+    //.setColor('RANDOM')
+    //.setDescription(`<@${member.user.id}> Has left the Server`)
+    //.setTimestamp()
+    //.setFooter(member.user.id, member.user.displayAvatarURL)
     
     
-    logChannel.send(logEmbed);
-  });
+   // logChannel.send(logEmbed);
+  //});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// AUTOROLE ON JOIN /////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
   bot.on("guildMemberAdd", function(member) {
     let role = member.guild.roles.find("name", "Members");
     member.addRole(role).catch(console.error);
   });
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////INDISPENSABLE POUR LE CODE CI DESSOUS////////////////////////////////////////////////
