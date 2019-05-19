@@ -16,6 +16,7 @@ const base64 = require("js-base64").Base64;
 const malScraper = require('mal-scraper');
 const request = require('request');
 var steam = require('steam-provider')
+const Canvas = require('canvas');
 //const gifSearch = require("gif-search");//
 
 
