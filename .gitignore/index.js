@@ -89,7 +89,7 @@ bot.on('guildMemberAdd', async member => {
 	const channel = member.guild.channels.find(ch => ch.name === 'welcome');
 	if (!channel) return;
 
-	const canvas = Canvas.createCanvas(1200, 250);
+	const canvas = Canvas.createCanvas(1200, 280);
 	const ctx = canvas.getContext('2d');
 
 	const background = await Canvas.loadImage('./Header.jpg');
