@@ -541,8 +541,39 @@ if (message.content.startsWith(prefix + "verif")) {
     }
 }
 
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////// NOTIFICATION COMMAND ///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+if (message.content.startsWith(prefix + "notif")) {
+  message.delete();
+  let m = new RichEmbed()
 
-
+.setColor("#36393f") 
+.setTitle('**Please Wait...**')
+.setTimestamp()
+message.channel.send(m).then(m => { m.delete(1500);});
+  let role = message.guild.roles.find(role => role.name === 'Notify');
+  if (message.channel.name !== 'bot-cmd') return message.reply('You must go to the channel #bot-cmd');
+  message.member.addRole(role);
+  if (message.member.roles.has(role.id)) {
+      let verifyEmbed = new Discord.RichEmbed()
+          .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+          .setColor('RANDOM')
+          .setDescription(`You already have ${role} role`)
+      return message.channel.send(verifyEmbed).then(m => { m.delete(6500);});
+  } else {
+      let verifyEmbed = new Discord.RichEmbed()
+          .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+          .setColor('RANDOM')
+          .setDescription(`${role} Role has been given `)
+      return message.channel.send(verifyEmbed).then(m => { m.delete(6500);});
+  }
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
