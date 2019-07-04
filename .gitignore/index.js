@@ -73,7 +73,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
+bot.user.setActivity("v3.1.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Take-Two"});
 });
 
 
