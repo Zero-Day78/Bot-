@@ -1405,8 +1405,8 @@ if(cmd === `${prefix}finsheur`){
 
   const embed = new Discord.RichEmbed()
 .setColor("RANDOM")
-.setAuthor("Finsheur #ElsaJean", "https://i.goopics.net/vbxr9.png")
-.setTitle("Finsheur est en train de Rush l'Objectif avec sa Ash! R.I.P")
+.setAuthor("Finsheur #Sac a Merde", "https://i.goopics.net/vbxr9.png")
+.setTitle("Finsheur est encore parti se coucher comme un Gros Sac")
 .setFooter("Requested by " + message.author.tag)
 .setTimestamp()
  message.channel.send({embed});
