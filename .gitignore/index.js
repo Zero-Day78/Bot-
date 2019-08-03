@@ -73,7 +73,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.2 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
+bot.user.setActivity("v3.3 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
 });
 
 
@@ -251,7 +251,84 @@ if (message.channel.type == "dm") return;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+if (message.content.startsWith(prefix + 'dmall')) {
+  message.delete();
+if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send({embed: {
+  color: 6291711,
+  description: `${message.author} **You don't have __ADMINISTRATOR__ permission.**`,
+  footer: {
+  text: `Tried to send DM's to Everyone with ID: ${message.author.id}`
+    }
+}}); //message.channel.send("**You don't have `ADMINISTRATOR` permission.**");
 
+
+let dmGuild = message.guild;
+let role = message.mentions.roles.first();
+const thingtoEcho = args.join(" ")
+var msg = message.content;
+
+
+try {
+    msg = msg.substring(msg.indexOf("dmall") + 5);
+    let DMAllEmbed = new RichEmbed() 
+    .setColor("RANDOM") 
+    .setDescription(thingtoEcho)
+    .setTimestamp()
+    .setFooter(`Mass DM's Send by ${message.author.tag}`);
+    
+    message.channel.send(DMAllEmbed)
+} catch(error) {
+  
+    console.log(error);
+    return;
+}
+
+if(!msg || msg.length <= 1) {
+    const embed = new Discord.RichEmbed()
+        .setColor("RANDOM")
+        .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+        .addField("__**Failed to send**__", "Message not specified")
+        .addField("__**Listen up!**__", "Every character past the command will be sent,\rand apparently there was nothing to send.");
+    message.channel.send({ embed: embed });
+    return;
+}
+
+let memberarray = dmGuild.members.array();
+let membercount = memberarray.length;
+console.log(`Responding to ${message.author.username} :  Sending message to all ${membercount} members of ${dmGuild.name}.`)
+for (var i = 0; i < membercount; i++) {
+    let timeout = Math.floor((Math.random() * (config.wait - 0.01)) * 1000) + 10;
+    let member = memberarray[i];
+    await sleep(timeout);
+    if(i == (membercount-1)) {
+        console.log(`Waited ${timeout}ms.\t\\/\tDMing ${member.user.username}`);
+    } else {
+        console.log(`Waited ${timeout}ms.\t|${i + 1}|\tDMing ${member.user.username}`);
+    }
+    let DMuserEmbed = new RichEmbed() 
+    .setColor("RANDOM") 
+    .setDescription(`${msg}`)
+    .setTimestamp()
+    .setFooter(`Message send by ${message.author.tag}`);
+    
+    member.send(DMuserEmbed)
+    
+    }
+}
+
+
+function sleep(ms) {
+return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 if (message.content.startsWith(prefix + "yesorno")) {
   message.delete();
   let color = 'RANDOM'
@@ -590,11 +667,11 @@ let m = new RichEmbed()
   .setTitle('**Please Wait...**')
   .setTimestamp()
   message.channel.send(m).then(m => { m.delete(1000);});
-  try {const { body } = await get('https://api-to.get-a.life/meme')
+  try {const { body } = await get('https://some-random-api.ml/meme')
 
   let memeEmbed = new RichEmbed() 
   .setColor("RANDOM") 
-  .setImage(body.url)
+  .setImage(body.image)
   .setTimestamp()
   .setFooter(`Requested by ${message.author.tag}`);
   
@@ -1092,15 +1169,14 @@ if (message.content.startsWith(`${prefix}nsfw`)) {
   return message.channel.send("You can use this command only on `nsfw` channels");
   const lewdembed = new Discord.RichEmbed()
   .setColor(`RANDOM`)
-  .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
+  .setAuthor(message.author.username, `${message.author.avatarURL}`)
   .setThumbnail("https://i.goopics.net/vEdyb.jpg")
-  .addField(`NSFW Commands:`,`[${prefix}4k]() > Shows you nsfw contents\n[${prefix}gif]() > Shows you nsfw contents\n[${prefix}milf]() > Shows you nsfw contents\n[${prefix}pussy]() > Shows you nsfw contents\n[${prefix}hentai]() > Shows you nsfw contents\n[${prefix}public]() > Shows you nsfw contents\n[${prefix}cosplay]() > Shows you nsfw contents\n[${prefix}random]() > Shows you nsfw contents\n`)
+  .addField(`__**NSFW Commands:**__`,`[**${prefix}4k**]() **> Shows you nsfw contents**\n[**${prefix}gif**]() **> Shows you nsfw contents**\n[**${prefix}milf**]() **> Shows you nsfw contents**\n[**${prefix}pussy**]() **> Shows you nsfw contents**\n[**${prefix}hentai**]() **> Shows you nsfw contents**\n[**${prefix}public**]() **> Shows you nsfw contents**\n[**${prefix}cosplay**]() **> Shows you nsfw contents**\n[**${prefix}random**]() **> Shows you nsfw contents**\n`)
   .setFooter("Requested by " + message.author.tag)
   .setTimestamp();
   message.channel.send(lewdembed);
   
   }
-
 
 
 
@@ -1655,10 +1731,16 @@ if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return m
 
 if (message.content.toLowerCase().startsWith(prefix + `new`)) {
   message.delete()
-  if (message.channel.name !== 'bot-cmd') return message.reply('You must go to the channel #bot-cmd');
+  if (message.channel.name !== 'bot-cmd') return message.channel.send({embed: {
+    color: 6291711,
+    description: `${message.author} You must go to the channel **#bot-cmd**.`
+  }}); //message.reply('You must go to the channel #bot-cmd');
   const reason = message.content.split(" ").slice(1).join(" ");
   if (!message.guild.roles.exists("name", "Supports")) return message.channel.send(`This server doesn't have a \`Supports\` role, so the ticket won't be opened.\nIf you are an administrator, make one with that name exactly and give it to users that should be able to see tickets.`);
-  if (message.guild.channels.exists("name", "ticket-" + message.author.id)) return message.channel.send(`You already have a ticket open.`);
+  if (message.guild.channels.exists("name", "ticket-" + message.author.id)) return message.channel.send({embed: {
+    color: 6291711,
+    description: `${message.author} You already have a ticket open.`
+  }}); //message.channel.send(`You already have a ticket open.`);
   message.guild.createChannel(`ticket-${message.author.id}`, "text").then(c => {
       let role = message.guild.roles.find("name", "Supports");
       let role2 = message.guild.roles.find("name", "@everyone");
@@ -1674,7 +1756,14 @@ if (message.content.toLowerCase().startsWith(prefix + `new`)) {
           SEND_MESSAGES: true,
           READ_MESSAGES: true
       });
-      message.channel.send(`Your ticket has been created, #${c.name}.`);
+      const embedcreate = new Discord.RichEmbed()
+      .setColor("RANDOM")
+      //.setAuthor(message.author.avatarURL)
+      .setDescription(`${message.author} **Your ticket has been created #${c.name}.**`)
+      .setFooter('Go to this one and try explain why you opened this ticket')
+      .setTimestamp();
+      message.channel.send({ embed: embedcreate });
+      //message.channel.send(`${message.author} Your ticket has been created, #${c.name}.`);
       const embed = new Discord.RichEmbed()
       .setColor("RANDOM")
       .addField(`Hey ${message.author.username}!`, `Please try explain why you opened this ticket with as much detail as possible. Our **Support Team** will be here soon to help.`)
@@ -1691,17 +1780,27 @@ if (message.content.toLowerCase().startsWith(prefix + `new`)) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
 
 if (message.content.toLowerCase().startsWith(prefix + `close`)) {
   message.delete()
-  if (!message.channel.name.startsWith(`ticket-`)) return message.channel.send(`You can't use the \`close\` command outside of a \`ticket channel\`.`);
+  if (!message.channel.name.startsWith(`ticket-`)) return message.channel.send({embed: {
+    color: 6291711,
+    description: `${message.author} You can't use the \`close\` command outside of a \`ticket channel\`.`
+  }});
 
-  message.channel.send(`Are you sure? Once confirmed, you cannot reverse this action!\nTo confirm, type \`-confirm\`  This will time out in 10 seconds and be cancelled.`)
+  const closeembed = new Discord.RichEmbed()
+  .setColor("RANDOM")
+  .setDescription(`${message.author} Are you sure? Once confirmed, you cannot reverse this action!\rTo confirm, type: \`yes\``)
+  .setFooter('This will time out in 20 seconds and be cancelled.')
+  .setTimestamp();
+  message.channel.send({ embed: closeembed })
   .then((m) => {
-    message.channel.awaitMessages(response => response.content === '-confirm', {
+    message.channel.awaitMessages(response => response.content === 'yes', {
       max: 1,
-      time: 10000,
+      time: 20000,
       errors: ['time'],
     })
     .then((collected) => {
