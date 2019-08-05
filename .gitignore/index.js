@@ -631,81 +631,34 @@ if (message.content.startsWith(prefix + "encrypt")) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////  VERIFICATION COMMAND  /////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 if (message.content.startsWith(prefix + "verif")) {
     message.delete();
+   let m = new RichEmbed()
 
-    let b1 = ["494692368986144779"];
-    let b2 = ["421306576905961495"];
-    let b3 = [""];
-    let b4 = [""];
-    let b5 = [""];
-    let b6 = [""];
-    let b7 = [""];
-    let b8 = [""];
-    let b9 = [""];
-    let b10 = [""];
-
-    let Blacklisted = new Discord.RichEmbed()  
-        .setDescription(`**${message.author.tag} You've been blacklisted from this Server.**`)
-        .setFooter("If you'd like to appeal to be whitelisted please contact, Zero-Day#0001")
-        .setColor("#ff0000")
-        if(message.author.id == b1,b2,b3,b4,b5,b6,b7,b8,b9,b10) return message.channel.send(Blacklisted); 
-
-        let Process = new RichEmbed()
-        .setColor("#36393f") 
-        .setTitle('**Verification...**')
-        .setTimestamp()
-        message.channel.send(Process).then(Process => { Process.delete(1500);});
-
-          let role = message.guild.roles.find(role => role.name === 'Verified');
-
-          if (message.channel.name !== 'verification') return message.reply('You must go to the channel #verification');
-          message.member.addRole(role);
-
-          if (message.member.roles.has(role.id)) {
-
-              let verifyEmbed = new Discord.RichEmbed()
-                  .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-                  .setColor('#36393f')
-                  .setDescription('Your account has already been verified!')
-              return message.channel.send((verifyEmbed));
-          } else {
-              let verifyEmbed = new Discord.RichEmbed()
-                  .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-                  .setColor('#36393f')
-                  .setDescription('Your account has been successfully verified.')
-              return message.channel.send((verifyEmbed));
-          }
-      }
-
-
-
-
-//if (message.content.startsWith(prefix + "verif")) {
-//    message.delete();
-//   let m = new RichEmbed()
-//
-//  .setColor("#36393f") 
-//  .setTitle('**Verification...**')
-// .setTimestamp()
-// message.channel.send(m).then(m => { m.delete(1500);});
-//    let role = message.guild.roles.find(role => role.name === 'Verified');
-//    if (message.channel.name !== 'verification') return message.reply('You must go to the channel #verification');
-//    message.member.addRole(role);
-//    if (message.member.roles.has(role.id)) {
-//        let verifyEmbed = new Discord.RichEmbed()
-//            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-//            .setColor('#36393f')
-//           .setDescription('Your account has already been verified!')
-//        return message.channel.send((verifyEmbed));
-//    } else {
-//        let verifyEmbed = new Discord.RichEmbed()
-//            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-//            .setColor('#36393f')
-//            .setDescription('Your account has been successfully verified.')
-//        return message.channel.send((verifyEmbed));
-//    }
-//}
+  .setColor("#36393f") 
+  .setTitle('**Verification...**')
+ .setTimestamp()
+ message.channel.send(m).then(m => { m.delete(1500);});
+    let role = message.guild.roles.find(role => role.name === 'Verified');
+    if (message.channel.name !== 'verification') return message.reply('You must go to the channel #verification');
+    message.member.addRole(role);
+    if (message.member.roles.has(role.id)) {
+        let verifyEmbed = new Discord.RichEmbed()
+            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+            .setColor('#36393f')
+           .setDescription('Your account has already been verified!')
+        return message.channel.send((verifyEmbed));
+    } else {
+        let verifyEmbed = new Discord.RichEmbed()
+            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+            .setColor('#36393f')
+            .setDescription('Your account has been successfully verified.')
+        return message.channel.send((verifyEmbed));/    }
+}
 
 	
 	
