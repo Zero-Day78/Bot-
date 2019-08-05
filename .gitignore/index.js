@@ -252,37 +252,7 @@ if (message.channel.type == "dm") return;
 	
 	
 	
-if (message.content.startsWith(prefix + 'flip')) {
-  message.delete();
 
-const rolled = Math.floor(Math.random() * 2) + 1;
-
-  let headembed = new Discord.RichEmbed()
-
-  .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-  .addField(`__Coin Flip Result:__`,`You flipped a: **Heads**!`)
-  .setThumbnail(`${message.author.displayAvatarURL}`)
-  .setFooter(`${message.author.tag}`)
-  .setColor("0xff1053")
-  .setTimestamp();
-
-  let tailembed = new Discord.RichEmbed()
-
-  .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-  .addField(`__Coin Flip Result:__`,`You flipped a: **Tails**!`)
-  .setThumbnail(`${message.author.displayAvatarURL}`)
-  .setFooter(`${message.author.tag}`)
-  .setColor("0x00bee8")
-  .setTimestamp();
-
-  if (rolled == "1")
-  {
-    message.channel.send(tailembed);
-  }
-  if (rolled == "2")
-  {
-    message.channel.send(headembed);
-  }
 	
 	
 
