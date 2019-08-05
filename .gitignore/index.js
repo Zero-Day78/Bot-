@@ -73,7 +73,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.3.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
+bot.user.setActivity("v3.3.2 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
 });
 
 
@@ -258,9 +258,9 @@ if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send({
   color: 6291711,
   description: `${message.author} **You don't have __ADMINISTRATOR__ permission.**`,
   footer: {
-  text: `Tried to send DM's to Everyone with ID: ${message.author.id}`
+  text: `${message.author.tag} with ID: ${message.author.id} Tried to send DM's to everyone`
     }
-}}); //message.channel.send("**You don't have `ADMINISTRATOR` permission.**");
+}});
 
 
 let dmGuild = message.guild;
@@ -289,7 +289,8 @@ if(!msg || msg.length <= 1) {
         .setColor("RANDOM")
         .setAuthor(message.member.displayName, message.author.displayAvatarURL)
         .addField("__**Failed to send**__", "Message not specified")
-        .addField("__**Listen up!**__", "Every character past the command will be sent,\rand apparently there was nothing to send.");
+        .addField("__**Listen up!**__", "Every character past the command will be sent,\rand apparently there was nothing to send.")
+        .setFooter(`${message.author.tag} with ID: ${message.author.id} Tried to send DM's to everyone`);
     message.channel.send({ embed: embed });
     return;
 }
@@ -302,9 +303,9 @@ for (var i = 0; i < membercount; i++) {
     let member = memberarray[i];
     await sleep(timeout);
     if(i == (membercount-1)) {
-        console.log(`Waited ${timeout}ms.\t\\/\tDMing ${member.user.username}`);
+        
     } else {
-        console.log(`Waited ${timeout}ms.\t|${i + 1}|\tDMing ${member.user.username}`);
+        
     }
     let DMuserEmbed = new RichEmbed() 
     .setColor("RANDOM") 
@@ -321,7 +322,12 @@ for (var i = 0; i < membercount; i++) {
 function sleep(ms) {
 return new Promise(resolve => setTimeout(resolve, ms));
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1401,21 +1407,39 @@ if (cmd === `${prefix}milf`) {
 
 
 
-if(cmd === `${prefix}avatar`){
+//if(cmd === `${prefix}avatar`){
 
-{
+//{
+ // message.delete()
+//const embed = new Discord.RichEmbed()
+//.setColor("RANDOM")
+//.setTitle(`**Your Profil Picture**`)
+//.setThumbnail(message.author.avatarURL)
+//.setFooter("Requested by "+ message.author.tag)
+//.setTimestamp()
+//message.channel.send({embed});
+//  }};
+
+
+if (message.content.startsWith(prefix + 'avatar')) {
   message.delete()
-const embed = new Discord.RichEmbed()
-.setColor("RANDOM")
-.setTitle(`**Your Profil Picture**`)
-.setThumbnail(message.author.avatarURL)
-.setFooter("Requested by "+ message.author.tag)
-.setTimestamp()
-message.channel.send({embed});
-  }};
-
-
-
+  if (args.join(" ") == "") {
+    message.channel.send({embed: {
+      color: 6291711,
+      description: `${message.author} **you need mention a user for this command! Syntax: -avatar @USER.**`
+    }});
+    return;
+  } else {
+    let user = message.mentions.users.first(); 
+    let image = user.displayAvatarURL; 
+    let embed = new Discord.RichEmbed()
+        .setColor('RANDOM')
+        .setAuthor(`${user.username}#${user.discriminator}`)  
+        .setThumbnail(image)
+        .setFooter("Requested by "+ message.author.tag)
+    message.channel.send(embed); 
+  }
+  }
 
 
 
@@ -2027,25 +2051,36 @@ if(cmd === `${prefix}rate5`){
 //////////////////////////////////////////////////////////CLEAR CHANNEL/////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
- 
-            if (message.content.startsWith(prefix + "clear")) {
-   if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply("You don't have `MANAGE_MESSAGES` permissons.");
-        var msg;
-        msg = parseInt();
-      
-      message.channel.fetchMessages({limit: msg}).then(messages => message.channel.bulkDelete(messages)).catch(console.error);
-      message.channel.sendMessage("", {embed: {
-        title: `${message.guild.name} Server`,
-        color: 0x06DF00,
-        description: `${message.author}All messages have been Deleted`,
-        footer: {
-        text: `Author ID: ${message.author.id}`
+if (message.content.startsWith(prefix + "clear")) {
+  message.delete();
+  if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send({embed: {
+    color:  6291711,
+    description: `${message.author} **You don't have MANAGE_MESSAGE permission.**`,
+    footer: {
+    text: `${message.author.tag} with ID: ${message.author.id} Tried to clear #${message.channel.name} channel`
+      }
+  }});
+  if(!args[0]) return message.channel.send({embed: {
+    color:  6291711,
+    description: `${message.author} **Invalid number specified.\r Argument should be a number between 2 and 1000.**`,
+    footer: {
+    text: `${message.author.tag} with ID: ${message.author.id} Tried to clear #${message.channel.name} channel`
+      }
+    }}).then(msg => msg.delete(8000));
+  message.channel.bulkDelete(args[0]).then(() => {
+    message.channel.send({embed: {
+      color:  6291711,
+      description: `${message.author} **${args[0]} Messages have been deleted.**`,
+      footer: {
+      text: `${message.author.tag} with ID: ${message.author.id} deleted ${args[0]} messages.`
         }
-      }}).then(msg => {msg.delete(30000)});
+      }}).then(msg => msg.delete(4000));
+  
+});
 
-
-    }                       
+}
+ 
+                                
           
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
