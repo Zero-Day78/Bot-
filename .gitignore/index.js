@@ -657,7 +657,8 @@ if (message.content.startsWith(prefix + "verif")) {
             .setAuthor(message.member.displayName, message.author.displayAvatarURL)
             .setColor('#36393f')
             .setDescription('Your account has been successfully verified.')
-        return message.channel.send((verifyEmbed));/    }
+        return message.channel.send((verifyEmbed));
+    }
 }
 
 	
