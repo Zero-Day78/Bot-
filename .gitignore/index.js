@@ -251,7 +251,38 @@ if (message.channel.type == "dm") return;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	
+if (message.content.startsWith(prefix + 'flip')) {
+  message.delete();
+
+const rolled = Math.floor(Math.random() * 2) + 1;
+
+  let headembed = new Discord.RichEmbed()
+
+  .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+  .addField(`__Coin Flip Result:__`,`You flipped a: **Heads**!`)
+  .setThumbnail(`${message.author.displayAvatarURL}`)
+  .setFooter(`${message.author.tag}`)
+  .setColor("0xff1053")
+  .setTimestamp();
+
+  let tailembed = new Discord.RichEmbed()
+
+  .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+  .addField(`__Coin Flip Result:__`,`You flipped a: **Tails**!`)
+  .setThumbnail(`${message.author.displayAvatarURL}`)
+  .setFooter(`${message.author.tag}`)
+  .setColor("0x00bee8")
+  .setTimestamp();
+
+  if (rolled == "1")
+  {
+    message.channel.send(tailembed);
+  }
+  if (rolled == "2")
+  {
+    message.channel.send(headembed);
+  }
+}	
 
 	
 	
@@ -602,34 +633,84 @@ if (message.content.startsWith(prefix + "encrypt")) {
 //////////////////////////////////////////  VERIFICATION COMMAND  /////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
 if (message.content.startsWith(prefix + "verif")) {
-    message.delete();
-   let m = new RichEmbed()
+  message.delete();
+    
+  if (message.channel.name !== 'verification') return message.channel.send({embed: {
+    color:  6291711,
+    description: `**${message.author} You must go to the channel #verification**`,
+    footer: {
+    text: `${message.author.tag} with ID: ${message.author.id} tried verification in #${message.channel.name}...`
+      }
+  }});
+    
+  
 
-  .setColor("#36393f") 
-  .setTitle('**Verification...**')
- .setTimestamp()
- message.channel.send(m).then(m => { m.delete(1500);});
-    let role = message.guild.roles.find(role => role.name === 'Verified');
-    if (message.channel.name !== 'verification') return message.reply('You must go to the channel #verification');
-    message.member.addRole(role);
-    if (message.member.roles.has(role.id)) {
-        let verifyEmbed = new Discord.RichEmbed()
-            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-            .setColor('#36393f')
-           .setDescription('Your account has already been verified!')
-        return message.channel.send((verifyEmbed));
-    } else {
-        let verifyEmbed = new Discord.RichEmbed()
-            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-            .setColor('#36393f')
-            .setDescription('Your account has been successfully verified.')
-        return message.channel.send((verifyEmbed));
-    }
-}
+        let Process = new RichEmbed()
+        .setColor("#36393f") 
+        .setTitle('**Verification...**')
+        .setTimestamp()
+        message.channel.send(Process).then(Process => { Process.delete(1500);});
+
+
+
+          let role = message.guild.roles.find(role => role.name === 'Verified');
+          let b1 = ["494692368986144779"];
+          if(message.author.id == b1) return message.channel.send({embed: {
+            color:  16711680,
+            description: `**${message.author.tag} You've been blacklisted from this Server.**`,
+            footer: {
+            text: `If you'd like to appeal to be whitelisted please contact, Zero-Day#0001`
+              }
+          }});
+        
+      
+          message.member.addRole(role);
+
+          if (message.member.roles.has(role.id)) {
+            
+              let verifyEmbed = new Discord.RichEmbed()
+                  .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+                  .setColor('#36393f')
+                  .setDescription('Your account has already been verified!')
+              return message.channel.send((verifyEmbed));
+          } else {
+              let verifyEmbed = new Discord.RichEmbed()
+                  .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+                  .setColor('#36393f')
+                  .setDescription('Your account has been successfully verified.')
+              return message.channel.send((verifyEmbed));
+          }
+         
+          
+      }
+
+
+//if (message.content.startsWith(prefix + "verif")) {
+//    message.delete();
+//   let m = new RichEmbed()
+//
+//  .setColor("#36393f") 
+//  .setTitle('**Verification...**')
+// .setTimestamp()
+// message.channel.send(m).then(m => { m.delete(1500);});
+//    let role = message.guild.roles.find(role => role.name === 'Verified');
+//    if (message.channel.name !== 'verification') return message.reply('You must go to the channel #verification');
+//    message.member.addRole(role);
+//    if (message.member.roles.has(role.id)) {
+//        let verifyEmbed = new Discord.RichEmbed()
+//            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+//            .setColor('#36393f')
+//           .setDescription('Your account has already been verified!')
+//        return message.channel.send((verifyEmbed));
+//   } else {
+//        let verifyEmbed = new Discord.RichEmbed()
+//            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+//            .setColor('#36393f')
+//            .setDescription('Your account has been successfully verified.')
+//        return message.channel.send((verifyEmbed));
+//    }
+//}
 
 	
 	
