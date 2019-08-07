@@ -73,7 +73,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.4 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
+bot.user.setActivity("v3.4.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
 });
 
 
@@ -1697,7 +1697,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
 
 
 
-if (message.content.toLowerCase().startsWith(prefix + `gtacmd`)) {
+if (message.content.toLowerCase().startsWith(prefix + `imp`)) {
   message.delete()
   const embed = new Discord.RichEmbed()
   .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
@@ -1712,6 +1712,22 @@ if (message.content.toLowerCase().startsWith(prefix + `gtacmd`)) {
 }
 
 
+
+	
+if (message.content.toLowerCase().startsWith(prefix + `gtacmd`)) {
+  message.delete()
+  const embed = new Discord.RichEmbed()
+  .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
+  .setColor("RANDOM")
+  .setDescription(`**Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands for GTA V Online:**`)
+  .addField(`**__General Commands__**`, `**/moneydrop <on/off>\n/moneygun <on/off>\n/clone <player name>\n/explode <player name>\n/spawn <entity model>**`)
+  .addField(`**__Vehicle Commands (Close-by)__**`, `**/vehicle fix\n/vehicle boost\n/vehicle launch\n/vehicle delete\n/vehicle upgrade**`)
+  .addField(`**__Give Global Commands__**`, `**/give armor\n/give health\n/give weapons\n/otr <minutes>\n/cops <on/off/clear>**`)
+  .addField(`**__Weather/Time Commands__**`, `**/time day/night/sunset/sunrise\n/weather xmas/snow/smog/clear/cloud/rain\n/weather thunder/sunny/neutral/blizzard/overcast/halloween**`)
+  .setFooter(`Requested by ${message.author.tag}`)
+  .setTimestamp()
+  message.channel.send({ embed: embed });
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////SEND EMBED//////////////////////////////////////////////////
