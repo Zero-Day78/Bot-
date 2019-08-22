@@ -185,8 +185,8 @@ const randomizeCase = word => word.split('').map(c => Math.random() > 0.5 ? c.to
 
 
     if (args.length < 1) return message.channel.send({embed: {
-      color: 1410075,
-      description: `${message.author}**I need some text to clapify**\`-clap [message]\``  
+      color: 3553599,
+      description: `${message.author} **I need some text to clapify** \`-clap [message]\``  
     }});
   
     let Clapify = new RichEmbed() 
