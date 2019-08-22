@@ -20,46 +20,7 @@ const Canvas = require('canvas');
 //const gifSearch = require("gif-search");//
 
 
-///////////////////////////////////////////////////////////
-////////////////////////////V2.2///////////////////////////
-///////////////////////////////////////////////////////////
-//-added verication 
-//-added decrypt/encrypt message
-//-added meme command
-///////////////////////////////////////////////////////////
-//////////////////////////V2.3/////////////////////////////
-///////////////////////////////////////////////////////////
-//-added anime research 
-//-added VDM commands
-//-added steam research command
-//-added yes or no command
-///////////////////////////////////////////////////////////
-/////////////////////////V2.4//////////////////////////////
-///////////////////////////////////////////////////////////
-//-added Anti-Link Protection
-//-added Bad-Word Protection  (need work)
-///////////////////////////////////////////////////////////
-/////////////////////////V2.4.1////////////////////////////
-///////////////////////////////////////////////////////////
-//-improved Anti-Link Protection
-//-added auto role 
-///////////////////////////////////////////////////////////
-/////////////////////////V2.4.2////////////////////////////
-///////////////////////////////////////////////////////////
-//-improved Bad-Word List
-///////////////////////////////////////////////////////////
-/////////////////////////V2.4.3////////////////////////////
-///////////////////////////////////////////////////////////
-//-updated shop
-//-fixed some bug
-///////////////////////////////////////////////////////////
-/////////////////////////V3.0////////////////////////////
-///////////////////////////////////////////////////////////
-//-rework welcome message
 
-////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////TOKEN/////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
 
 bot.login(process.env.TOKEN);
 
@@ -73,10 +34,8 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.4.1 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
+bot.user.setActivity("v3.4.2 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
 });
-
-
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -154,40 +113,6 @@ bot.on('guildMemberRemove', async member => {
 });
 
 
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////// OLD GUILD MEMBERS ADD REMOVE ////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//bot.on('guildMemberAdd', member => {
-  //let logChannel = member.guild.channels.find('name', 'welcome');
-  
-  //let logEmbed = new Discord.RichEmbed()
-  //.setColor('RANDOM')
-  //.setTitle(`**Welcome to ${member.guild.name} server**`)
-  //.setDescription(`**We are now  ${member.guild.memberCount} Members on this server**<@${member.user.id}>`)
-  //.setThumbnail(member.user.displayAvatarURL)
-  //.setFooter(`If you want any help type [-help]`)
-  //.setTimestamp()
-  //logChannel.send(logEmbed);
-//});
-
-
-
-  //bot.on('guildMemberRemove', member => {
-  //let logChannel = member.guild.channels.find('name', 'serverlog');
-  
-    //let logEmbed = new Discord.RichEmbed()
-    //.setColor('RANDOM')
-    //.setDescription(`<@${member.user.id}> Has left the Server`)
-    //.setTimestamp()
-    //.setFooter(member.user.id, member.user.displayAvatarURL)
-    
-    
-   // logChannel.send(logEmbed);
-  //});
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// AUTOROLE ON JOIN /////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,12 +129,7 @@ bot.on('guildMemberRemove', async member => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bot.on("message", function(message) { var input = message.content.toUpperCase();
-
 });
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////INDISPENSABLE POUR LE CODE CI DESSOUS////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bot.on("message", async message => {
   if(message.author.bot) return;
@@ -218,13 +138,73 @@ bot.on("message", async message => {
   let messageArray = message.content.split(" ");
   let cmd = messageArray[0];
   let args = messageArray.slice(1);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+if (message.content.startsWith(prefix + 'invlead')) {
+  if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send({embed: {
+    color: 3553599,
+    description: `${message.author} **You don't have __ADMINISTRATOR__ permission.**`,
+    footer: {
+    text: `${message.author.tag} with ID: ${message.author.id} tried to see invite leaderboard`
+      }
+  }});
+
+let invites = await message.guild.fetchInvites().catch(error => {
+});
+
+invites = invites.array();
+let possibleinvites = [];
+
+invites.forEach(function(invites) {
+possibleinvites.push(`${invites.inviter.username} ${invites.uses}`)
+})
+let sicon = message.guild.iconURL;
+const embed = new Discord.RichEmbed()
+  .setTitle(`**Invite Leaderboard**`)
+  .setColor('RANDOM')
+  .setThumbnail(sicon)
+  .setDescription(`${possibleinvites.join('\n')}`)
+  .setFooter(`Requested by ${message.author.tag}`)
+  .setTimestamp();
+message.channel.send(embed);
+}
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+if (message.content.startsWith(prefix + 'clap')) {
+  message.delete();
+  
+const randomizeCase = word => word.split('').map(c => Math.random() > 0.5 ? c.toUpperCase() : c.toLowerCase()).join('');
+
+
+    if (args.length < 1) return message.channel.send({embed: {
+      color: 1410075,
+      description: `${message.author}**I need some text to clapify**\`-clap [message]\``  
+    }});
+  
+    let Clapify = new RichEmbed() 
+    .setColor("RANDOM") 
+    .setDescription(args.map(randomizeCase).join(':clap:'))
+    .setThumbnail(message.author.avatarURL)
+    .setTimestamp()
+    .setFooter(`Send by ${message.author.tag} with ID: ${message.author.id}`);
+    
+    message.channel.send(Clapify)
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////BADWORD/LINK PROTECTION/////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 if (message.channel.type == "dm") return;
-	//if (message.member.hasPermission('MANAGE_MESSAGE')) return;
+
     const Link = ["fuck",".gg","dick","cock","cunt","nigga","nigger","shit","biatch","bitch","feck","homo","bastard","f u c k e r","f u c k","ejacu","d1ck","anus"];
    if (Link.some(Link => message.content.toLowerCase().includes(Link))) {
        message.delete();
@@ -246,9 +226,9 @@ if (message.channel.type == "dm") return;
        channel.send(log)
      }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////**** */COIN FLIP//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 if (message.content.startsWith(prefix + 'flip')) {
@@ -284,20 +264,20 @@ const rolled = Math.floor(Math.random() * 2) + 1;
   }
 }	
 
-	
-	
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////DMS EVERYONE///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 	
 if (message.content.startsWith(prefix + 'dmall')) {
   message.delete();
 if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send({embed: {
-  color: 6291711,
+  color: 3553599,
   description: `${message.author} **You don't have __ADMINISTRATOR__ permission.**`,
   footer: {
-  text: `${message.author.tag} with ID: ${message.author.id} Tried to send DM's to everyone`
+  text: `${message.author.tag} with ID: ${message.author.id} tried to send DM's to everyone`
     }
 }});
 
@@ -329,7 +309,7 @@ if(!msg || msg.length <= 1) {
         .setAuthor(message.member.displayName, message.author.displayAvatarURL)
         .addField("__**Failed to send**__", "Message not specified")
         .addField("__**Listen up!**__", "Every character past the command will be sent,\rand apparently there was nothing to send.")
-        .setFooter(`${message.author.tag} with ID: ${message.author.id} Tried to send DM's to everyone`);
+        .setFooter(`${message.author.tag} with ID: ${message.author.id} tried to send DM's to everyone`);
     message.channel.send({ embed: embed });
     return;
 }
@@ -361,17 +341,12 @@ for (var i = 0; i < membercount; i++) {
 function sleep(ms) {
 return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+//////////////////////////////////////////////////////YESORNO FUN//////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
-	
-	
-	
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 if (message.content.startsWith(prefix + "yesorno")) {
@@ -393,7 +368,7 @@ const embed = new Discord.RichEmbed()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////STEAM RESULT/////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -439,76 +414,6 @@ if (message.content.startsWith(prefix + "steam")) {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////                   ///////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const cooldown = new Set()
-
-if (message.content.startsWith(prefix + "undefinedcommand")) {
-if (cooldown.has(message.author.id)) {
-    let cooldownemb = new Discord.RichEmbed()
-    .setAuthor(`${message.author.username} Cooldown..`, message.author.displayAvatarURL)
-    .setDescription(`You need to wait 5 seconds!`)
-    .setColor(`RED`)
-    .setFooter(`This message will be deleted in 5 seconds..`)
-    return message.channel.send(cooldownemb).then(message => {
-     message.delete(5000) 
-    })
-    }
-    cooldown.add(message.author.id);
-    setTimeout(() => {cooldown.delete(message.author.id);}, 10000);
-    let m421 = args.join(" ");
-if (!m421) return message.channel.send('Please define a name.')
-if (m421.length > 30) return message.channel.send(`I can't rate your waifu! It's over 30 text!`)
-    let result = Math.floor((Math.random() * 100) + 0);
-  
-    const happyrate = new Discord.RichEmbed()
-  .setDescription(`I would rate **${m421}** ${result}/100 ❤`)
-  .setColor(`GREEN`)
-    
-      const sadembed = new Discord.RichEmbed()
-  .setDescription(`I would rate **${m421}** ${result}/100 😭`)
-  .setColor(`GREEN`)
-      
-        const idkembed = new Discord.RichEmbed()
-  .setDescription(`I would rate **${m421}** ${result}/100 🤔`)
-  .setColor(`GREEN`)
-        
-      const shrugembed = new Discord.RichEmbed()
-  .setDescription(`I would rate **${m421}** ${result}/100 🤷`)
-  .setColor(`GREEN`)
-                
-          const okembed = new Discord.RichEmbed()
-  .setDescription(`I would rate **${m421}** ${result}/100 👌`)
-  .setColor(`GREEN`)
-                        
-const thumbupembed = new Discord.RichEmbed()
-  .setDescription(`I would rate **${m421}** ${result}/100 👍`)
-  .setColor(`GREEN`)
-
-const eyesembed = new Discord.RichEmbed()
-  .setDescription(`I would rate **${m421}** ${result}/100 👀`)
-  .setColor(`GREEN`)
-  
-  if (result > 90) return message.channel.send(happyrate)
-  if (result < 30) return message.channel.send(sadembed)
-  if (result > 40) return message.channel.send(idkembed)
-  if (result > 50) return message.channel.send(shrugembed)
-  if (result > 60) return message.channel.send(okembed)
-  if (result > 70) return message.channel.send(thumbupembed)
-  if (result > 80) return message.channel.send(eyesembed)
-}
-
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////  VDM COMMAND  /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -538,7 +443,6 @@ request('https://www.viedemerde.fr/aleatoire', (error, response, body) => {
       message.channel.send({embed})
     
 })};
-
 
 
 
@@ -582,8 +486,6 @@ const search = `${args}`;
     })
     .catch((err) => console.log(err));
 }
-
-
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -633,11 +535,13 @@ if (message.content.startsWith(prefix + "encrypt")) {
 //////////////////////////////////////////  VERIFICATION COMMAND  /////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
 if (message.content.startsWith(prefix + "verif")) {
   message.delete();
     
   if (message.channel.name !== 'verification') return message.channel.send({embed: {
-    color:  6291711,
+    color:  3553599,
     description: `**${message.author} You must go to the channel #verification**`,
     footer: {
     text: `${message.author.tag} with ID: ${message.author.id} tried verification in #${message.channel.name}...`
@@ -660,7 +564,7 @@ if (message.content.startsWith(prefix + "verif")) {
             color:  16711680,
             description: `**${message.author.tag} You've been blacklisted from this Server.**`,
             footer: {
-            text: `If you'd like to appeal to be whitelisted please contact, Zero-Day#0001`
+            text: `If you'd like to appeal to be whitelisted please contact, ZeroDay#0001`
               }
           }});
         
@@ -685,37 +589,8 @@ if (message.content.startsWith(prefix + "verif")) {
           
       }
 
-
-//if (message.content.startsWith(prefix + "verif")) {
-//    message.delete();
-//   let m = new RichEmbed()
-//
-//  .setColor("#36393f") 
-//  .setTitle('**Verification...**')
-// .setTimestamp()
-// message.channel.send(m).then(m => { m.delete(1500);});
-//    let role = message.guild.roles.find(role => role.name === 'Verified');
-//    if (message.channel.name !== 'verification') return message.reply('You must go to the channel #verification');
-//    message.member.addRole(role);
-//    if (message.member.roles.has(role.id)) {
-//        let verifyEmbed = new Discord.RichEmbed()
-//            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-//            .setColor('#36393f')
-//           .setDescription('Your account has already been verified!')
-//        return message.channel.send((verifyEmbed));
-//   } else {
-//        let verifyEmbed = new Discord.RichEmbed()
-//            .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-//            .setColor('#36393f')
-//            .setDescription('Your account has been successfully verified.')
-//        return message.channel.send((verifyEmbed));
-//    }
-//}
-
-	
-	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////// NOTIFICATION COMMAND ///////////////////////////////////////////////////////
+///////////////////////////////////////////////////// NOTIFICATION COMMAND ////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
@@ -853,22 +728,9 @@ if (message.content.startsWith(prefix + "ping")) {
 
 
 
-
-
-
-// if (message.content.toLowerCase().startsWith(prefix + `ping`)) {
-//    message.delete()
-//    message.channel.send(`Checking Ping...`).then(m => {
-//    m.edit(`Wew, Made it over the Waves ! \nMessage edit time is ` + (m.createdTimestamp - message.createdTimestamp) + `ms, Discord API is ` + Math.round(bot.ping) + `ms.`);
-//    });
-//}
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////ROLE INFO COMMANDS//////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 
 
@@ -890,10 +752,7 @@ let role = message.mentions.roles.first() || message.guild.roles.get(args[0]) ||
         .addField('Creation Date', role.createdAt.toDateString(), true)
         .addField('ID', role.id, true)
         .addField("Server Roles",`${message.guild.roles.array()}`,true)
-        .setFooter(`Developed by Zero-Day#0001 For ${message.guild.name} Server`, bot.user.avatarURL)
-        //.addField("Server Roles",` ${message.guild.roles.size} Roles  \n Names : ${message.guild.roles.array()}`,true)
-        //.addField('Editable', role.editable.toString(), true)
-        //.addField('Managed', role.managed.toString(), true)
+        .setFooter(`Developed by ZeroDay#0001 For ${message.guild.name} Server`, bot.user.avatarURL)
     return message.channel.send({
         embed: embed
     });
@@ -904,9 +763,6 @@ let role = message.mentions.roles.first() || message.guild.roles.get(args[0]) ||
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
 if (message.content.startsWith(prefix + "mute")) {
   message.delete()
 
@@ -915,8 +771,6 @@ if (message.content.startsWith(prefix + "mute")) {
     const mod = message.author;
     let user = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if (!user) return message.channel.send("**Couldn't find user.**")
-    //let reason = message.content.split(" ").slice(2).join(" ");
-    //if (!reason) return message.channel.send('lease specify a reason for the mute!')
     let muterole = message.guild.roles.find(`name`, "Muted");
     if(args[0] == "help"){
       message.reply("Usage: -mute <user>");
@@ -950,13 +804,10 @@ if (message.content.startsWith(prefix + "mute")) {
     .addField("Muted User", `<@${user.id}> with ID ${user.id}`)
     .addField("Muted By", `<@${message.author.id}> with ID ${message.author.id}`)
     .addField("Muted In", message.channel)
-    //.addField('Reason', `${reason}`)
         modlog.send(muteembed)
   
   
 }
-
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1017,18 +868,6 @@ if (!muteChannel) return message.channel.send('**Please create a channel with th
 
 }
 
- 
-  
-
-
-
-
-
-  
-
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////  REMIND  /////////////////////////////////////////////////////////////////
@@ -1051,7 +890,7 @@ if (message.content.startsWith(prefix + "remind")) {
       .setAuthor(`${message.author.username}`, message.author.displayAvatarURL)
       .setTitle(`**Time: ${reminderTime}**`)
       .setDescription(`**Reminder: ${reminder}**`)
-      .setFooter(`Developed by Zero-Day#0001 `, message.guild.avatarURL)
+      .setFooter(`Developed by ZeroDay#0001 `, message.guild.avatarURL)
       .setTimestamp();
 
   message.channel.send(remindEmbed);
@@ -1061,7 +900,7 @@ if (message.content.startsWith(prefix + "remind")) {
       let remindEmbed = new Discord.RichEmbed()
           .setColor('RANDOM')
           .setAuthor(`${message.author.username}`, message.author.displayAvatarURL)
-          .setFooter(`Developed by Zero-Day#0001 `)
+          .setFooter(`Developed by ZeroDay#0001 `)
           .setDescription(`**Reminder: ${reminder}**`)
           .setTimestamp()
 
@@ -1255,6 +1094,7 @@ if (!message.member.roles.find("name", "@everyone")) { //Whatever role you want,
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////  NSFW  /////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 if (message.content.startsWith(`${prefix}nsfw`)) {
@@ -1483,37 +1323,26 @@ if (cmd === `${prefix}milf`) {
     const embed = new Discord.RichEmbed()
     .setColor("RANDOM")
     .setAuthor(message.author.username, message.author.avatarURL)
-    .setFooter("To see all NSFW command type [-nsfw]")//("text"+ message.author.tag)
+    .setFooter("To see all NSFW command type [-nsfw]")
     .setTimestamp()
     .setImage(url);
     message.channel.send({embed});
     });
     }
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////GET AVATAR/////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-//if(cmd === `${prefix}avatar`){
-
-//{
- // message.delete()
-//const embed = new Discord.RichEmbed()
-//.setColor("RANDOM")
-//.setTitle(`**Your Profil Picture**`)
-//.setThumbnail(message.author.avatarURL)
-//.setFooter("Requested by "+ message.author.tag)
-//.setTimestamp()
-//message.channel.send({embed});
-//  }};
-
 
 if (message.content.startsWith(prefix + 'avatar')) {
   message.delete()
   if (args.join(" ") == "") {
     message.channel.send({embed: {
-      color: 6291711,
+      color: 3553599,
       description: `${message.author} **you need mention a user for this command! Syntax: -avatar @USER.**`
     }});
     return;
@@ -1532,9 +1361,8 @@ if (message.content.startsWith(prefix + 'avatar')) {
 
 
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////RANK SYSTEM NEED REWORK/////////////////////////////////////////////////////
+/////////////////////////////////////////////RANKING SYSTEM NEED REWORK//////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -1580,93 +1408,6 @@ if (message.content.startsWith(prefix + 'avatar')) {
       
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////FUN TROLL COMMAND/////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-if(cmd === `${prefix}finsheur`){
-  message.delete()
-{
-
-  const embed = new Discord.RichEmbed()
-.setColor("RANDOM")
-.setAuthor("Finsheur #Sac a Merde", "https://i.goopics.net/vbxr9.png")
-.setTitle("Finsheur est encore parti se coucher comme un Gros Sac")
-.setFooter("Requested by " + message.author.tag)
-.setTimestamp()
- message.channel.send({embed});
-}};
-/////////////////////////////////////////////////////////////////////////////////
-if(cmd === `${prefix}nekho`){
-  message.delete()
-{
-
-  const embed = new Discord.RichEmbed()
-.setColor("RANDOM")
-.setAuthor("NekhoEU #AnnaPolina", "https://i.goopics.net/1xDZN.png")
-.setTitle("Nekho a encore une connexion de merde. Merci Orange!")
-.setFooter("Requested by " + message.author.tag)
-.setTimestamp()
- message.channel.send({embed});
-}};
-//////////////////////////////////////////////////////////////////////////////////
-if(cmd === `${prefix}globe`){
-  message.delete()
-{
-
-  const embed = new Discord.RichEmbed()
-.setColor("RANDOM")
-.setAuthor("GL0l3e #MiaMalkova", "https://i.goopics.net/mkdlW.png")
-.setTitle("Je crois que Gl0l3e a repérer un mito!")
-.setFooter("Requested by " + message.author.tag)
-.setTimestamp()
- message.channel.send({embed});
-}};
-//////////////////////////////////////////////////////////////////////////////////
-if(cmd === `${prefix}zeroday`){
-  message.delete()
-{
-
-  const embed = new Discord.RichEmbed()
-.setColor("RANDOM")
-.setAuthor("Zero-Day #KrystalBoyd", "https://i.goopics.net/KaAby.png")
-.setTitle("Fuck Take-Two Interactive and Rockstar Games")
-.setFooter("Requested by " + message.author.tag)
-.setTimestamp()
- message.channel.send({embed});
-}};
-/////////////////////////////////////////////////////////////////////////////////////
-if(cmd === `${prefix}sweaz`){
-  message.delete()
-{
-
-  const embed = new Discord.RichEmbed()
-.setColor("RANDOM")
-.setAuthor("Sweaz #Gotaga", "https://i.goopics.net/dkY9J.png")
-.setTitle("Sweaz c'est encore fait braquer et a trouver la mort")
-.setFooter("Requested by " + message.author.tag)
-.setTimestamp()
-  message.channel.send({embed});
-}};
-////////////////////////////////////////////////////////////////////////////////////////
-if(cmd === `${prefix}sopra`){
-  message.delete()
-{
-
-  const embed = new Discord.RichEmbed()
-.setColor("RANDOM")
-.setAuthor("Sopra #CopperArmy", "https://i.goopics.net/Y0jqg.png")
-.setTitle("Mais la si je veux je vais jusqu'au Platine mais la flemme")
-.setFooter("Requested by " + message.author.tag)
-.setTimestamp()
-  message.channel.send({embed});
-}};
-
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////COMMAND HELP/////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1680,12 +1421,12 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .setColor("RANDOM")
   .setDescription(`**Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands:**`)
   .addField(`__Tickets__`, `[**${prefix}new**]() **> Opens up a new ticket and tags the Support Team**\r[**${prefix}close**]() **> Closes a ticket that has been resolved or been opened by accident**\n[**${prefix}report**]() **> Report a member** **|** **-report [user] [reason]**`)
-  .addField(`__Fun__`, `[**${prefix}say**]() **> Send embed message**\n[**${prefix}slot**]() **> Fruits slot machine**\n[**${prefix}rank**]() **> Shows your rank**\n[**${prefix}nsfw**]() **> Shows you all nsfw commands**\n[**${prefix}avatar**]() **> Shows your profil picture**\n[**${prefix}smoke**]() **> Smoke a cigarette**\n[**${prefix}meme**]() **> Get random meme**\n[**${prefix}anime**]() **> Get anime information** **|** **-anime [title]**\n[**${prefix}remind**]() **> That allows you to set reminders**\n[**${prefix}gtacmd**]() **> Shows you all GTA V in game commands**\n[**${prefix}yesorno**]() **> Yes or no command using superagent**\n[**${prefix}weather**]() **> Get weather information |** **-weather [London] or [citycode]**\n`)
-  .addField(`__Misc__`, `[**${prefix}poll**]() **> To create a reaction poll**\n[**${prefix}rate**]() **> To rate an service in rating channel**\n[**${prefix}help**]() **> Shows you this help menu**\n[**${prefix}shop**]() **> To see the shop**\n[**${prefix}invite**]() **> Create invitation link**\n[**${prefix}steam**]() **> Get search results from Steam |** **-steam [game title]**\n[**${prefix}google**]() **> Get search results from Google |** **-google [search string]**\n[**${prefix}youtube**]() **> Get search results from Youtube |** **-youtube [search string]**`)
+  .addField(`__Fun__`, `[**${prefix}say**]() **> Send embed message**\n[**${prefix}flip**]() **> Coin & Flip**\n[**${prefix}clap**]() **> Clapify your message**\n[**${prefix}slot**]() **> Fruits slot machine**\n[**${prefix}rank**]() **> Shows your rank**\n[**${prefix}nsfw**]() **> Shows you all nsfw commands**\n[**${prefix}avatar**]() **> Shows your profil picture**\n[**${prefix}smoke**]() **> Smoke a cigarette**\n[**${prefix}meme**]() **> Get random meme**\n[**${prefix}anime**]() **> Get anime information** **|** **-anime [title]**\n[**${prefix}remind**]() **> That allows you to set reminders**\n[**${prefix}gtacmd**]() **> Shows you all GTA V in game commands**\n[**${prefix}yesorno**]() **> Yes or no command using superagent**\n[**${prefix}weather**]() **> Get weather information |** **-weather [London] or [citycode]**\n`)
+  .addField(`__Misc__`, `[**${prefix}poll**]() **> To create a reaction poll**\n[**${prefix}help**]() **> Shows you this help menu**\n[**${prefix}shop**]() **> To see the shop**\n[**${prefix}invite**]() **> Create invitation link**\n[**${prefix}steam**]() **> Get search results from Steam |** **-steam [game title]**\n[**${prefix}google**]() **> Get search results from Google |** **-google [search string]**\n[**${prefix}youtube**]() **> Get search results from Youtube |** **-youtube [search string]**`)
   .addField(`__Manager__`, `[**${prefix}verif**]() **> To get verified role**\n[**${prefix}clear**]() **> Clear all messages**\n[**${prefix}encrypt**]() **> Encrypt a message**\n[**${prefix}decrypt**]() **> Decrypt a message**\n[**${prefix}adminsay**]() **> Send embed as administrator**\n[**${prefix}setstream**]() **> Change bot activity**\n`)
   .addField(`__Moderator__`, `[**${prefix}ban**]() **> Ban a member |** **-ban [user] [reason]**\n[**${prefix}kick**]() **> Kick a member |** **-kick [user] [reason]**\n[**${prefix}mute**]() **> Mute a member |** **-mute [user] [reason]**\n[**${prefix}unmute**]() **> Unmute a member |** **-unmute [user] [reason]**\n[**${prefix}lockdown**]() **> Lock a channel with optional timer |** **-lockdown [time]**`)
-  .addField(`__Information__`, `[**${prefix}ping**]() **> Pings the bot to see how long it takes to react**\n[**${prefix}count**]() **> Get the server member count**\n[**${prefix}uptime**]() **> Get bot uptime**\n[**${prefix}botinfo**]() **> Get bot information**\n[**${prefix}servinfo**]() **> Get server information**\n[**${prefix}roleinfo**]() **> Get role information |** **-roleinfo [role]**\n[**${prefix}userinfo**]() **> Get user information |** **-userinfo [user]**\n`)
-  .setFooter(`Developed by Zero-Day#0001 For ${message.guild.name} Server`)
+  .addField(`__Information__`, `[**${prefix}ping**]() **> Pings the bot to see how long it takes to react**\n[**${prefix}count**]() **> Get the server member count**\n[**${prefix}uptime**]() **> Get bot uptime**\n[**${prefix}invlead**]() **> Shows you invitation leaderboard**\n[**${prefix}botinfo**]() **> Get bot information**\n[**${prefix}servinfo**]() **> Get server information**\n[**${prefix}roleinfo**]() **> Get role information |** **-roleinfo [role]**\n[**${prefix}userinfo**]() **> Get user information |** **-userinfo [user]**\n`)
+  .setFooter(`Developed by ZeroDay#0001 For ${message.guild.name} Server`)
   message.channel.send({ embed: embed });
 }
 
@@ -1697,7 +1438,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
 
 
 
-if (message.content.toLowerCase().startsWith(prefix + `imp`)) {
+if (message.content.toLowerCase().startsWith(prefix + `gtacmd`)) {
   message.delete()
   const embed = new Discord.RichEmbed()
   .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
@@ -1707,14 +1448,14 @@ if (message.content.toLowerCase().startsWith(prefix + `imp`)) {
   .addField(`Vehicle Commands (Close-by)`, `!vehicle repair\n!vehicle boost\n!vehicle jump\n!vehicle upgrade\n`)
   .addField(`Give Global Commands`, `!copsturnblind <on/off>\n!offtheradar <on/off>`)
   .addField(`Weather/Time Commands`, `!weather day\n!weather night\n!weather clear\n!weather snow\n!weather halloween`)
-  .setFooter(`Developed by Zero-Day#0001 For ${message.guild.name} Server`)
+  .setFooter(`Developed by ZeroDay#0001 For ${message.guild.name} Server`)
   message.channel.send({ embed: embed });
 }
 
 
 
-	
-if (message.content.toLowerCase().startsWith(prefix + `gtacmd`)) {
+
+if (message.content.toLowerCase().startsWith(prefix + `gg`)) {
   message.delete()
   const embed = new Discord.RichEmbed()
   .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
@@ -1776,44 +1517,6 @@ if(message.content.startsWith(prefix + "adminsay")) {
 
 
 
-//if (message.content.startsWith(prefix + 'setgame')) {
-  //message.delete();
-  //if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
-  //let args = message.content.split(" ").slice(1);
-  //let game = args.join(" ");
-  //bot.user.setGame(game);
-  //  const embed = new Discord.RichEmbed()
-   // .setColor('RANDOM')
-   // .setDescription(`Playing now : **${game}**`)
-  //  .setTitle("Bot status successfully changed")
- //   .setFooter("Requested by " + message.author.tag)
- //   .setTimestamp()
- //   message.channel.send({embed})
-//}
-
-
-
-
-//var argresult = args.join(' ');
-
-
-
-//if (message.content.startsWith(prefix + 'setwatch')) {
-//  message.delete();
- // if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
- // bot.user.setActivity(argresult, {type: 'WATCHING'})
- //    console.log('setwatch' + argresult);
-    //message.channel.sendMessage(`Watch Now: **${argresult}**`)
- //   const embed = new Discord.RichEmbed()
-  //  .setColor('RANDOM')
-  //  .setDescription(`Watching Now : **${argresult}**`)
-  //  .setTitle("Bot status successfully changed")
-  //  .setFooter("Requested by " + message.author.tag)
-  //  .setTimestamp()
- //   message.channel.send({embed})
-//}
-
-
 var argresult = args.join(' ');
 
 if (message.content.startsWith(prefix + 'setstream')) {
@@ -1831,23 +1534,6 @@ if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return m
 } 
 
 
-//if (message.content.startsWith(prefix + 'setlisten')) {
-//  message.delete();
- // if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return message.reply("**You don't have `MANAGE_GUILD` permission.**").catch(console.error);
- // bot.user.setActivity(argresult , {type:'LISTENING'});
-//  console.log('setlisten' + argresult);
-  //message.channel.sendMessage(`Watch Now: **${argresult}**`)
-//  const embed = new Discord.RichEmbed()
- // .setColor('RANDOM')
-//  .setDescription(`Listening now : **${argresult}**`)
-//  .setTitle("Bot status successfully changed")
-//  .setFooter("Requested by " + message.author.tag)
- // .setTimestamp()
-//  message.channel.send({embed})
-//}  
-
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1860,15 +1546,15 @@ if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return m
 if (message.content.toLowerCase().startsWith(prefix + `new`)) {
   message.delete()
   if (message.channel.name !== 'bot-cmd') return message.channel.send({embed: {
-    color: 6291711,
+    color: 3553599,
     description: `${message.author} You must go to the channel **#bot-cmd**.`
-  }}); //message.reply('You must go to the channel #bot-cmd');
+  }}); 
   const reason = message.content.split(" ").slice(1).join(" ");
   if (!message.guild.roles.exists("name", "Supports")) return message.channel.send(`This server doesn't have a \`Supports\` role, so the ticket won't be opened.\nIf you are an administrator, make one with that name exactly and give it to users that should be able to see tickets.`);
   if (message.guild.channels.exists("name", "ticket-" + message.author.id)) return message.channel.send({embed: {
-    color: 6291711,
+    color: 3553599,
     description: `${message.author} You already have a ticket open.`
-  }}); //message.channel.send(`You already have a ticket open.`);
+  }}); 
   message.guild.createChannel(`ticket-${message.author.id}`, "text").then(c => {
       let role = message.guild.roles.find("name", "Supports");
       let role2 = message.guild.roles.find("name", "@everyone");
@@ -1886,12 +1572,10 @@ if (message.content.toLowerCase().startsWith(prefix + `new`)) {
       });
       const embedcreate = new Discord.RichEmbed()
       .setColor("RANDOM")
-      //.setAuthor(message.author.avatarURL)
       .setDescription(`${message.author} **Your ticket has been created #${c.name}.**`)
       .setFooter('Go to this one and try explain why you opened this ticket')
       .setTimestamp();
       message.channel.send({ embed: embedcreate });
-      //message.channel.send(`${message.author} Your ticket has been created, #${c.name}.`);
       const embed = new Discord.RichEmbed()
       .setColor("RANDOM")
       .addField(`Hey ${message.author.username}!`, `Please try explain why you opened this ticket with as much detail as possible. Our **Support Team** will be here soon to help.`)
@@ -1908,14 +1592,11 @@ if (message.content.toLowerCase().startsWith(prefix + `new`)) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////
 
 if (message.content.toLowerCase().startsWith(prefix + `close`)) {
   message.delete()
   if (!message.channel.name.startsWith(`ticket-`)) return message.channel.send({embed: {
-    color: 6291711,
+    color: 3553599,
     description: `${message.author} You can't use the \`close\` command outside of a \`ticket channel\`.`
   }});
 
@@ -1943,7 +1624,6 @@ if (message.content.toLowerCase().startsWith(prefix + `close`)) {
 }
 
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////   SHOP   //////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1959,93 +1639,12 @@ if(cmd === `${prefix}shop`){
   .addField('Stealth Drop 10M/sec (Social Club Account Required).',"[5€ = 200 Millions 10M/sec Max Stats + Unlock all](https://www.paypal.me/ZeroDay78/5)\r\r[10€ = 400 Millions 10M/sec Max Stats + Unlock all](https://www.paypal.me/ZeroDay78/10)\r\r[15€ = 800 Millions 10M/sec Max Stats + Unlock all](https://www.paypal.me/ZeroDay78/15)\r\r[20€ = 25 Billions 10M/sec Max Stats + Unlock all + Rank 800 :globe_with_meridians:](https://www.paypal.me/ZeroDay78/20)\r\r[25€ = 50 Billions 10M/sec Max Stats + Unlock all + Rank 800 :globe_with_meridians:](https://www.paypal.me/ZeroDay78/25)\r\rDonation Click [**__Here__**](https://www.paypal.me/ZeroDay78/)")
   .setThumbnail("https://hacktuces.net/wp-content/uploads/2017/06/dollars-gta-V-300x300.png")
   .setTitle("Contact only admin meet in-game to buy")
-  .setFooter(`Developed by Zero-Day#0001 For ${message.guild.name} Server`)
+  .setFooter(`Developed by ZeroDay#0001 For ${message.guild.name} Server`)
   .setTimestamp()
   message.channel.send({embed});
 }}
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////RATING COMMAND///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-if(cmd === `${prefix}rate`){
-  message.delete()
-{     
-  const embed = new Discord.RichEmbed()
-  .addField("**Rate The Services**","[**__Max Stars: 5__**](https://discord.gg/Ya7unwV)\r:star:Bad\r\r:star::star:Yeah...\r\r:star::star::star:Good\r\r:star::star::star::star:Very good\r\r:star::star::star::star::star:Excellent\r\rTo rate the Service Use: **-rate1** **-rate2** **-rate3** **-rate4** **-rate5**")
-  .setColor('RANDOM')
-  .setFooter("Requested by " + message.author.tag)
-  .setTimestamp()
-  message.channel.send({embed});
-}}
-
-////////////////////////////////////////////////
-
-if(cmd === `${prefix}rate1`){
-  message.delete()
-{     
-  const embed = new Discord.RichEmbed()
-  .setTitle("***Very Bad....***:star:")
-  .setColor('#0D7EFF')
-  .setFooter("Requested by " + message.author.tag)
-  .setTimestamp()
-  message.channel.send({embed});
-}}
-
-////////////////////////////////////////////////
-
-if(cmd === `${prefix}rate2`){
-  message.delete()
-{     
-  const embed = new Discord.RichEmbed()
-  .setTitle("***Yeah....***:star::star:")
-  .setColor('#0D7EFF')
-  .setFooter("Requested by " + message.author.tag)
-  .setTimestamp()
-  message.channel.send({embed});
-}}
-
-///////////////////////////////////////////////
-
-if(cmd === `${prefix}rate3`){
-  message.delete()
-{     
-  const embed = new Discord.RichEmbed()
-  .setTitle("***Good***:star::star::star:")
-  .setColor('#0D7EFF')
-  .setFooter("Requested by " + message.author.tag)
-  .setTimestamp()
-  message.channel.send({embed});
-}}
-
-///////////////////////////////////////////////
-
-if(cmd === `${prefix}rate4`){
-  message.delete()  
-{     
-  const embed = new Discord.RichEmbed()
-  .setTitle("***Very good***:star::star::star::star:")
-  .setColor('#0D7EFF')
-  .setFooter("Requested by " + message.author.tag)
-  .setTimestamp()
-  message.channel.send({embed});
-}}
-
-///////////////////////////////////////////////
-
-if(cmd === `${prefix}rate5`){
-  message.delete()
-{     
-  const embed = new Discord.RichEmbed()
-  .setTitle("***Excellent***:star::star::star::star::star:")
-  .setColor('#0D7EFF')
-  .setFooter("Requested by " + message.author.tag)
-  .setTimestamp()
-  message.channel.send({embed});
-}}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2152,28 +1751,30 @@ if(cmd === `${prefix}rate5`){
 
   
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////CLEAR CHANNEL/////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////CLEAR CHANNEL///////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 if (message.content.startsWith(prefix + "clear")) {
   message.delete();
   if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send({embed: {
-    color:  6291711,
+    color:  3553599,
     description: `${message.author} **You don't have MANAGE_MESSAGE permission.**`,
     footer: {
-    text: `${message.author.tag} with ID: ${message.author.id} Tried to clear #${message.channel.name} channel`
+    text: `${message.author.tag} with ID: ${message.author.id} tried to clear #${message.channel.name} channel`
       }
   }});
   if(!args[0]) return message.channel.send({embed: {
-    color:  6291711,
+    color:  3553599,
     description: `${message.author} **Invalid number specified.\r Argument should be a number between 2 and 1000.**`,
     footer: {
-    text: `${message.author.tag} with ID: ${message.author.id} Tried to clear #${message.channel.name} channel`
+    text: `${message.author.tag} with ID: ${message.author.id} tried to clear #${message.channel.name} channel`
       }
     }}).then(msg => msg.delete(8000));
   message.channel.bulkDelete(args[0]).then(() => {
     message.channel.send({embed: {
-      color:  6291711,
+      color:  3553599,
       description: `${message.author} **${args[0]} Messages have been deleted.**`,
       footer: {
       text: `${message.author.tag} with ID: ${message.author.id} deleted ${args[0]} messages.`
@@ -2185,8 +1786,6 @@ if (message.content.startsWith(prefix + "clear")) {
 }
  
                                 
-          
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////GOOGLE  YOUTUBE RESEARCH/////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2210,7 +1809,6 @@ if(message.content.startsWith(prefix +'google')){
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 if(message.content.startsWith(prefix +'youtube')){
@@ -2270,8 +1868,6 @@ if(message.content.startsWith(prefix +'youtube')){
   }
 
 
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////SERVEUR INFORMATION/////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2295,10 +1891,6 @@ if(cmd === `${prefix}servinfo`){
   .addField('Region',`**➥** ${message.guild.region}`,true)
   .addField('Role Count',`**➥** ${message.guild.roles.size} Roles`,true)
   .addField('Member Count',`**➥** ${message.guild.memberCount} Members`,true)
-  //.addField(`Online Members`, `**➥** ${message.guild.members.filter(m=>m.presence.status == 'online').size}`, true)
-	//.addField(`Idle Members`, `**➥** ${message.guild.members.filter(m=>m.presence.status == 'idle').size}`, true)
-  //.addField(`Dnd Members`, `**➥** ${message.guild.members.filter(m=>m.presence.status == 'dnd').size}`, true)
-  //.addField(`Offline Members`, `**➥** ${message.guild.members.filter(m=>m.presence.status == 'offline').size}`, true)
   .addField('Text Channel',`**➥** ${message.guild.channels.filter(m => m.type === 'text').size} Channels`,true)
   .addField('Voice Channel',`**➥** ${message.guild.channels.filter(m => m.type === 'voice').size} Channels`,true)
   .addField("Emoji", `**➥** ${message.guild.emojis.size}`,true)
@@ -2309,14 +1901,12 @@ if(cmd === `${prefix}servinfo`){
   .addField('Owner',`**➥** ${message.guild.owner}`,true)
   .addField('Server ID',`**➥** ${message.guild.id}`,true)
   .addField('Creation Date',`**➥** ${message.guild.createdAt.toLocaleString()}`)
-  .setFooter(`Developed by Zero-Day#0001 For ${message.guild.name} Server`, bot.user.avatarURL)
+  .setFooter(`Developed by ZeroDay#0001 For ${message.guild.name} Server`, bot.user.avatarURL)
   .setTimestamp()
 
   return message.channel.send(serverembed);
 })
 };
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2337,7 +1927,7 @@ if (message.content.startsWith(prefix + 'botinfo')) {
   const embed = new Discord.RichEmbed()
   .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
   .setColor("RANDOM")
-  .addField(`Main Developer`, `**➥** Zero-Day#0001`, true)
+  .addField(`Main Developer`, `**➥** ZeroDay#0001`, true)
   .addField(`Awesome Contributors`, `**➥** Finsheur#3212`, true)
   .addField(`Memory Usage`, `**➥** ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
   .addField("Node Version", `**➥** ${process.version}`, true)
@@ -2347,7 +1937,7 @@ if (message.content.startsWith(prefix + 'botinfo')) {
   .addField('Bot Prefix', `**➥** ${prefix}`, true)
   .setThumbnail("https://i.goopics.net/GQxev.png", true)
   .setDescription('You can join my server for help [here](https://discord.gg/6Sju2ZQ).')
-  .setFooter(`Developed by Zero-Day#0001 For ${message.guild.name} Server`, bot.user.avatarURL)
+  .setFooter(`Developed by ZeroDay#0001 For ${message.guild.name} Server`, bot.user.avatarURL)
   .setTimestamp()
   return message.channel.send({embed});
 }
@@ -2380,17 +1970,16 @@ var mentionavatar = mentionned;
 var mentionavatar = message.author;
 
 }
-//member.roles.map(roles => 
+ 
 let embed = new Discord.RichEmbed()
 .setColor(`RANDOM`)
 .setThumbnail(`${mentionavatar.avatarURL}`)
-.addField("Username",`**➥** <@` + `${mentionavatar.id}` + `>`, true)                           //-userinfo @
+.addField("Username",`**➥** <@` + `${mentionavatar.id}` + `>`, true)                           
 .addField('Status', `**➥** ${message.author.presence.status}`, true)
 .addField('Account Creation',`**➥** ${mentionavatar.createdAt.toLocaleString()}`, true)
 .addField("Game", `**➥** ${member.presence.game ? member.presence.game.name : 'None'}`, true)
 .addField("Joined Server", `${moment.utc(member.joinedAt).format('MMMM Do YYYY, HH:mm:ss')}`, true)
 .addField("Roles:", member.roles.map(roles => `${roles}`).join(', '), true)
-//.addField('Last Message', message.author.lastMessage)
 .setFooter(`Requested by ${message.author.username}#${message.author.discriminator}`)
 .setTimestamp()
    
@@ -2400,14 +1989,9 @@ message.channel.sendEmbed(embed);
 });
 
 
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////DELETE CREATE CHANNEL LOGS//////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 
 
@@ -2432,9 +2016,7 @@ bot.on("channelDelete", async channel => {
 		.setTimestamp(new Date())
   logs.send(cembed)
 
-
 });
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
