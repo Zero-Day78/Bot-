@@ -34,7 +34,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.4.2 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
+bot.user.setActivity("v3.4.2a -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
 });
 
 
@@ -186,7 +186,7 @@ const randomizeCase = word => word.split('').map(c => Math.random() > 0.5 ? c.to
 
     if (args.length < 1) return message.channel.send({embed: {
       color: 3553599,
-      description: `${message.author} **I need some text to clapify** \`-clap [message]\``  
+      description: `${message.author} **I need some text to clapify! Syntax:** \`-clap [message]\``  
     }});
   
     let Clapify = new RichEmbed() 
