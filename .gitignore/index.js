@@ -34,7 +34,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.4.2a -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
+bot.user.setActivity("v3.4.3 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
 });
 
 
@@ -143,7 +143,46 @@ bot.on("message", async message => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
+if (message.content.startsWith(prefix + 'test')) {
+message.react('✅')
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+if (message.content.startsWith(prefix + 'time')) {
+  message.delete();
+
+var today = new Date()
+let Day = today.toString().split(" ")[0].concat("day");
+let Month = today.toString().split(" ")[1]
+let Year = today.toString().split(" ")[3]
+message.channel.send({embed: {
+  color: 3553599,
+  author: {
+		name: `${message.member.displayName}`,
+		icon_url: `${message.author.displayAvatarURL}`,
+		url: 'https://discord.js.org',
+},
+  description: `\`${Day}\` \`${Month}\` \`${Year}\`\n\`Time of day:\` \`${today.toString().split(" ")[4]}\``,
+  
+}});
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 if (message.content.startsWith(prefix + 'invlead')) {
+  message.delete();
   if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send({embed: {
     color: 3553599,
     description: `${message.author} **You don't have __ADMINISTRATOR__ permission.**`,
@@ -186,7 +225,7 @@ const randomizeCase = word => word.split('').map(c => Math.random() > 0.5 ? c.to
 
     if (args.length < 1) return message.channel.send({embed: {
       color: 3553599,
-      description: `${message.author} **I need some text to clapify! Syntax:** \`-clap [message]\``  
+      description: `${message.author}** I need some text to clapify! Syntax: **\`-clap [message]\``  
     }});
   
     let Clapify = new RichEmbed() 
@@ -1422,7 +1461,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .setDescription(`**Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands:**`)
   .addField(`__Tickets__`, `[**${prefix}new**]() **> Opens up a new ticket and tags the Support Team**\r[**${prefix}close**]() **> Closes a ticket that has been resolved or been opened by accident**\n[**${prefix}report**]() **> Report a member** **|** **-report [user] [reason]**`)
   .addField(`__Fun__`, `[**${prefix}say**]() **> Send embed message**\n[**${prefix}flip**]() **> Coin & Flip**\n[**${prefix}clap**]() **> Clapify your message**\n[**${prefix}slot**]() **> Fruits slot machine**\n[**${prefix}rank**]() **> Shows your rank**\n[**${prefix}nsfw**]() **> Shows you all nsfw commands**\n[**${prefix}avatar**]() **> Shows your profil picture**\n[**${prefix}smoke**]() **> Smoke a cigarette**\n[**${prefix}meme**]() **> Get random meme**\n[**${prefix}anime**]() **> Get anime information** **|** **-anime [title]**\n[**${prefix}remind**]() **> That allows you to set reminders**\n[**${prefix}gtacmd**]() **> Shows you all GTA V in game commands**\n[**${prefix}yesorno**]() **> Yes or no command using superagent**\n[**${prefix}weather**]() **> Get weather information |** **-weather [London] or [citycode]**\n`)
-  .addField(`__Misc__`, `[**${prefix}poll**]() **> To create a reaction poll**\n[**${prefix}help**]() **> Shows you this help menu**\n[**${prefix}shop**]() **> To see the shop**\n[**${prefix}invite**]() **> Create invitation link**\n[**${prefix}steam**]() **> Get search results from Steam |** **-steam [game title]**\n[**${prefix}google**]() **> Get search results from Google |** **-google [search string]**\n[**${prefix}youtube**]() **> Get search results from Youtube |** **-youtube [search string]**`)
+  .addField(`__Misc__`, `[**${prefix}poll**]() **> To create a reaction poll**\n[**${prefix}help**]() **> Shows you this help menu**\n[**${prefix}time**]() **> Time now command**\n[**${prefix}shop**]() **> To see the shop**\n[**${prefix}invite**]() **> Create invitation link**\n[**${prefix}steam**]() **> Get search results from Steam |** **-steam [game title]**\n[**${prefix}google**]() **> Get search results from Google |** **-google [search string]**\n[**${prefix}youtube**]() **> Get search results from Youtube |** **-youtube [search string]**`)
   .addField(`__Manager__`, `[**${prefix}verif**]() **> To get verified role**\n[**${prefix}clear**]() **> Clear all messages**\n[**${prefix}encrypt**]() **> Encrypt a message**\n[**${prefix}decrypt**]() **> Decrypt a message**\n[**${prefix}adminsay**]() **> Send embed as administrator**\n[**${prefix}setstream**]() **> Change bot activity**\n`)
   .addField(`__Moderator__`, `[**${prefix}ban**]() **> Ban a member |** **-ban [user] [reason]**\n[**${prefix}kick**]() **> Kick a member |** **-kick [user] [reason]**\n[**${prefix}mute**]() **> Mute a member |** **-mute [user] [reason]**\n[**${prefix}unmute**]() **> Unmute a member |** **-unmute [user] [reason]**\n[**${prefix}lockdown**]() **> Lock a channel with optional timer |** **-lockdown [time]**`)
   .addField(`__Information__`, `[**${prefix}ping**]() **> Pings the bot to see how long it takes to react**\n[**${prefix}count**]() **> Get the server member count**\n[**${prefix}uptime**]() **> Get bot uptime**\n[**${prefix}invlead**]() **> Shows you invitation leaderboard**\n[**${prefix}botinfo**]() **> Get bot information**\n[**${prefix}servinfo**]() **> Get server information**\n[**${prefix}roleinfo**]() **> Get role information |** **-roleinfo [role]**\n[**${prefix}userinfo**]() **> Get user information |** **-userinfo [user]**\n`)
