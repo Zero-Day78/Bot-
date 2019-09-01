@@ -19,7 +19,7 @@ const request = require('request');
 var steam = require('steam-provider')
 const Canvas = require('canvas');
 const ytdl = require('ytdl-core');
-const translate = require('google-translate-api');
+
 
 
 bot.login(process.env.TOKEN);
