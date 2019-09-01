@@ -22,7 +22,7 @@ const ytdl = require('ytdl-core');
 const translate = require('google-translate-api');
 
 
-bot.login("NTU4NzM3NzYyMjM3NTQ2NDk2.D3nHUQ.4VteGAV5-4OMi6qTXr9Edwx2qMo");
+bot.login(process.env.TOKEN);
 
 
 
