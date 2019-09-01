@@ -1,10 +1,11 @@
-const botconfig = require("./botconfig.json");                             ///////////////////////////////////
-const Discord = require("discord.js");                                     ////////////// V 3.0/////////////
-const weather = require('weather-js');                                     ///////////////////////////////////
+const botconfig = require("./botconfig.json");                             
+const Discord = require("discord.js");                                     
+const weather = require('weather-js');                                     
 const bot = new Discord.Client({disableEveryone: true});
 var client = new Discord.Client();
 const fs = require("fs");
-const userData = JSON.parse(fs.readFileSync('./userData.json', 'utf8'));
+//const userData = JSON.parse(fs.readFileSync('./userData.json', 'utf8'));
+let db = JSON.parse(fs.readFileSync("./database.json", "utf8"));
 const randomPuppy = require('random-puppy');
 const superagent = require("snekfetch");
 const ms = require("ms");
@@ -17,24 +18,23 @@ const malScraper = require('mal-scraper');
 const request = require('request');
 var steam = require('steam-provider')
 const Canvas = require('canvas');
-//const gifSearch = require("gif-search");//
+const ytdl = require('ytdl-core');
+const translate = require('google-translate-api');
 
 
+bot.login("NTU4NzM3NzYyMjM3NTQ2NDk2.D3nHUQ.4VteGAV5-4OMi6qTXr9Edwx2qMo");
 
 
-bot.login(process.env.TOKEN);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////BOT ACTIVITY//////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.4.3 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
+bot.user.setActivity("v3.4.4 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
 });
 
 
@@ -144,11 +144,36 @@ bot.on("message", async message => {
 
 
 
-if (message.content.startsWith(prefix + 'test')) {
-message.react('✅')
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+if (message.content.startsWith(prefix + 'makifu')) {
+  message.delete();
+let replies = ['MARRY', 'KILL', 'FUCK'];
+    let result = Math.floor(Math.random() * replies.length);
+
+    let makifuembed = new Discord.RichEmbed()
+
+        .setDescription(`**${args[0]} has been choosed by <@${message.author.id}>**`)
+        .setColor('RANDOM')
+        .addField(`You choosed:`,`${replies[result]}`)
+        .setFooter('Fuck, Marry, Kill!', bot.user.displayAvatarURL)
+        .setTimestamp();
+
+    if (!message.mentions.users.first()) return message.channel.send({embed: {
+      color: 3553599,
+      description: `${message.author} **please mention a user you wanna choose!**`,
+    }});
+
+    message.channel.send(makifuembed);
+
 }
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,21 +183,27 @@ message.react('✅')
 if (message.content.startsWith(prefix + 'time')) {
   message.delete();
 
-var today = new Date()
-let Day = today.toString().split(" ")[0].concat("day");
-let Month = today.toString().split(" ")[1]
-let Year = today.toString().split(" ")[3]
-message.channel.send({embed: {
-  color: 3553599,
-  author: {
-		name: `${message.member.displayName}`,
-		icon_url: `${message.author.displayAvatarURL}`,
-		url: 'https://discord.js.org',
-},
-  description: `\`${Day}\` \`${Month}\` \`${Year}\`\n\`Time of day:\` \`${today.toString().split(" ")[4]}\``,
-  
-}});
+  const embed = new Discord.RichEmbed()
+  .setColor('RANDOM')
+  .setTitle('Under maintenance, try again later')
+  .setTimestamp()
+  message.channel.send({ embed: embed });
 }
+//var today = new Date()
+//let Day = today.toString().split(" ")[0].concat("day");
+//let Month = today.toString().split(" ")[1]
+//let Year = today.toString().split(" ")[3]
+//var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+//message.channel.send({embed: {
+//  color: 3553599,
+//  author: {
+//		name: `${message.member.displayName}`,
+//		icon_url: `${message.author.displayAvatarURL}`,
+//		url: 'https://discord.gg/dHmBrrX',
+//},
+//  description: `\`${Day}\` \`${Month}\` \`${Year}\`\n\`Time of day:\` \`${time.toString().split(" ")[4]}\``,
+//}});
+//}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -398,7 +429,8 @@ if(body.answer === 'no') color = 'RANDOM';
 const embed = new Discord.RichEmbed()
 .setColor(color)
 .setImage(`${body.image}`)
-.setAuthor(`The Magic Bot says: ${body.answer}`, message.author.displayAvatarURL)
+.setAuthor(`${message.member.displayName}`, message.author.displayAvatarURL)
+//.setAuthor(`The Magic Bot says: ${body.answer}`, message.author.displayAvatarURL)
 .setFooter(`Requested by ${message.author.tag}`)
 .setTimestamp()
  message.channel.send(embed)
@@ -643,7 +675,10 @@ if (message.content.startsWith(prefix + "notif")) {
 .setTimestamp()
 message.channel.send(m).then(m => { m.delete(1500);});
   let role = message.guild.roles.find(role => role.name === 'Notify');
-  if (message.channel.name !== 'bot-cmd') return message.reply('You must go to the channel #bot-cmd');
+  if (message.channel.name !== 'bot-cmd') return message.channel.send({embed: {
+    color: 3553599,
+    description: `${message.author} You must go to the channel **#bot-cmd**.`
+ }});//message.reply('You must go to the channel #bot-cmd');
   message.member.addRole(role);
   if (message.member.roles.has(role.id)) {
       let verifyEmbed = new Discord.RichEmbed()
@@ -685,7 +720,11 @@ let m = new RichEmbed()
   
   message.channel.send(memeEmbed)
   } catch (e) {
-  message.channel.send(`Oh no an error occurred :( \`${e.message}\` try again later!`);
+    message.channel.send({embed: {
+      color: 3553599,
+      description: `${message.author} **Oh no an error occurred :(** \`${e.message}\` **try again later!.**`
+   }});
+  
   } 
 }
 
@@ -1103,15 +1142,19 @@ if (!message.member.hasPermission("CREATE_INSTANT_INVITE")) return;
 
 
 if (message.content.startsWith(`${prefix}poll`)) {
-if (!message.member.roles.find("name", "@everyone")) { //Whatever role you want, I pick @everyone because everyone can use this command
+if (!message.member.roles.find("name", "@everyone")) { 
   message.channel.send('Invalid permissions.');
   return;
 }
   
-  // Check for input
-  if (!args[0]) return message.channel.send('**Usage: `-poll string`**');
   
-  // Create Embed
+  if (!args[0]) return message.channel.send({embed: {
+    color: 3553599,
+    description: `${message.author} **Syntax: \`-poll your question\`**`
+ }});
+  //message.channel.send('**Usage: `-poll string`**');
+  
+  
   const embed = new Discord.RichEmbed()
       .setColor("RANDOM")
       .setDescription(args.join(' '))
@@ -1214,7 +1257,7 @@ var subreddits = [
 "NSFW_GIF","nsfw_gifs","porninfifteenseconds","porn_gifs","nsfw_Best_Porn_Gif","adultgifs"
 ]
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
-            
+
 randomPuppy(sub)
 .then(url => {
 const embed = new Discord.RichEmbed()
@@ -1405,48 +1448,64 @@ if (message.content.startsWith(prefix + 'avatar')) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-      
-        if (message.content.startsWith(prefix + "rank")) {
-          message.delete()
-          if (!userData[message.author.id]) {
-            userData[message.author.id] = {Money:0,Xp:0,Level:0}
-          }
-             var mentionned = message.mentions.users.first();
+  if (!db[message.author.id]) db[message.author.id] = {
+      xp: 100,
+      level: 0
+    };
+
+  db[message.author.id].xp++;
+
+  let userInfo = db[message.author.id];
+
+  if(userInfo.xp > 100) {
+      userInfo.level++
+      userInfo.xp = 0
+
+      message.channel.send({embed: {
+        color: 3553599,
+        description: `${message.author} **Congratulations, you level up**`
         
-              var x5bzm;
-              if(mentionned){
-                  var x5bzm = mentionned;
-              } else {
-                  var x5bzm = message.author;
-                  
-              }
-          fs.writeFile("./userData.json",JSON.stringify(userData), function(err){
-            if (err) console.log(err);
-          });
-          var CulLevel = Math.floor(0.80 * Math.sqrt(userData[message.author.id].Xp +1));
-          if (CulLevel > userData[message.author.id].Level) {userData[message.author.id].Level +=CulLevel}
-          let pEmbed = new Discord.RichEmbed()
-          .setColor("RANDOM")
-          .setThumbnail(message.author.avatarURL)
-          .addField("Rank", userData[message.author.id].Level)
-          .addField("Xp",Math.floor(userData[message.author.id].Xp),true)
-          .setFooter("Requested by " + message.author.tag)
-          .setTimestamp()
-          message.channel.send(pEmbed);
-        }
-        if (!userData[message.author.id]) {
-          userData[message.author.id] = {Money:0,Xp:0,Level:0,Like:0}
-          }
-        
-          fs.writeFile("./userData.json",JSON.stringify(userData), function(err){
-            if (err) console.log(err);
-          })
-        userData[message.author.id].Xp+= 0.80;
-        userData[message.author.id].Money+= 0.80;
-        
+  }});
+  }
+
+  if (message.content.startsWith(prefix + "rank")) {
+    message.delete()
+    
+      let image = message.author.displayAvatarURL;
+      let userInfo = db[message.author.id];
+      let member = message.mentions.members.first();
       
 
+      let embed = new Discord.RichEmbed()
+      .setColor(0x4286f4)
+      .setAuthor(message.member.displayName, message.author.displayAvatarURL)
+      .addField("Level", userInfo.level)
+      .addField("XP", userInfo.xp+"/100")
+      .setFooter("Requested by "+ message.author.tag)
+      .setThumbnail(image)
+      .setTimestamp()
+      if(!member) return message.channel.sendEmbed(embed)
 
+      let memberInfo = db[member.id]
+      let us = message.mentions.users.first(); 
+      let img = us.displayAvatarURL; 
+
+      let embed2 = new Discord.RichEmbed()
+      .setAuthor(us.username, us.displayAvatarURL)
+      .setColor(0x4286f4)
+      .addField("Level", memberInfo.level)
+      .addField("XP", memberInfo.xp+"/100")
+      .setFooter("Requested by "+ message.author.tag)
+      .setThumbnail(img)
+      .setTimestamp()
+      message.channel.sendEmbed(embed2)
+  }
+  fs.writeFile("./database.json", JSON.stringify(db), (x) => {
+      if (x) console.error(x)
+    });
+
+        
+      
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////COMMAND HELP/////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1460,7 +1519,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .setColor("RANDOM")
   .setDescription(`**Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands:**`)
   .addField(`__Tickets__`, `[**${prefix}new**]() **> Opens up a new ticket and tags the Support Team**\r[**${prefix}close**]() **> Closes a ticket that has been resolved or been opened by accident**\n[**${prefix}report**]() **> Report a member** **|** **-report [user] [reason]**`)
-  .addField(`__Fun__`, `[**${prefix}say**]() **> Send embed message**\n[**${prefix}flip**]() **> Coin & Flip**\n[**${prefix}clap**]() **> Clapify your message**\n[**${prefix}slot**]() **> Fruits slot machine**\n[**${prefix}rank**]() **> Shows your rank**\n[**${prefix}nsfw**]() **> Shows you all nsfw commands**\n[**${prefix}avatar**]() **> Shows your profil picture**\n[**${prefix}smoke**]() **> Smoke a cigarette**\n[**${prefix}meme**]() **> Get random meme**\n[**${prefix}anime**]() **> Get anime information** **|** **-anime [title]**\n[**${prefix}remind**]() **> That allows you to set reminders**\n[**${prefix}gtacmd**]() **> Shows you all GTA V in game commands**\n[**${prefix}yesorno**]() **> Yes or no command using superagent**\n[**${prefix}weather**]() **> Get weather information |** **-weather [London] or [citycode]**\n`)
+  .addField(`__Fun__`, `[**${prefix}say**]() **> Send embed message**\n[**${prefix}flip**]() **> Coin & Flip**\n[**${prefix}clap**]() **> Clapify your message**\n[**${prefix}slot**]() **> Fruits slot machine**\n[**${prefix}rank**]() **> Shows your rank**\n[**${prefix}nsfw**]() **> Shows you all nsfw commands**\n[**${prefix}avatar**]() **> Shows you user avatar** **|** **-avatar [user]**\n[**${prefix}smoke**]() **> Smoke a cigarette**\n[**${prefix}meme**]() **> Get random meme**\n[**${prefix}anime**]() **> Get anime information** **|** **-anime [title]**\n[**${prefix}remind**]() **> That allows you to set reminders**\n[**${prefix}gtacmd**]() **> Shows you all GTA V in game commands**\n[**${prefix}yesorno**]() **> Yes or no command using superagent**\n[**${prefix}weather**]() **> Get weather information |** **-weather [London] or [citycode]**\n`)
   .addField(`__Misc__`, `[**${prefix}poll**]() **> To create a reaction poll**\n[**${prefix}help**]() **> Shows you this help menu**\n[**${prefix}time**]() **> Time now command**\n[**${prefix}shop**]() **> To see the shop**\n[**${prefix}invite**]() **> Create invitation link**\n[**${prefix}steam**]() **> Get search results from Steam |** **-steam [game title]**\n[**${prefix}google**]() **> Get search results from Google |** **-google [search string]**\n[**${prefix}youtube**]() **> Get search results from Youtube |** **-youtube [search string]**`)
   .addField(`__Manager__`, `[**${prefix}verif**]() **> To get verified role**\n[**${prefix}clear**]() **> Clear all messages**\n[**${prefix}encrypt**]() **> Encrypt a message**\n[**${prefix}decrypt**]() **> Decrypt a message**\n[**${prefix}adminsay**]() **> Send embed as administrator**\n[**${prefix}setstream**]() **> Change bot activity**\n`)
   .addField(`__Moderator__`, `[**${prefix}ban**]() **> Ban a member |** **-ban [user] [reason]**\n[**${prefix}kick**]() **> Kick a member |** **-kick [user] [reason]**\n[**${prefix}mute**]() **> Mute a member |** **-mute [user] [reason]**\n[**${prefix}unmute**]() **> Unmute a member |** **-unmute [user] [reason]**\n[**${prefix}lockdown**]() **> Lock a channel with optional timer |** **-lockdown [time]**`)
@@ -1584,16 +1643,21 @@ if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return m
 
 if (message.content.toLowerCase().startsWith(prefix + `new`)) {
   message.delete()
-  if (message.channel.name !== 'bot-cmd') return message.channel.send({embed: {
+      
+if (message.channel.name !== 'bot-cmd') return message.channel.send({embed: {
     color: 3553599,
     description: `${message.author} You must go to the channel **#bot-cmd**.`
-  }}); 
-  const reason = message.content.split(" ").slice(1).join(" ");
-  if (!message.guild.roles.exists("name", "Supports")) return message.channel.send(`This server doesn't have a \`Supports\` role, so the ticket won't be opened.\nIf you are an administrator, make one with that name exactly and give it to users that should be able to see tickets.`);
-  if (message.guild.channels.exists("name", "ticket-" + message.author.id)) return message.channel.send({embed: {
-    color: 3553599,
-    description: `${message.author} You already have a ticket open.`
-  }}); 
+ }}); 
+
+const reason = message.content.split(" ").slice(1).join(" ");
+
+if (!message.guild.roles.exists("name", "Supports")) return message.channel.send(`This server doesn't have a \`Supports\` role, so the ticket won't be opened.\nIf you are an administrator, make one with that name exactly and give it to users that should be able to see tickets.`);
+
+if (message.guild.channels.exists("name", "ticket-" + message.author.id)) return message.channel.send({embed: {
+  color: 3553599,
+  description: `${message.author} You already have a ticket open.`
+}});
+
   message.guild.createChannel(`ticket-${message.author.id}`, "text").then(c => {
       let role = message.guild.roles.find("name", "Supports");
       let role2 = message.guild.roles.find("name", "@everyone");
@@ -1608,21 +1672,24 @@ if (message.content.toLowerCase().startsWith(prefix + `new`)) {
       c.overwritePermissions(message.author, {
           SEND_MESSAGES: true,
           READ_MESSAGES: true
-      });
+      }); 
+
       const embedcreate = new Discord.RichEmbed()
       .setColor("RANDOM")
       .setDescription(`${message.author} **Your ticket has been created #${c.name}.**`)
       .setFooter('Go to this one and try explain why you opened this ticket')
       .setTimestamp();
       message.channel.send({ embed: embedcreate });
+
       const embed = new Discord.RichEmbed()
       .setColor("RANDOM")
-      .addField(`Hey ${message.author.username}!`, `Please try explain why you opened this ticket with as much detail as possible. Our **Support Team** will be here soon to help.`)
+      .setDescription(`Hey ${message.author} Please try explain why you opened this ticket with as much detail as possible. Our **Support Team** will be here soon to help.`)
       .setTimestamp();
-      c.send({ embed: embed });
+      c.send({ embed: embed })
+        
+      
   }).catch(console.error);
 }
-
 
 
 
