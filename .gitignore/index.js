@@ -1448,61 +1448,7 @@ if (message.content.startsWith(prefix + 'avatar')) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  if (!db[message.author.id]) db[message.author.id] = {
-      xp: 100,
-      level: 0
-    };
-
-  db[message.author.id].xp++;
-
-  let userInfo = db[message.author.id];
-
-  if(userInfo.xp > 100) {
-      userInfo.level++
-      userInfo.xp = 0
-
-      message.channel.send({embed: {
-        color: 3553599,
-        description: `${message.author} **Congratulations, you level up**`
-        
-  }});
-  }
-
-  if (message.content.startsWith(prefix + "rank")) {
-    message.delete()
-    
-      let image = message.author.displayAvatarURL;
-      let userInfo = db[message.author.id];
-      let member = message.mentions.members.first();
-      
-
-      let embed = new Discord.RichEmbed()
-      .setColor(0x4286f4)
-      .setAuthor(message.member.displayName, message.author.displayAvatarURL)
-      .addField("Level", userInfo.level)
-      .addField("XP", userInfo.xp+"/100")
-      .setFooter("Requested by "+ message.author.tag)
-      .setThumbnail(image)
-      .setTimestamp()
-      if(!member) return message.channel.sendEmbed(embed)
-
-      let memberInfo = db[member.id]
-      let us = message.mentions.users.first(); 
-      let img = us.displayAvatarURL; 
-
-      let embed2 = new Discord.RichEmbed()
-      .setAuthor(us.username, us.displayAvatarURL)
-      .setColor(0x4286f4)
-      .addField("Level", memberInfo.level)
-      .addField("XP", memberInfo.xp+"/100")
-      .setFooter("Requested by "+ message.author.tag)
-      .setThumbnail(img)
-      .setTimestamp()
-      message.channel.sendEmbed(embed2)
-  }
-  fs.writeFile("./database.json", JSON.stringify(db), (x) => {
-      if (x) console.error(x)
-    });
+  
 
         
       
