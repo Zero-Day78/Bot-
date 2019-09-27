@@ -275,7 +275,7 @@ const randomizeCase = word => word.split('').map(c => Math.random() > 0.5 ? c.to
 	
 if (message.channel.type == "dm") return;
 
-    const Link = ["fuck",".gg","dick","cock","cunt","nigga","nigger","shit","biatch","bitch","feck","homo","bastard","f u c k e r","f u c k","ejacu","d1ck","anus"];
+    const Link = ["fuck","dick","cock","cunt","nigga","nigger","shit","biatch","bitch","feck","homo","bastard","f u c k e r","f u c k","ejacu","d1ck","anus"];
    if (Link.some(Link => message.content.toLowerCase().includes(Link))) {
        message.delete();
        let m = new RichEmbed()
