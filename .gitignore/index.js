@@ -34,7 +34,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.4.4 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
+bot.user.setActivity("v3.4.5 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
 });
 
 
@@ -142,7 +142,25 @@ bot.on("message", async message => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+if (message.content.startsWith(`Fortnite`)) {
+  message.delete()
+  message.channel.createInvite({maxAge: 0}).then(invite => {
+    let embed = new Discord.RichEmbed()
+    .setColor("RANDOM")
+    .setDescription(`**Fuck Fortnite**`);
+    message.channel.send(embed);
+  });
+}
 
+if (message.content.startsWith(`fortnite`)) {
+  message.delete()
+  message.channel.createInvite({maxAge: 0}).then(invite => {
+    let embed = new Discord.RichEmbed()
+    .setColor("RANDOM")
+    .setDescription(`**Fuck Fortnite**`);
+    message.channel.send(embed);
+  });
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
