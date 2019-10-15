@@ -161,6 +161,26 @@ if (message.content.startsWith(`fortnite`)) {
     message.channel.send(embed);
   });
 }
+	
+if (message.content.startsWith(`Epic`)) {
+  message.delete()
+  message.channel.createInvite({maxAge: 0}).then(invite => {
+    let embed = new Discord.RichEmbed()
+    .setColor("RANDOM")
+    .setDescription(`**Fuck Fortnite**`);
+    message.channel.send(embed);
+  });
+}
+
+	if (message.content.startsWith(`epic`)) {
+  message.delete()
+  message.channel.createInvite({maxAge: 0}).then(invite => {
+    let embed = new Discord.RichEmbed()
+    .setColor("RANDOM")
+    .setDescription(`**Fuck Fortnite**`);
+    message.channel.send(embed);
+  });
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
