@@ -34,7 +34,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("v3.4.5 -help", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
+bot.user.setActivity("Spectral Engine v1.0.5", {type: "STREAMING", url: "https://www.twitch.tv/Fuck-Take-Two"});
 });
 
 
