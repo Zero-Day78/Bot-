@@ -18,7 +18,7 @@ const malScraper = require('mal-scraper');
 const request = require('request');
 var steam = require('steam-provider')
 const Canvas = require('canvas');
-const ytdl = require('ytdl-core');
+//const ytdl = require('ytdl-core');
 
 
 
