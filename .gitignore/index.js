@@ -1718,19 +1718,7 @@ if (message.content.toLowerCase().startsWith(prefix + `close`)) {
 ///////////////////////////////////////////////////////////////////////   SHOP   //////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if(cmd === `${prefix}shop2`){
-  message.delete()
-{   
-  
-  const embed = new Discord.RichEmbed()
-  .setColor('RANDOM')
-  .addField('Stealth Drop 1M/sec (Social Club Account Required).',"[5€ = 250 Millions 1M/sec Max Stats + Unlock all](https://paypal.me/NyorPaypal/5)\r\r[10€ = 600 Millions 1M/sec Max Stats + Unlock all](https://paypal.me/NyorPaypal/10)\r\r[15€ = 950 Millions 1M/sec Max Stats + Unlock all](https://paypal.me/NyorPaypal/15)\r\r[20€ = 2 Billions 1M/sec Max Stats + Unlock all + Rank 800 :globe_with_meridians:](https://paypal.me/NyorPaypal?locale/20)\r\r[25€ = 3 Billions 1M/sec Max Stats + Unlock all + Rank 800 :globe_with_meridians:](https://paypal.me/NyorPaypal/25)\r\rDonation Click [**__Here__**](https://paypal.me/NyorPaypal)")
-  .setThumbnail("https://hacktuces.net/wp-content/uploads/2017/06/dollars-gta-V-300x300.png")
-  .setTitle("Contact only admin meet in-game to buy")
-  .setFooter(`Developed by ZeroDay#0001 For ${message.guild.name} Server`)
-  .setTimestamp()
-  message.channel.send({embed});
-}}
+
 if(cmd === `${prefix}shop`){
   message.delete()
 {   
@@ -1746,6 +1734,35 @@ if(cmd === `${prefix}shop`){
 }}
 
 
+	
+	
+if(cmd === `${prefix}shop2`){
+  message.delete()
+{   
+  
+  const embed = new Discord.RichEmbed()
+  .setColor('#de0925')
+  .addField('Stealth Drop 1M/sec (Social Club Account Required).',"[5€ = 250 Millions 1M/sec + Max Stats + Unlock all](https://paypal.me/NyorPaypal/5)\r\r[10€ = 600 Millions 1M/sec + Max Stats + Unlock all + Rank 200](https://paypal.me/NyorPaypal/10)\r\r[15€ = 950 Millions 1M/sec + Max Stats + Unlock all + Rank 400](https://paypal.me/NyorPaypal/15)\r\r[20€ = 2 Billions 1M/sec + Max Stats + Unlock all + Rank 800 :globe_with_meridians:](https://paypal.me/NyorPaypal?locale/20)\r\r[25€ = 3 Billions 1M/sec + Max Stats + Unlock all + Rank 800 :globe_with_meridians:](https://paypal.me/NyorPaypal/25)\r\rDonation Click [**__Here__**](https://paypal.me/NyorPaypal)")
+  .setThumbnail("https://hacktuces.net/wp-content/uploads/2017/06/dollars-gta-V-300x300.png")
+  .setTitle("Contact only fondateur meet in-game to buy")
+  .setFooter(`Developed by ZeroDay#0001 For ${message.guild.name} Server`)
+  .setTimestamp()
+  message.channel.send({embed});
+}}	
+	
+if(cmd === `${prefix}shop3`){
+  message.delete()
+{   
+  
+  const embed = new Discord.RichEmbed()
+  .setColor('#de0925')
+  .addField('Vitesse de drop 1M/sec (Compte Social Club requis).',"[5€ = 250 Millions 1M/sec + Stat au max + Tout débloqué](https://paypal.me/NyorPaypal/5)\r\r[10€ = 600 Millions 1M/sec + Stat au max + Tout débloqué + Niveau 200](https://paypal.me/NyorPaypal/10)\r\r[15€ = 950 Millions 1M/sec + Stat au max + Tout débloqué + Niveau 400](https://paypal.me/NyorPaypal/15)\r\r[20€ = 2 Milliards 1M/sec + Stat au max + Tout débloqué + Niveau 800 :globe_with_meridians:](https://paypal.me/NyorPaypal?locale/20)\r\r[25€ = 3 Milliards 1M/sec + Stat au max + Tout débloqué + Niveau 800 :globe_with_meridians:](https://paypal.me/NyorPaypal/25)\r\rDonation Click [**__Here__**](https://paypal.me/NyorPaypal)")
+  .setThumbnail("https://hacktuces.net/wp-content/uploads/2017/06/dollars-gta-V-300x300.png")
+  .setTitle("Contactez uniquement un fondateur")
+  .setFooter(`Développé par ZeroDay#0001 For ${message.guild.name} Server`)
+  .setTimestamp()
+  message.channel.send({embed});
+}}	
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
