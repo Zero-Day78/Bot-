@@ -1328,7 +1328,7 @@ const embed = new Discord.RichEmbed()
 .setAuthor(message.author.username, message.author.avatarURL)
 .setFooter("To see all NSFW command type [-nsfw]")//("text"+ message.author.tag)
 .setTimestamp()
-.setImage(url);
+.setImage(sub);
 message.channel.send({embed});
 });
 }
