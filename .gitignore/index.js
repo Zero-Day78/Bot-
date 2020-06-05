@@ -1585,7 +1585,6 @@ if(message.content.startsWith(prefix + "adminsay")) {
   const thingtoEcho = args.join(" ")
   const embed = new Discord.RichEmbed();
   embed.setColor("RANDOM")
-  embed.setThumbnail("https://i.goopics.net/LVQaA.png")
   embed.setDescription(thingtoEcho)
   embed.setDescription(thingtoEcho)
   embed.setDescription(thingtoEcho)
