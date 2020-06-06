@@ -1502,7 +1502,7 @@ if (message.content.toLowerCase().startsWith(prefix + `help`)) {
   .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
   .setColor("RANDOM")
   .setDescription(`**Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands:**`)
-  .addField(`__Tickets__`, `[**${prefix}new**]() **> Opens up a new ticket and tags the Support Team**\r[**${prefix}close**]() **> Closes a ticket that has been resolved or been opened by accident**\n[**${prefix}report**]() **> Report a member** **|** **-report [user] [reason]**`)
+  .addField(`__Tickets__`, `[**${prefix}create**]() **> Opens up a new ticket and tags the Support Team**\r[**${prefix}close**]() **> Closes a ticket that has been resolved or been opened by accident**\n[**${prefix}report**]() **> Report a member** **|** **-report [user] [reason]**`)
   .addField(`__Fun__`, `[**${prefix}say**]() **> Send embed message**\n[**${prefix}flip**]() **> Coin & Flip**\n[**${prefix}clap**]() **> Clapify your message**\n[**${prefix}slot**]() **> Fruits slot machine**\n[**${prefix}rank**]() **> Shows your rank**\n[**${prefix}nsfw**]() **> Shows you all nsfw commands**\n[**${prefix}avatar**]() **> Shows you user avatar** **|** **-avatar [user]**\n[**${prefix}smoke**]() **> Smoke a cigarette**\n[**${prefix}meme**]() **> Get random meme**\n[**${prefix}anime**]() **> Get anime information** **|** **-anime [title]**\n[**${prefix}remind**]() **> That allows you to set reminders**\n[**${prefix}gtacmd**]() **> Shows you all GTA V in game commands**\n[**${prefix}yesorno**]() **> Yes or no command using superagent**\n[**${prefix}weather**]() **> Get weather information |** **-weather [London] or [citycode]**\n`)
   .addField(`__Misc__`, `[**${prefix}poll**]() **> To create a reaction poll**\n[**${prefix}help**]() **> Shows you this help menu**\n[**${prefix}time**]() **> Time now command**\n[**${prefix}shop**]() **> To see the shop**\n[**${prefix}invite**]() **> Create invitation link**\n[**${prefix}steam**]() **> Get search results from Steam |** **-steam [game title]**\n[**${prefix}google**]() **> Get search results from Google |** **-google [search string]**\n[**${prefix}youtube**]() **> Get search results from Youtube |** **-youtube [search string]**`)
   .addField(`__Manager__`, `[**${prefix}verif**]() **> To get verified role**\n[**${prefix}clear**]() **> Clear all messages**\n[**${prefix}encrypt**]() **> Encrypt a message**\n[**${prefix}decrypt**]() **> Decrypt a message**\n[**${prefix}adminsay**]() **> Send embed as administrator**\n[**${prefix}setstream**]() **> Change bot activity**\n`)
@@ -1625,7 +1625,7 @@ if(!message.guild.member(message.author).hasPermission("MANAGE_GUILD")) return m
 
 
 
-if (message.content.toLowerCase().startsWith(prefix + `new`)) {
+if (message.content.toLowerCase().startsWith(prefix + `create`)) {
   message.delete()
       
 if (message.channel.name !== 'bot-cmd') return message.channel.send({embed: {
