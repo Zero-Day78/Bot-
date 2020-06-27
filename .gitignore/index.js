@@ -1526,7 +1526,7 @@ if (message.content.toLowerCase().startsWith(prefix + `gtacmd`)) {
   .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
   .setColor("RANDOM")
   .setDescription(`Hello! I'm **${bot.user.username}** The Discord bot for super cool stuff and more! Here are my commands for GTA V Online:`)
-  .addField(`General Commands`, `!weapons\n!money <on/off>\n!spawn vehicle <hash/model/name>\n!spawn ped <hash/model/name>\n!spawn object <hash/model/name>\n!spawn bodyguard <count>\n!explodesession`)
+  .addField(`General Commands`, `!weapons\n!kick <player name>\n!money <on/off>\n!spawn vehicle <hash/model/name>\n!spawn ped <hash/model/name>\n!spawn object <hash/model/name>\n!spawn bodyguard <count>\n!explodesession`)
   .addField(`Vehicle Commands (Close-by)`, `!vehicle repair\n!vehicle boost\n!vehicle jump\n!vehicle upgrade\n`)
   .addField(`Give Global Commands`, `!copsturnblind <on/off>\n!offtheradar <on/off>`)
   .addField(`Weather/Time Commands`, `!weather day\n!weather night\n!weather clear\n!weather snow\n!weather halloween`)
