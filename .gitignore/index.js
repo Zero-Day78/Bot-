@@ -1661,7 +1661,7 @@ if (message.guild.channels.exists("name", "ticket-" + message.author.id)) return
       const embedcreate = new Discord.RichEmbed()
       .setColor("RANDOM")
       .setDescription(`${message.author} **Your ticket has been created #${c.name}.**`)
-      .setFooter('Go to this one and try explain why you opened this ticket')
+      .setFooter('Go to this one and try explain why you opened it')
       .setTimestamp();
       message.channel.send({ embed: embedcreate });
 
