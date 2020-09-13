@@ -22,7 +22,7 @@ const Canvas = require('canvas');
 
 
 
-bot.login(process.env.TOKEN);
+bot.login(process.env.TOKEN)
 
 
 
