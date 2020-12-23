@@ -45,7 +45,7 @@ bot.user.setActivity("Spectral Engine v2.0.5", {type: "STREAMING", url: "https:/
 
 
 bot.on('guildMemberAdd', async member => {
-	const channel = member.guild.channels.find(ch => ch.name === 'new');
+	const channel = member.guild.channels.find(ch => ch.name === 'welcome');
 	if (!channel) return;
 
 	const canvas = Canvas.createCanvas(1200, 250);
