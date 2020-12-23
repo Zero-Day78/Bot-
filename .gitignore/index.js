@@ -402,7 +402,7 @@ try {
     .setColor("RANDOM") 
     .setDescription(thingtoEcho)
     .setTimestamp()
-    .setFooter(`Mass DM's Send by ${message.author.tag}`);
+    .setFooter(`Mass DM's Send by An Evolved`);//${message.author.tag}
     
     message.channel.send(DMAllEmbed)
 } catch(error) {
@@ -438,7 +438,7 @@ for (var i = 0; i < membercount; i++) {
     .setColor("RANDOM") 
     .setDescription(`${msg}`)
     .setTimestamp()
-    .setFooter(`Message send by ${message.author.tag}`);
+    .setFooter(`Message send by An Evolved`);
     
     member.send(DMuserEmbed)
     
