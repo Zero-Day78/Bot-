@@ -34,7 +34,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("Spectral Engine v2.0.5", {type: "STREAMING", url: "https://www.youtube.com/watch?v=rRbWpAfRpTA&t"});
+bot.user.setActivity("Spectral Engine v2.0.6", {type: "STREAMING", url: "https://www.youtube.com/watch?v=rRbWpAfRpTA&t"});
 });
 
 
