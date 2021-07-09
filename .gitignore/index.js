@@ -313,7 +313,7 @@ const randomizeCase = word => word.split('').map(c => Math.random() > 0.5 ? c.to
 	
 if (message.channel.type == "dm") return;
 
-    const Link = ["phx","Phantom","Paragon","Impulse","dick","cock","cunt","nigga","nigger","shit","biatch","bitch","feck","homo","bastard","f u c k e r","f u c k","ejacu","d1ck","anus"];
+    const Link = ["https","http","phx","Phantom","Paragon","Impulse","dick","cock","cunt","nigga","nigger","shit","biatch","bitch","feck","homo","bastard","f u c k e r","f u c k","ejacu","d1ck","anus"];
    if (Link.some(Link => message.content.toLowerCase().includes(Link))) {
        message.delete();
        let m = new RichEmbed()
@@ -1537,20 +1537,7 @@ if (message.content.toLowerCase().startsWith(prefix + `gtacmd`)) {
 
 
 
-if (message.content.toLowerCase().startsWith(prefix + `gg`)) {
-  message.delete()
-  const embed = new Discord.RichEmbed()
-  .setAuthor(bot.user.username, `${bot.user.avatarURL}`)
-  .setColor("RANDOM")
-  .setDescription(`**Hello! I'm ${bot.user.username} The Discord bot for super cool stuff and more! Here are my commands for GTA V Online:**`)
-  .addField(`**__General Commands__**`, `**/moneydrop <on/off>\n/moneygun <on/off>\n/clone <player name>\n/explode <player name>\n/spawn <entity model>**`)
-  .addField(`**__Vehicle Commands (Close-by)__**`, `**/vehicle fix\n/vehicle boost\n/vehicle launch\n/vehicle delete\n/vehicle upgrade**`)
-  .addField(`**__Give Global Commands__**`, `**/give armor\n/give health\n/give weapons\n/otr <minutes>\n/cops <on/off/clear>**`)
-  .addField(`**__Weather/Time Commands__**`, `**/time day/night/sunset/sunrise\n/weather xmas/snow/smog/clear/cloud/rain\n/weather thunder/sunny/neutral/blizzard/overcast/halloween**`)
-  .setFooter(`Requested by ${message.author.tag}`)
-  .setTimestamp()
-  message.channel.send({ embed: embed });
-}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////SEND EMBED//////////////////////////////////////////////////
