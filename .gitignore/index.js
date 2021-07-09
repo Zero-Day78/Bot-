@@ -334,33 +334,6 @@ if (message.channel.type == "dm") return;
        channel.send(log)
      }
 
-	
-	
-	
-	if (message.channel.type == "dm") return;
-
-    const Link = ["Steam"];
-   if (Link.some(Link => message.content.toLowerCase().includes(Link))) {
-       message.delete();
-       let m = new RichEmbed()
-        .setColor("RANDOM") 
-        .setDescription(`${message.author} **Want to Buy Spectral Engine with Steam Skins ? Contact ZeroDay#1182**`)
-        .setTimestamp()
-        let m = new Discord.RichEmbed()
-	}
-	
-	
-	if (message.channel.type == "dm") return;
-
-    const Link = ["Paypal"];
-   if (Link.some(Link => message.content.toLowerCase().includes(Link))) {
-       message.delete();
-       let m = new RichEmbed()
-        .setColor("RANDOM") 
-        .setDescription(`${message.author} **Want to Buy Spectral Engine with Paypal ? https://www.paypal.com/paypalme/ZeroDay78**`)
-        .setTimestamp()
-        let m = new Discord.RichEmbed()
-	}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////**** */COIN FLIP//////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
