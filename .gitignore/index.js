@@ -642,7 +642,7 @@ if (message.content.startsWith(prefix + "encrypt")) {
 
 
 
-if (message.content.startsWith(prefix + "verif")) {
+if (message.content.startsWith(prefix + "notif")) {
   message.delete();
     
   if (message.channel.name !== 'verification') return message.channel.send({embed: {
@@ -700,7 +700,7 @@ if (message.content.startsWith(prefix + "verif")) {
 	
 	
 	
-if (message.content.startsWith(prefix + "notif")) {
+if (message.content.startsWith(prefix + "verif")) {
   message.delete();
   let m = new RichEmbed()
 
@@ -708,10 +708,10 @@ if (message.content.startsWith(prefix + "notif")) {
 .setTitle('**Please Wait...**')
 .setTimestamp()
 message.channel.send(m).then(m => { m.delete(1500);});
-  let role = message.guild.roles.find(role => role.name === 'Notify');
+  let role = message.guild.roles.find(role => role.name === 'Members');
   if (message.channel.name !== 'verification') return message.channel.send({embed: {
     color: 3553599,
-    description: `${message.author} You must go to the channel **#bot-cmd**.`
+    description: `${message.author} You must go to the channel **#verification**.`
  }});//message.reply('You must go to the channel #bot-cmd');
   message.member.addRole(role);
   if (message.member.roles.has(role.id)) {
