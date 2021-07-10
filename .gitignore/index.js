@@ -664,7 +664,7 @@ if (message.content.startsWith(prefix + "verif")) {
 
 
           let role = message.guild.roles.find(role => role.name === 'Members');
-          let b1 = ["185138690400452609"];
+          let b1 = ["716967712844414996"];
           if(message.author.id == b1) return message.channel.send({embed: {
             color:  16711680,
             description: `**${message.author.tag} You've been blacklisted from this Server.**`,
