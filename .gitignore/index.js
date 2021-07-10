@@ -34,7 +34,7 @@ bot.login(process.env.TOKEN);
 bot.on("ready", async () => {
 console.log(`${bot.user.username} Bot Ready`);
 
-bot.user.setActivity("Spectral Engine v2.0.6", {type: "STREAMING", url: "https://www.youtube.com/watch?v=rRbWpAfRpTA&t"});
+bot.user.setActivity("Spectral Engine v2.0.7", {type: "STREAMING", url: "https://www.youtube.com/watch?v=rRbWpAfRpTA&t"});
 });
 
 
@@ -667,8 +667,8 @@ if (message.content.startsWith(prefix + "verif")) {
 
 
 
-          let role = message.guild.roles.find(role => role.name === 'Verified');
-          let b1 = ["863439050094673930"];
+          let role = message.guild.roles.find(role => role.name === 'Members');
+          let b1 = ["185138690400452609"];
           if(message.author.id == b1) return message.channel.send({embed: {
             color:  16711680,
             description: `**${message.author.tag} You've been blacklisted from this Server.**`,
