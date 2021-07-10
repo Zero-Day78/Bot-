@@ -709,7 +709,7 @@ if (message.content.startsWith(prefix + "notif")) {
 .setTimestamp()
 message.channel.send(m).then(m => { m.delete(1500);});
   let role = message.guild.roles.find(role => role.name === 'Notify');
-  if (message.channel.name !== 'bot-cmd') return message.channel.send({embed: {
+  if (message.channel.name !== 'verification') return message.channel.send({embed: {
     color: 3553599,
     description: `${message.author} You must go to the channel **#bot-cmd**.`
  }});//message.reply('You must go to the channel #bot-cmd');
